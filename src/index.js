@@ -1,6 +1,6 @@
 
 // Testing Jest
-function add(addEventListener,b){
+function add(a,b){
     return a+b;
 }
 
