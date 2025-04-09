@@ -18,3 +18,5 @@ available web-based application that meets the following requirements.
 
 ### Build
  Still under productions and this section will be filled in due time.
+## Release
+- We will release using Microsoft's Azure
