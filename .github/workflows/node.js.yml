@@ -23,27 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Extract Jira issue key from branch name
-        id: extract
-        run: |
-          branch="${GITHUB_REF##*/}"
-          echo "Branch name: $branch"
-          key=$(echo "$branch" | grep -oE '[A-Z]+-[0-9]+')
-          echo "Extracted issue key: $key"
-          echo "issue_key=$key" >> $GITHUB_OUTPUT
-
-      - name: Notify Jira of deployment
-        uses: atlassian/gajira-action@v3
-        with:
-          action: deploy
-          site: ${{ secrets.JIRA_SITE }}
-          api-token: ${{ secrets.JIRA_API_TOKEN }}
-          cloud-id: ${{ secrets.JIRA_CLOUD_ID }}
-          environment: "staging"
-          environment-type: "staging"
-          state: "successful"
-          issue-keys: ${{ steps.extract.outputs.issue_key }}
-
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test --if-present
