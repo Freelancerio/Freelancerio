@@ -1,9 +1,6 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js
 
-on: # Event that triggers the Automation
+on:
   push:
     branches: [ "main" ]
   pull_request:
@@ -11,21 +8,21 @@ on: # Event that triggers the Automation
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest # The OS that Github tests our Project on
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [19.9.0, 22.14.0,23.11.0,18.20.8,20.19.0,21.7.3] # ensures that our project works on most recent node releases
+        node-version: [19.9.0, 22.14.0, 23.11.0, 18.20.8, 20.19.0, 21.7.3]
 
     steps:
-    - uses: actions/checkout@v4 # Copying of the project to some machine
-    - name: Use Node.js ${{ matrix.node-version }} # Displays current version being used
-      uses: actions/setup-node@v4 # Sets up Node in the Machine and adds it to PATH
-      with:
-        node-version: ${{ matrix.node-version }} #Specifies the version of Node to be installed
-        cache: 'npm'
-    - run: npm ci # install dependencies
-    - run: npm run build --if-present # Run build script if it exists in packake.json
-    - run: npm test --if-present # Run the test script
-    # Must include Jest in this automation and include Code Testing
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test --if-present
