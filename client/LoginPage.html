@@ -1,11 +1,77 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Welcome Main</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="Sign up or log in to our application using your preferred provider">
+  <title>Welcome Main</title>
+  
+  <!-- Font Awesome for brand icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  
+  <link rel="stylesheet" href="LoginPage.css">
+  <script src="LoginPage.js"></script>
 </head>
-<body>
 
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
+
+  <!-- Header -->
+  <header class="w-full text-center py-6 bg-white shadow-md">
+    <h1 class="text-3xl font-bold text-indigo-600"> Freelancer Application </h1>
+  </header>
+
+  <!-- Main Authentication Box -->
+  <main class="flex-1 w-full flex items-center justify-center px-4">
+    <article class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full space-y-6">
+      
+      <!-- Welcome Text Above The Buttons -->
+      <header class="text-center">
+        <h2 class="text-2xl font-semibold text-indigo-700">Welcome</h2>
+        <p class="text-gray-500 mt-1">Begin your journey with us</p>
+      </header>
+
+      <!-- Auth Options -->
+      <section>
+        <h3 class="sr-only"> Auth options </h3> <!-- yes. I'm sure the disabled would agree :) . -->
+
+        <ul class="space-y-4">
+          
+          <!-- Google -->
+          <li>
+            <button id="google-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+                <span class="fab fa-google text-lg"></span>
+              <span>Continue with Google</span>
+            </button>
+          </li>
+
+          <!-- Apple -->
+          <li>
+            <button id="apple-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+              <span class="fab fa-apple text-lg"></span>
+              <span>Continue with Apple</span>
+            </button>
+          </li>
+
+          <!-- GitHub -->
+          <li>
+            <button id="Github-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+              <span class="fab fa-github text-lg"></span>
+              <span>Continue with GitHub</span>
+            </button>
+          </li>
+
+        </ul>
+        
+      </section>
+
+    </article>
+
+  </main>
+  
 </body>
+
 </html>
+
