@@ -1,0 +1,68 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+h1{
+    grid-column: 1 / 2;
+    padding: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 40px 1fr 1fr;
+    grid-template-areas:
+    "h1  up"
+    "ua  up"
+    "upa up";
+    gap: 12px;
+    height: 90%;
+    margin: 0;
+    padding: 50px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+h1{
+    grid-area: h1;
+    background-color: beige;
+    border: 1px;
+    border-radius: 20px;
+}
+
+/* User Analytics Customizations */
+#ua{
+    background-color: rgba(153,153,153,0.6);
+    justify-content: space-between;
+    border-radius: 20px;
+    border: 1px solid rgba(221,215,224);
+    box-shadow: 30px;
+    grid-area: ua;
+}
+
+/* User-Performance Customizations */
+#up{
+    background-color: rgba(153,153,153,0.6);
+    border-radius: 20px;
+    border: 1px solid rgba(221,215,224);
+    grid-area: up;
+}
+
+/* User-Payouts Customizations */
+#upa{
+    background-color: rgba(153,153,153,0.6);
+    border-radius: 20px;
+    border: 1px solid rgba(221,215,224);
+    grid-area: upa;
+}

@@ -5,8 +5,9 @@ const router = express.Router();
 const {userRegister, userlogin} = require("../controllers/userController");
 
 //user routes
-router.get('/signup',userRegister);
-router.post('/login',userlogin);
+router.post('/google-auth',userRegister);
+router.post('/github-auth',userlogin);
+router.post('/microsoft-auth',userlogin);
 
 
 module.exports = router;

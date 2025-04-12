@@ -24,9 +24,3 @@ app.use(cors());
 
 // Middleware to parse JSON data in request body
 app.use(express.json());
-
-
-
-  
- 
-  
