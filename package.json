@@ -2,14 +2,12 @@
   "name": "freelancerio",
   "version": "1.0.0",
   "description": "Many businesses and individuals hire freelancers but struggle to manage contracts, payments, and deliverables efficiently. Freelancers also face challenges in\r tracking their projects and payments.\r This project aims to create a web-based platform where freelancers and clients can manage contracts, communicate, and track project progress.",
-  "main": "index.js",
+  "main": "client/index.js",
   "scripts": {
     "dev": "vite",
     "build:css": "tailwindcss -i ./client/userInfo.css -o ./public/output.css --watch",
     "test": "jest",
-    "test:coverage": "jest --coverage",
-    "build": "vite build",
-    "serve": "vite preview"
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
