@@ -20,3 +20,6 @@ available web-based application that meets the following requirements.
  Still under productions and this section will be filled in due time.
 ## Release
 - We will release using Microsoft's Azure
+
+## Documentation
+https://docs.google.com/document/d/1omweQAGiLbiPovICOlfuyGYw2DZ73XCHJTlLGX7UjfY/edit?usp=sharing
