@@ -11,9 +11,11 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+    <!-- Load Auth0 SDK with defer to ensure it runs before LoginPage.js -->
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" defer></script>
   
-  <link rel="stylesheet" href="../styles/LoginPage.css">
-  <script src="../scripts/LoginPage.js"></script>
+  <link rel="stylesheet" href="../styles/LoginPage1.css">
+  <script src="../scripts/LoginPage1.js"></script>
 </head>
 
 <body class="bg-gradient-to-br to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
@@ -40,25 +42,42 @@
           
           <!-- Google -->
           <li>
-            <button id="google-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-                <span class="fab fa-google text-lg"></span>
-              <span>Continue with Google</span>
+            <button id="google-auth" disabled="true" onclick="login()"  class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+                <article class="fab fa-google text-lg"></article>
+              <article>Continue with Google</article>
             </button>
           </li>
+
+          <!-- Only  here because code currently depends on it
+          <button id = "btn-call-api" disabled="true" onclick="callAPi()"> Call Api</button>
+          <pre id="api-call-result"></pre>
+        
+          <section class="hidden" id="gated-content">
+        
+            <p>You are seeing this content because you are currently <strong>logged in</strong></p>
+        
+            <label>Access token : 
+                <pre id="ipt-access-token"></pre>
+            </label>
+            <label>
+                User profile:
+                <pre id="ipt-user-profile"></pre>
+            </label>
+          </section> -->
 
           <!-- Apple -->
           <li>
             <button id="apple-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <span class="fab fa-apple text-lg"></span>
-              <span>Continue with Apple</span>
+              <article class="fab fa-apple text-lg"></article>
+              <article>Continue with Apple</article>
             </button>
           </li>
 
           <!-- GitHub -->
           <li>
             <button id="Github-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <span class="fab fa-github text-lg"></span>
-              <span>Continue with GitHub</span>
+              <article class="fab fa-github text-lg"></article>
+              <article>Continue with GitHub</article>
             </button>
           </li>
 

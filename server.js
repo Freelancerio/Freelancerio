@@ -5,7 +5,7 @@ const { join } = require("path");
 const app = express();
 
 const { auth } = require("express-oauth2-jwt-bearer");
-const authConfig = require("./client/auth_config.json");
+const authConfig = require("./client/scripts/auth_config.json");
 
 const checkJwt = auth({
     audience: authConfig.audience,
@@ -22,13 +22,13 @@ app.get("/api/external",checkJwt,(req, res) => {
 });
 
 // Serve the Auth0 config JSON securely
-app.get("/auth_config.json", (req, res) => {
-  res.sendFile(join(__dirname,"client", "auth_config.json"));
+app.get("/", (req, res) => {
+  res.sendFile(join(__dirname,"client/scripts", "auth_config.json"));
 });
 
 // Serve the main HTML page
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "client", "LoginPage.html")); 
+  res.sendFile(join(__dirname, "client/pages", "LoginPage.html")); 
 });
 
 app.use(function(err,req,res,next){
