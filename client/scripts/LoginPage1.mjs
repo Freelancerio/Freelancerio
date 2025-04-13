@@ -34,10 +34,9 @@ const configureClient = async () => {
 const updateUI = async () => {
   const isAuthenticated = await auth0Client.isAuthenticated();
 
-  document.getElementById("google-auth").disabled = isAuthenticated;
 
   if (isAuthenticated) {
-    console.log("User Profile:", await auth0Client.getUser());
+    console.log("User Profile:", await auth0Client.getUser()); // email, given_name and family_name
     callAPi();
   }
 };
@@ -57,6 +56,39 @@ const login = async () => {
     console.error("Login Failed:", error);
   }
 };
+
+// LOGIN HANDLER
+const login_github = async () => {
+  try {
+    await auth0Client.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        connection: "github",
+        audience: `http://localhost:3000`,
+        scope: "openid profile email"
+      }
+    });
+  } catch (error) {
+    console.error("Login Failed:", error);
+  }
+};
+
+// LOGIN HANDLER
+const login_microsoft = async () => {
+  try {
+    await auth0Client.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+        connection: "windowslive",
+        audience: `http://localhost:3000`,
+        scope: "openid profile email"
+      }
+    });
+  } catch (error) {
+    console.error("Login Failed:", error);
+  }
+};
+
 
 const callAPi = async () => {
   try {
@@ -91,4 +123,6 @@ window.onload = async () => {
   }
 
   document.getElementById("google-auth").addEventListener("click", login);
+  document.getElementById("Github-auth").addEventListener("click", login_github);
+  document.getElementById("microsoft-auth").addEventListener("click", login_microsoft);
 };
