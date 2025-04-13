@@ -1,45 +1,22 @@
-const express = require("express");
-const { join } = require("path");
+const express = require(`express`);
+const {join} = require(`path`)
 
 
 const app = express();
 
-const { auth } = require("express-oauth2-jwt-bearer");
-const authConfig = require("./client/auth_config.json");
+// All static files *.css and *.js
+app.use(express.static(join(__dirname,`../client/pages`)));
 
-const checkJwt = auth({
-    audience: authConfig.audience,
-    issuerBaseURL: `https://${authConfig.domain}`
-});
-
-// Serve static files from the public folder
-app.use(express.static(join(__dirname, "client")));
-
-app.get("/api/external",checkJwt,(req, res) => {
-    res.send({
-        msg: "Your acces token was validated successfully"
-    });
-});
-
-// Serve the Auth0 config JSON securely
-app.get("/auth_config.json", (req, res) => {
-  res.sendFile(join(__dirname,"client", "auth_config.json"));
-});
-
-// Serve the main HTML page
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "client", "LoginPage.html")); 
-});
-
-app.use(function(err,req,res,next){
-    if(err.name === "UnauthorizedError"){
-        return res.status(401).send({msg : "Invalid token"});
-    }
-
-    next(err,req,res);
+// Serves 0AZer Config file
+app.use(`./client/scripts/auth_config`,(req,res) =>{
+  res.sendFile(join(__dirname,"auth_config.json"));
 });
 
 
-app.listen(3000, () => {
-  console.log(" Application running on port 3000");
+// Serves LoginPage.html
+app.get(`/`,(_,res)=>{
+  res.sendFile(join(__dirname,`./client/pages/LoginPage.html`));
 });
+
+
+app.listen(3000,()=>console.log(`Application running on part 3000`));
