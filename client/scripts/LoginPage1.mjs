@@ -37,6 +37,17 @@ const updateUI = async () => {
 
   if (isAuthenticated) {
     console.log("User Profile:", await auth0Client.getUser()); // email, given_name and family_name
+    // fetch("",
+    //   {
+    //       headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       },
+    //       method: "POST",
+    //       body: JSON.stringify(auth0Client.getUser())
+    //   })
+    //   .then(function(res){ console.log(res) })
+    //   .catch(function(res){ console.log(res) })
     callAPi();
   }
 };
