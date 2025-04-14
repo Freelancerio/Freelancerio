@@ -11,12 +11,14 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+    <!-- Load Auth0 SDK with defer to ensure it runs before LoginPage.js -->
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" defer></script>
   
-  <link rel="stylesheet" href="../styles/LoginPage.css">
-  <script src="../scripts/LoginPage.js"></script>
+  <link rel="stylesheet" href="../styles/LoginPage1.css">
+  <script src="../scripts/LoginPage1.mjs" defer></script>
 </head>
-
-<body class="bg-gradient-to-br to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
+<!--"bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800"-->
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
   <!-- Header -->
   <header class="w-full text-center py-6 bg-white shadow-md">
     <h1 class="text-3xl font-bold text-indigo-600"> FreelancerIo </h1>
@@ -41,24 +43,24 @@
           <!-- Google -->
           <li>
             <button id="google-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-                <span class="fab fa-google text-lg"></span>
-              <span>Continue with Google</span>
+                <article class="fab fa-google text-lg"></article>
+              <article>Continue with Google</article>
             </button>
           </li>
-
+          
           <!-- Apple -->
           <li>
-            <button id="apple-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <span class="fab fa-apple text-lg"></span>
-              <span>Continue with Apple</span>
+            <button id="microsoft-auth" onclick="login()" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+              <article class="fab fa-microsoft text-lg"></article>
+              <article>Continue with microsoft</article>
             </button>
           </li>
 
           <!-- GitHub -->
           <li>
             <button id="Github-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <span class="fab fa-github text-lg"></span>
-              <span>Continue with GitHub</span>
+              <article class="fab fa-github text-lg"></article>
+              <article>Continue with GitHub</article>
             </button>
           </li>
 

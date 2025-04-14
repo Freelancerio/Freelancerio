@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require("mongoose");
 const cors = require('cors');
 const app = express();
-const port = 3000;
+
+
 
 // import routes
 const userRoutes = require('./routes/userRoutes');
@@ -22,5 +23,5 @@ mongoose.connect(db_url)
 
 app.use(cors());
 
-// Middleware to parse JSON data in request body 
- app.use(express.json());
+// Middleware to parse JSON data in request body
+app.use(express.json());
