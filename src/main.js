@@ -16,7 +16,7 @@ const db_url = "mongodb+srv://freelance-io-admin:freelance-io-admin@freelanceio-
 mongoose.connect(db_url)
   .then((result) => {
     app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
+       console.log(`Server is running on http://localhost:${port}`);
     });
   })
   .catch((err) => console.log(err));
