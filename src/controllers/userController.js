@@ -1,64 +1,81 @@
-// import User from "../models/userModel.js"
+import admin from 'firebase-admin';
+import User from "../models/userModel.js";
 
-// // function to signup
-// const userRegister =  (req, res) => {
-//         // here i am just testing if all is working properly
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.applicationDefault() // Or provide the path to your service account key file
+});
 
-//         // process the user data
-//         const user = new User({
-//             id_from_third_party : "234786rt7347ry34yr8u8u",
-//             third_party_name : "Google",
-//             role : "admin"
-//         });
+const googleLogin = async (req, res) => {
+  const idToken = req.body.idToken; // The Firebase ID token sent from the frontend
+  
+  try {
+    // Verify the ID token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
     
-//         user.save()
-//           .then((result) =>{
-//             // Respond with the received data
-//             return res.json({ message: "User Signup was successful!", result: result, error : "none" });
+    // Check if the user is logging in for the first time by querying the database
+    const user = await User.findOne({ firebaseUid: uid });
     
-//           })
-//           .catch((err) =>{
-//             return res.json({ message: "User Signup was unsuccessful!", result: {}, error : err});
-//           });
-
-//   };
-
-// // function to login
-// const userlogin = (req,res) => {
-
-// };
-
-
-// module.exports =  { userRegister, userlogin };
-
-
-import User from "../models/userModel.js"
-
-// function to signup
-const userRegister = (req, res) => {
-    // here i am just testing if all is working properly
-
-    // process the user data
-    const user = new User({
-        id_from_third_party: "234786rt7347ry34yr8u8u",
-        third_party_name: "Google",
-        role: "admin"
-    });
-
-    user.save()
-        .then((result) => {
-            // Respond with the received data
-            return res.json({ message: "User Signup was successful!", result: result, error: "none" });
-        })
-        .catch((err) => {
-            return res.json({ message: "User Signup was unsuccessful!", result: {}, error: err });
-        });
+    if (!user) {
+      // If the user doesn't exist, it means they are a first-time user
+      return res.json({ firstTimeUser: true, RedirectTo: "/role-selection" });
+    }
+    
+    // If the user exists, it's not their first time
+    res.json({ firstTimeUser: false });
+  } catch (error) {
+    console.error("Error verifying Firebase ID token:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-// function to login
-const userlogin = (req, res) => {
-
+const githubLogin = async (req, res) => {
+  const idToken = req.body.idToken; // The Firebase ID token sent from the frontend
+  
+  try {
+    // Verify the ID token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
+    
+    // Check if the user is logging in for the first time by querying the database
+    const user = await User.findOne({ firebaseUid: uid });
+    
+    if (!user) {
+      // If the user doesn't exist, it means they are a first-time user
+      return res.json({ firstTimeUser: true, RedirectTo: "/role-selection" });
+    }
+    
+    // If the user exists, it's not their first time
+    res.json({ firstTimeUser: false });
+  } catch (error) {
+    console.error("Error verifying Firebase ID token:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-// Change this line from CommonJS to ES Module syntax
-export { userRegister, userlogin };
+const microsoftLogin = async (req, res) => {
+  const idToken = req.body.idToken; // The Firebase ID token sent from the frontend
+  
+  try {
+    // Verify the ID token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
+    
+    // Check if the user is logging in for the first time by querying the database
+    const user = await User.findOne({ firebaseUid: uid });
+    
+    if (!user) {
+      // If the user doesn't exist, it means they are a first-time user
+      return res.json({ firstTimeUser: true, RedirectTo: "/role-selection" });
+    }
+    
+    // If the user exists, it's not their first time
+    res.json({ firstTimeUser: false });
+  } catch (error) {
+    console.error("Error verifying Firebase ID token:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { googleLogin, githubLogin, microsoftLogin };
