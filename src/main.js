@@ -7,7 +7,6 @@ const app = express();
 const port = process.env.PORT || 3000; 
 
 
-
 // import routes
 const userRoutes = require('./routes/authRoutes');
 
@@ -16,6 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //use routes
 app.use('/auth',userRoutes);
+app.use('/jobs')
 
 // 404 Handler for unknown routes
 app.use((req, res) => {
