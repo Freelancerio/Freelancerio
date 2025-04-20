@@ -1,5 +1,5 @@
-import admin from 'firebase-admin';
-import User from "../models/userModel.js";
+const admin = require('firebase-admin');
+const User = require("../models/userModel.js");
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
@@ -102,4 +102,15 @@ const microsoftLogin = async (req, res) => {
   }
 };
 
-module.exports = { googleLogin, githubLogin, microsoftLogin };
+const isUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ id_from_third_party: req.query.id }).exec();
+    return { exists: !!user };
+  } catch (error) {
+    console.error('Error checking user ID:', error);
+    return { exists: false };
+  }
+
+}
+
+module.exports = { googleLogin, githubLogin, microsoftLogin, isUser };

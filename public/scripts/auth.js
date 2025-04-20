@@ -60,20 +60,31 @@ if(google_login){
           const idToken = await user.getIdToken();
       
           // Send to your server
-          const response = await fetch("https://localhost:3000/auth/google-auth/", {
-            method: "POST",
+          const response = await fetch(`https://localhost:3000/auth/check-auth?id=${user.uid}`, {
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${idToken}`, // Firebase ID token
-            },
-            body: JSON.stringify(result.user),
+            }
           });
       
-          if (!response.ok) throw new Error("Failed to send user data to server");
-          console.log("User data sent to server ");
-      
-          // Then redirect to dashboard
-          window.location.href = "./pages/userdashboard.html";
+           // Handle the response from the server
+          if (response.ok) {
+              const data = await response.json();
+
+              if (data.exists) {
+                  // User exists, redirect to home page
+                  window.location.href = "./home"; 
+              } else {
+                  // User doesn't exist, store the user object and redirect to role selection
+                  sessionStorage.setItem('user', JSON.stringify(user));  // Store user object in sessionStorage
+                  sessionStorage.setItem('idToken', idToken);
+                  window.location.href = "./role-selection";
+              }
+          }else {
+              throw new Error("Failed to check user existence");
+          }
+
         } catch (error) {
           console.error("Google sign-in error:", error);
         }
