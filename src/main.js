@@ -34,7 +34,11 @@ app.get('/role-selection', (req, res) => {
 });
 
 // Render the home page => this is the page where the user lands when they are successfully logged in
-app.get('/home', (req, res) => {
+app.get('/client-home', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/client-home.html'));
+});
+
+app.get('/freelancer-home', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/pages/home.html'));
 });
 

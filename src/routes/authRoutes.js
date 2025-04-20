@@ -3,13 +3,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { googleLogin, githubLogin, microsoftLogin, isUser } = require('../controllers/userController');
+const { isUser, addUser } = require('../controllers/userController');
 
 // Auth routes
-router.post('/google-auth', googleLogin);
-router.post('/github-auth', githubLogin);
-router.post('/microsoft-auth', microsoftLogin);
-router.get('/auth-check',isUser)
+router.get('/check-auth',isUser);
+router.post('/add-user',addUser);
 
 module.exports = router;
 

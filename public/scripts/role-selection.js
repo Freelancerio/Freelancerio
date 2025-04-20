@@ -1,25 +1,21 @@
-// Store the selected role in a variable
 let selectedRole = null;
 
-// Function to handle the role selection
-function selectRole(role) {
-    selectedRole = role;
-    
-    // Highlight the selected role
-    const freelancerBox = document.getElementById('Freelancer_box');
-    const hiringCompBox = document.getElementById('Hiring_Comp_box');
-    
-    if (role === 'Freelancer') {
-        freelancerBox.classList.add('selected');
-        hiringCompBox.classList.remove('selected');
-    } else if (role === 'Hiring Company') {
-        hiringCompBox.classList.add('selected');
-        freelancerBox.classList.remove('selected');
-    }
-}
+//get the role 
+const clientSelected = document.getElementById("Hiring_Comp_box");
+const FreelancerSelected = document.getElementById("Freelancer_box");
+
+//add eventlisteners
+clientSelected.addEventListener('click', () =>{
+    selectedRole = "client";
+});
+
+FreelancerSelected.addEventListener('click', () =>{
+    selectedRole = "user";
+});
+
 
 // Form submission handler
-document.getElementById('profile-form').addEventListener('submit', async (e) => {
+document.getElementById('submit').addEventListener('click', async (e) => {
     e.preventDefault();  // Prevent form from reloading the page
 
     // Check if role is selected
@@ -32,20 +28,22 @@ document.getElementById('profile-form').addEventListener('submit', async (e) => 
     sessionStorage.setItem('role', selectedRole);
     
     // Send the data to the server (using the Firebase ID and token if required)
-    const firebaseId = sessionStorage.getItem('firebaseId'); // Assuming you've already saved the Firebase UID
-    const idToken = sessionStorage.getItem('idToken'); // Assuming you've already saved the Firebase ID Token
+    const firebaseId = sessionStorage.getItem('firebaseId');
+    const idToken = sessionStorage.getItem('idToken');
+    const providerId = sessionStorage.getItem('provider');
 
     const data = {
         firebaseId: firebaseId,
-        idToken: idToken,
+        provider : providerId,
         role: selectedRole,
     };
 
     try {
-        const response = await fetch("https://localhost:3000/auth/assign-role", {
+        const response = await fetch("http://localhost:3000/auth/add-user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${idToken}`, // Firebase ID token
             },
             body: JSON.stringify(data),
         });
@@ -55,10 +53,9 @@ document.getElementById('profile-form').addEventListener('submit', async (e) => 
         }
 
         const responseData = await response.json();
-        console.log("Role assignment response:", responseData);
 
         // Redirect to another page after successful submission
-        window.location.href = "./user-dashboard";
+        window.location.href = responseData.RedirectTo;
     } catch (error) {
         console.error("Error:", error);
     }

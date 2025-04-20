@@ -30,7 +30,7 @@ onAuthStateChanged(auth, user => {
       if (window.location.pathname.includes("index.html")) {
         // Already logged in but still on login page → redirect
         console.log(user);
-        window.location.href = "./pages/userdashboard.html";
+        window.location.href = "./client-home";
       } else {
         // On dashboard page → show user info
         const userInfoEl = document.getElementById("user-info");
@@ -43,7 +43,7 @@ onAuthStateChanged(auth, user => {
     } else {
       if (!window.location.pathname.includes("index.html")) {
         // Not logged in and trying to access dashboard → redirect to login
-        window.location.href = "../index.html";
+        window.location.href = "../";
       }
     }
   });
@@ -60,7 +60,7 @@ if(google_login){
           const idToken = await user.getIdToken();
       
           // Send to your server
-          const response = await fetch(`https://localhost:3000/auth/check-auth?id=${user.uid}`, {
+          const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -71,14 +71,18 @@ if(google_login){
            // Handle the response from the server
           if (response.ok) {
               const data = await response.json();
+           
 
               if (data.exists) {
                   // User exists, redirect to home page
-                  window.location.href = "./home"; 
+                  window.location.href = data.RedirectTo; 
               } else {
                   // User doesn't exist, store the user object and redirect to role selection
-                  sessionStorage.setItem('user', JSON.stringify(user));  // Store user object in sessionStorage
+                  //get the firebase id
+                  const firebaseid = user.uid;
+                  sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
                   sessionStorage.setItem('idToken', idToken);
+                  sessionStorage.setITem("provider",user.providerData[0].providerId); // getting the third party provider name
                   window.location.href = "./role-selection";
               }
           }else {
