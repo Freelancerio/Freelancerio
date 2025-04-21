@@ -24,29 +24,29 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
-// Redirect to home if already logged in
-onAuthStateChanged(auth, user => {
-    if (user) {
-      if (window.location.pathname.includes("index.html")) {
-        // Already logged in but still on login page → redirect
-        console.log(user);
-        window.location.href = "./client-home";
-      } else {
-        // On dashboard page → show user info
-        const userInfoEl = document.getElementById("user-info");
-        if (userInfoEl) {
-            const providerData = user.providerData[0] || {};
-            const name = user.displayName || providerData.displayName || providerData.email || providerData.uid || "User";
-            userInfoEl.textContent = `Welcome, ${name}`;
-        }
-      }
-    } else {
-      if (!window.location.pathname.includes("index.html")) {
-        // Not logged in and trying to access dashboard → redirect to login
-        window.location.href = "../";
-      }
-    }
-  });
+// // Redirect to home if already logged in
+// onAuthStateChanged(auth, user => {
+//     if (user) {
+//       if (window.location.pathname.includes("index.html")) {
+//         // Already logged in but still on login page → redirect
+//         console.log(user);
+//         window.location.href = "./client-home";
+//       } else {
+//         // On dashboard page → show user info
+//         const userInfoEl = document.getElementById("user-info");
+//         if (userInfoEl) {
+//             const providerData = user.providerData[0] || {};
+//             const name = user.displayName || providerData.displayName || providerData.email || providerData.uid || "User";
+//             userInfoEl.textContent = `Welcome, ${name}`;
+//         }
+//       }
+//     } else {
+//       if (!window.location.pathname.includes("index.html")) {
+//         // Not logged in and trying to access dashboard → redirect to login
+//         window.location.href = "../";
+//       }
+//     }
+//   });
   
 
 // Google Authentication
@@ -82,7 +82,7 @@ if(google_login){
                   const firebaseid = user.uid;
                   sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
                   sessionStorage.setItem('idToken', idToken);
-                  sessionStorage.setITem("provider",user.providerData[0].providerId); // getting the third party provider name
+                  sessionStorage.setItem("provider",user.providerData[0].providerId); // getting the third party provider name
                   window.location.href = "./role-selection";
               }
           }else {
