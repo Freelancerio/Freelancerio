@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Freelancer Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header>
+    <nav class="flex items-center gap-6 bg-blue-900 p-4 shadow-md" aria-label="Main navigation">
+      <span class="relative inline-block">
+        <span class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white text-sm">
+          <i class="fas fa-user"></i>
+        </span>
+      </span>
+      <ul class="flex gap-6 text-white font-medium list-none">
+        <li><a href="#" class="hover:underline">Home</a></li>
+        <li><a href="#" class="hover:underline">Dashboard</a></li>
+        <li><a href="#" class="hover:underline">My profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8">
+
+    <!-- Project Management Section -->
+    <section class="bg-white p-8 rounded-xl shadow-md max-w-6xl mx-auto my-12">
+      <header class="text-center mb-8">
+        <h2 class="text-2xl font-bold">Project Management</h2>
+        <p class="text-gray-600">Track tasks, set milestones, and provide feedback throughout the project lifecycle.</p>
+      </header>
+
+      <section class="flex flex-col md:flex-row gap-8 items-start">
+        <!-- Image -->
+        <figure class="w-full md:w-1/2">
+          <img src="project-board.jpg" alt="Project Board" class="rounded-lg shadow-md w-full" />
+        </figure>
+
+        <!-- Info Card -->
+        <aside class="bg-blue-50 p-6 rounded-lg w-full md:w-1/2 space-y-4">
+          <header>
+            <h3 class="text-lg font-semibold text-gray-800">Website Redesign Project</h3>
+          </header>
+
+          <section class="flex justify-between items-center text-sm">
+            <span class="text-blue-700 font-semibold">Progress</span>
+            <span class="text-blue-700 font-semibold">65%</span>
+          </section>
+
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li>
+              ✅ Initial Design Concepts  
+              <span class="block text-xs text-gray-500">Completed on May 18, 2023</span>
+            </li>
+            <li>
+              ✅ Homepage Development  
+              <span class="block text-xs text-gray-500">Completed on June 2, 2023</span>
+            </li>
+            <li>
+              🟡 Inner Pages Development  
+              <span class="block text-xs text-gray-500">In progress - Due June 20, 2023</span>
+            </li>
+            <li>
+              ⏳ Testing & Launch  
+              <span class="block text-xs text-gray-500">Scheduled for July 1, 2023</span>
+            </li>
+          </ul>
+
+          <footer>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition">
+              View Project Details
+            </button>
+          </footer>
+        </aside>
+      </section>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white pt-12 pb-6">
+    <section class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+
+      <!-- Company Info -->
+      <section>
+        <h2 class="text-xl font-bold mb-2">Freelancerio</h2>
+        <p class="text-sm text-gray-300 mb-4">
+          The complete platform for managing freelance work, from job postings to payments and everything in between.
+        </p>
+      </section>
+
+      <!-- Quick Links -->
+      <nav aria-label="Quick Links">
+        <h2 class="text-lg font-semibold mb-2">Quick Links</h2>
+        <ul class="space-y-1 text-sm text-gray-300">
+          <li><a href="#" class="hover:underline">Find Jobs</a></li>
+          <li><a href="#" class="hover:underline">Find Talent</a></li>
+          <li><a href="#" class="hover:underline">How It Works</a></li>
+          <li><a href="#" class="hover:underline">Success Stories</a></li>
+          <li><a href="#" class="hover:underline">Pricing</a></li>
+        </ul>
+      </nav>
+
+      <!-- Resources -->
+      <nav aria-label="Resources">
+        <h2 class="text-lg font-semibold mb-2">Resources</h2>
+        <ul class="space-y-1 text-sm text-gray-300">
+          <li><a href="#" class="hover:underline">Help Center</a></li>
+          <li><a href="#" class="hover:underline">Blog</a></li>
+          <li><a href="#" class="hover:underline">Community</a></li>
+          <li><a href="#" class="hover:underline">Terms of Service</a></li>
+          <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contact Us -->
+      <address class="not-italic">
+        <h2 class="text-lg font-semibold mb-2">Contact Us</h2>
+        <p class="text-sm text-gray-300 mb-2">
+          <i class="fas fa-envelope mr-2"></i>support@freelancerio.com
+        </p>
+        <p class="text-sm text-gray-300 mb-4">
+          123 Business Street<br />
+          San Francisco, CA 94103
+        </p>
+        <a href="#" class="inline-block bg-white text-blue-900 font-semibold py-2 px-4 rounded hover:bg-gray-100 transition">
+          Get in Touch
+        </a>
+      </address>
+
+    </section>
+
+    <!-- Copyright -->
+    <section class="text-center mt-10 text-sm text-gray-400">
+      © 2023 Freelancerio. All rights reserved.
+    </section>
+  </footer>
+
+</body>
+</html>
