@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Listings</title>
+  <style>
+    /* CSS Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Navigation */
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #007bff;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .page-description {
+      margin-bottom: 2rem;
+      color: #666;
+    }
+
+    /* Job Listings Grid */
+    .job-listings {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Job Card */
+    .job-card {
+      border: 1px solid #eaeaea;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      background: #fff;
+    }
+
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .job-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .job-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .company {
+      color: #007bff;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-details {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .job-description {
+      color: #444;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      background: #f3f4f6;
+      color: #444;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    /* Apply Button */
+    .apply-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+
+    .apply-button:hover {
+      background: #0056b3;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .job-listings {
+        grid-template-columns: 1fr;
+      }
+      
+      header {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Welcome X</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Manage Work</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Job Listings</h1>
+    <p class="page-description">Clients can post job opportunities and freelancers can easily apply with their profiles.</p>
+
+    <div class="job-listings">
+      <!-- Job 1 -->
+      <article class="job-card">
+        <a href="#">
+          <h2 class="job-title">UI/UX Designer for E-commerce Platform</h2>
+          <p class="company">TechSolutions Inc.</p>
+          <p class="job-details">Remote | $40-60/hr | 3-6 months</p>
+          <p class="job-description">Looking for an experienced UI/UX designer to redesign our e-commerce platform with a focus on user experience and conversion optimization.</p>
+          <div class="tags">
+            <span class="tag">UI Design</span>
+            <span class="tag">UX Research</span>
+            <span class="tag">Figma</span>
+            <span class="tag">Prototyping</span>
+          </div>
+        </a>
+        <button class="apply-button">Apply Now</button>
+      </article>
+
+      <!-- Job 2 -->
+      <article class="job-card">
+        <a href="#">
+          <h2 class="job-title">Full-Stack Developer for Web App</h2>
+          <p class="company">StartupBoost</p>
+          <p class="job-details">Hybrid, New York | $70-90/hr | 6+ months</p>
+          <p class="job-description">We need a full-stack developer to help build our new web application from the ground up using modern technologies.</p>
+          <div class="tags">
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">AWS</span>
+          </div>
+        </a>
+        <button class="apply-button">Apply Now</button>
+      </article>
+
+      <!-- Job 3 -->
+      <article class="job-card">
+        <a href="#">
+          <h2 class="job-title">Content Writer for Blog Articles</h2>
+          <p class="company">ContentFirst Agency</p>
+          <p class="job-details">Remote | $30-45/hr | Ongoing</p>
+          <p class="job-description">Seeking a creative content writer to produce engaging blog articles on technology topics for our clients.</p>
+          <div class="tags">
+            <span class="tag">Copywriting</span>
+            <span class="tag">SEO</span>
+            <span class="tag">Research</span>
+            <span class="tag">Editing</span>
+          </div>
+        </a>
+        <button class="apply-button">Apply Now</button>
+      </article>
+    </div>
+  </main>
+</body>
+</html>
