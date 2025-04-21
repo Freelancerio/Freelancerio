@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const monthlySummary = document.getElementById('monthly-summary-list');
   const chartContainer = document.getElementById('chart-container');
   
-  // Default data (you'll replace this with real data from your backend)
+  
   const reportData = {
     completion: {
       value: 78,
@@ -27,11 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     payments: {
-      // Different data structure for payments view
-      // You'll customize this based on your needs
+      //payments
     },
     custom: {
-      // Different data structure for custom view
+      //custom view
     }
   };
 
@@ -87,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update chart placeholder
     chartContainer.innerHTML = '<p class="text-gray-500">Payments analytics will load here</p>';
     
-    // You would fetch real payment data here
+
     // For now we'll just show a message
     setTimeout(() => {
       monthlySummary.innerHTML = `
@@ -109,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update chart placeholder
     chartContainer.innerHTML = '<p class="text-gray-500">Custom data visualization will load here</p>';
     
-    // You would fetch real custom data here
+    //custom data
     setTimeout(() => {
       monthlySummary.innerHTML = `
         <li class="col-span-6 text-center py-4">
