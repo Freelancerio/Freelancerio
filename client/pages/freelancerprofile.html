@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/freelancerprofile.css">
+  <title>Freelancer Profile Update</title>
+  
+</head>
+<body>
+    <!-- i have adde extra functionality for an onclick listener please remove this when creating the js script so that it works as expected -->
+  <button class="dashboard-btn" onclick="window.location.href='./FreelancerDashboard.html'">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    Dashboard
+  </button>
+
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="card">
+        <h1>Update Profile</h1>
+        <p class="description">Keep your freelancer profile updated to attract more clients and showcase your expertise.</p>
+        
+        <div class="profile-form">
+          <div class="form-section">
+            <div class="section-header">Personal Information</div>
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" placeholder="Your full name" value="John Smith">
+            </div>
+            
+            <div class="form-group">
+              <label for="professionalTitle">Professional Title</label>
+              <input type="text" id="professionalTitle" placeholder="e.g. Senior UX Designer" value="Senior Web Developer">
+            </div>
+            
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" id="location" placeholder="City, Country" value="San Francisco, USA">
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <div class="section-header">Experience & Expertise</div>
+            <div class="experience-card">
+              <div class="experience-header">
+                <div class="experience-title">Senior Web Developer @ Freelance Position</div>
+                <div class="verification-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Verified
+                </div>
+              </div>
+              <div class="experience-actions">
+                <button class="action-btn">Edit</button>
+                <button class="action-btn">Delete</button>
+                <button class="action-btn">View</button>
+              </div>
+            </div>
+            
+            <div class="btn-container">
+              <button class="btn-primary">Add Experience</button>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <div class="section-header">Skills & Certificates</div>
+            <div class="form-group">
+              <label for="skills">Skills (separate with commas)</label>
+              <input type="text" id="skills" placeholder="e.g. JavaScript, React, UI Design" value="HTML5, CSS3, JavaScript, React, Node.js">
+            </div>
+            
+            <div class="form-group">
+              <label for="certificates">Certificates & Qualifications</label>
+              <input type="text" id="certificates" placeholder="e.g. AWS Certified, Google UX Design" value="AWS Certified Developer, React Certification">
+            </div>
+          </div>
+        </div>
+        
+        <div class="btn-container">
+          <button class="btn-primary">Save Changes</button>
+        </div>
+      </div>
+      
+      <div class="feature-section">
+        <div class="feature-title">Complete Profile Benefits</div>
+        <div class="feature-description">Profiles with complete information are 5x more likely to be hired and appear higher in client searches.</div>
+        <div class="feature-list">
+          <div class="feature-item">Higher visibility</div>
+          <div class="feature-item">Skill verification</div>
+          <div class="feature-item">Client trust</div>
+          <div class="feature-item">Better job matches</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content" style="padding-top: 3rem; padding-bottom: 1.5rem;">
+      <!-- Company Info -->
+      <section>
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Freelancerio</h2>
+        <p style="font-size: 0.875rem; color: #cbd5e0; margin-bottom: 1rem;">
+          The complete platform for managing freelance work, from job postings to payments and everything in between.
+        </p>
+      </section>
+
+      <!-- Quick Links -->
+      <nav aria-label="Quick Links">
+        <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Quick Links</h2>
+        <ul style="font-size: 0.875rem; color: #cbd5e0;">
+          <li><a href="#" class="hover:underline">Find Jobs</a></li>
+          <li><a href="#" class="hover:underline">Find Talent</a></li>
+          <li><a href="#" class="hover:underline">How It Works</a></li>
+          <li><a href="#" class="hover:underline">Success Stories</a></li>
+          <li><a href="#" class="hover:underline">Pricing</a></li>
+        </ul>
+      </nav>
+
+      <!-- Resources -->
+      <nav aria-label="Resources">
+        <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Resources</h2>
+        <ul style="font-size: 0.875rem; color: #cbd5e0;">
+          <li><a href="#" class="hover:underline">Help Center</a></li>
+          <li><a href="#" class="hover:underline">Blog</a></li>
+          <li><a href="#" class="hover:underline">Community</a></li>
+          <li><a href="#" class="hover:underline">Terms of Service</a></li>
+          <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contact Us -->
+      <address class="not-italic">
+        <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Contact Us</h2>
+        <p style="font-size: 0.875rem; color: #cbd5e0; margin-bottom: 0.5rem;">
+          <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>support@freelancerio.com
+        </p>
+        <p style="font-size: 0.875rem; color: #cbd5e0; margin-bottom: 1rem;">
+          123 Business Street<br>
+          Johannesburg, Braamfontein 2100
+        </p>
+        <a href="#" class="contact-btn">
+          Get in Touch
+        </a>
+      </address>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      © 2025 Freelancerio. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
