@@ -96,6 +96,51 @@ if(google_login){
 }    
 
 
+// Github Authentication
+const github_login = document.getElementById("github-auth");
+if(github_login){
+    //if google_login is not null like when we are on the index page but when we are on the userdashboard it will be null
+    github_login.addEventListener('click', async () => {
+        try {
+          const result = await signInWithPopup(auth, githubProvider);
+          const user = result.user;
+          const idToken = await user.getIdToken();
+      
+          // Send to your server
+          const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`, // Firebase ID token
+            }
+          });
+      
+           // Handle the response from the server
+          if (response.ok) {
+              const data = await response.json();
+           
+              if (data.exists) {
+                  // User exists, redirect to home page
+                  window.location.href = data.RedirectTo; 
+              } else {
+                  // User doesn't exist, store the user object and redirect to role selection
+                  //get the firebase id
+                  const firebaseid = user.uid;
+                  sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
+                  sessionStorage.setItem('idToken', idToken);
+                  sessionStorage.setItem("provider",user.providerData[0].providerId); // getting the third party provider name
+                  window.location.href = "./role-selection";
+              }
+          }else {
+              throw new Error("Failed to check user existence");
+          }
+
+        } catch (error) {
+          console.error("Github sign-in error:", error);
+        }
+    });
+}  
+
 // Microsoft Authentication - do this later
 const microsoft_login = document.getElementById("microsoft-auth");
 if(microsoft_login){
@@ -105,6 +150,7 @@ if(microsoft_login){
 
 }
 
+//clean this up later
 const logoutBtn = document.getElementById("logout-btn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
