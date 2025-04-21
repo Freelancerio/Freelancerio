@@ -4,17 +4,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../styles/userdashboard.css">
-        <script src="../scripts/userdashboard.js"></script>
         <title>Dashboard</title>
     </head>
 
     <body>
     
         <section class="card-container">
-            <h1> Welcome UserX</h1>
+            <h1 id="user-info"> Welcome UserX</h1>
 
             <article class="card" id="ua">
                 User-Analytics
+                <button id="logout-btn">Logout</button>
             </article>
 
             <article class="card" id="up">
@@ -26,5 +26,6 @@
             </article>
 
         </section>
+        <script src="../scripts/auth.js" type="module"></script>
     </body>
 </html>

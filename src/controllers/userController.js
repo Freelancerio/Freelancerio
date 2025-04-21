@@ -1,64 +1,80 @@
-// import User from "../models/userModel.js"
+const admin = require('firebase-admin');
+const { User } = require("../models/userModel.js");
 
-// // function to signup
-// const userRegister =  (req, res) => {
-//         // here i am just testing if all is working properly
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.applicationDefault() // Or provide the path to your service account key file
+});
 
-//         // process the user data
-//         const user = new User({
-//             id_from_third_party : "234786rt7347ry34yr8u8u",
-//             third_party_name : "Google",
-//             role : "admin"
-//         });
-    
-//         user.save()
-//           .then((result) =>{
-//             // Respond with the received data
-//             return res.json({ message: "User Signup was successful!", result: result, error : "none" });
-    
-//           })
-//           .catch((err) =>{
-//             return res.json({ message: "User Signup was unsuccessful!", result: {}, error : err});
-//           });
+const isUser = async (req, res) => {
+  try {
+    console.log(req.query.id);
+    const user = await User.findOne({ id_from_third_party: req.query.id }).exec();
+    console.log(user);
+    if (!user) {
+      return { exists: false, RedirectTo: "/role-selection" };
+    }
 
-//   };
+    let redirectpath = "/";
+    if(user.role === "user"){
+      redirectpath = "/freelancer-home";
+    }else if(user.role === "client"){
+      redirectpath = "/client-home";
+    }
+    else{
+      redirectpath = "/admin-home";
+    }
+ 
+    res.status(200).json({ exists: !!user , RedirectTo : redirectpath });
+  } catch (error) {
+    console.error('Error checking user ID:', error);
+    return { exists: false,  RedirectTo : "/role-selection" };
+  }
+}
 
-// // function to login
-// const userlogin = (req,res) => {
+const addUser = async (req,res) =>{
+  const idToken = req.headers.authorization?.split('Bearer ')[1];
 
-// };
+    if (!idToken) {
+        return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    }
 
+    try {
+        // Verify token
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const uidFromToken = decodedToken.uid;
+        const providerFromToken = decodedToken.firebase?.sign_in_provider;
 
-// module.exports =  { userRegister, userlogin };
+        const { firebaseId, provider, role } = req.body;
 
+        if (firebaseId !== uidFromToken) {
+            return res.status(403).json({ error: 'User ID mismatch' });
+        }
 
-import User from "../models/userModel.js"
-
-// function to signup
-const userRegister = (req, res) => {
-    // here i am just testing if all is working properly
-
-    // process the user data
-    const user = new User({
-        id_from_third_party: "234786rt7347ry34yr8u8u",
-        third_party_name: "Google",
-        role: "admin"
-    });
-
-    user.save()
-        .then((result) => {
-            // Respond with the received data
-            return res.json({ message: "User Signup was successful!", result: result, error: "none" });
-        })
-        .catch((err) => {
-            return res.json({ message: "User Signup was unsuccessful!", result: {}, error: err });
+        // Save to MongoDB
+        const user = new User({
+            id_from_third_party: firebaseId,
+            third_party_name: providerFromToken || provider, 
+            role,
         });
-};
 
-// function to login
-const userlogin = (req, res) => {
+        await user.save();
+        if(role == "user"){
+          res.status(200).json({ message: 'User saved successfully!',RedirectTo: "/client-home" });
+        }else{
+          res.status(200).json({ message: 'User saved successfully!',RedirectTo: "/freelancer-home" });
+        }
 
-};
+    } catch (error) {
+        // Handle duplicate user error
+        if (error.code === 11000) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
 
-// Change this line from CommonJS to ES Module syntax
-export { userRegister, userlogin };
+        console.error('Error saving user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+}
+
+module.exports = {isUser, addUser };
