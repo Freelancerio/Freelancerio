@@ -96,23 +96,6 @@ if(google_login){
 }    
 
 
-
-// GitHub Authentication
-const github_login = document.getElementById("github-auth");
-if(github_login){
-    github_login.addEventListener('click', function () {
-        signInWithPopup(auth, githubProvider)
-          .then(result => {
-            const user = result.user;
-            console.log("GitHub User:", user);
-            window.location.href = "./pages/userdashboard.html";
-          })
-          .catch(error => {
-            console.error("GitHub sign-in error:", error);
-          });
-    });
-}
-
 // Microsoft Authentication - do this later
 const microsoft_login = document.getElementById("microsoft-auth");
 if(microsoft_login){

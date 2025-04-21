@@ -8,7 +8,7 @@ const isUser = async (req, res) => {
     // console.log(user);
 
     if (user === null ) {
-      console.log("triggered");
+      // console.log("triggered");
       res.status(200).json({ exists: false , RedirectTo : "/role-selection" });
       return;
     }
