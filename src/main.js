@@ -17,10 +17,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Import routes
 const userRoutes = require('./routes/authRoutes');
+const jobRoutes = require('./routes/jobRoutes');
 
 
 // Use routes
 app.use('/auth', userRoutes);
+app.use('/job', jobRoutes);
 
 
 // Render the index.html => this is where the user logs in
