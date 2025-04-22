@@ -52,14 +52,20 @@ document.addEventListener('DOMContentLoaded', function() {
     data.months.forEach(month => {
       const template = document.getElementById('month-template').content.cloneNode(true);
       const article = template.querySelector('article');
+      
+      // Set month name
       template.querySelector('[data-month-name]').textContent = month.name;
       
+      // Set amount/status (if exists)
       if (month.amount) {
-        template.querySelector('[data-amount-display]').textContent = `${month.status} $${month.amount}`;
+        template.querySelector('[data-amount-display]').textContent = 
+          `${month.status} $${month.amount}`;
       } else {
-        template.querySelector('[data-amount-display]').remove();
+        // Hide if no data
+        template.querySelector('[data-amount-display]').textContent = 'N/A';
       }
       
+      // Highlight if needed
       if (month.highlight) {
         article.classList.add('border-2', 'border-yellow-300');
       }

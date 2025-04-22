@@ -6,13 +6,17 @@
   <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 text-gray-900">
   <header class="bg-black text-white p-6">
+
     <section class="max-w-7xl mx-auto flex justify-between items-center">
       <h1 class="text-2xl font-bold">FreelancerIo</h1>
+
       <nav>
         <button id="profile-button" class="bg-blue-600 text-white px-4 py-2 rounded">Profile</button>
       </nav>
+
     </section>
   </header>
 
@@ -36,10 +40,12 @@
           <meter id="completion-meter" class="w-24 h-24 border-4 border-gray-300 rounded-full flex items-center justify-center mx-auto" value="0" min="0" max="100" data-completion-rate="0">
             <output id="completion-percentage" class="text-lg font-semibold">0%</output>
           </meter>
+
           <ul class="flex justify-center space-x-4 mt-2 text-sm">
             <li class="text-blue-600">● Early (<output id="early-percentage">0</output>%)</li>
             <li class="text-gray-600">● Incomplete (<output id="incomplete-percentage">0</output>%)</li>
           </ul>
+          
         </section>
       </section>
 
@@ -134,7 +140,7 @@
   </footer>
 
   <script src="../scripts/admin-dash.js"></script>
-</body>ss
+</body>
 </html>
 
   
