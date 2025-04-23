@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const JobSchema = new Schema({
   client_id: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'User',
     required: true,
   },

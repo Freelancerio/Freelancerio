@@ -177,6 +177,16 @@
       .job-header { flex-direction: column; align-items: stretch; gap: 1rem; }
       .apply-button { width: 100%; text-align: center; }
     }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
   </style>
 </head>
 <body>
@@ -193,6 +203,8 @@
   </header>
 
   <main class="main-content">
+
+
     <section class="jobs-container">
       <header class="jobs-header">
         <h1>Job Listings</h1>
@@ -200,129 +212,17 @@
       </header>
 
       <section class="job-list">
-        <article class="job">
-          <header class="job-header">
-            <hgroup class="job-title-group">
-              <h2 class="job-title">UI/UX Designer for E-commerce Platform</h2>
-              <a href="#" class="company">TechSolutions Inc.</a>
-            </hgroup>
-            <a href="#" class="apply-button" role="button">Apply Now</a>
-          </header>
-          
-          <dl class="job-details">
-            <dt>Location</dt>
-            <dd><span class="icon-location" aria-hidden="true"></span>Remote</dd>
-            
-            <dt>Rate</dt>
-            <dd><span class="icon-rate" aria-hidden="true"></span>$40-60/hr</dd>
-            
-            <dt>Duration</dt>
-            <dd><span class="icon-duration" aria-hidden="true"></span>3-6 months</dd>
-          </dl>
-          
-          <p class="job-description">
-            Looking for an experienced UI/UX designer to redesign our e-commerce platform with a focus on user experience and conversion optimization.
-          </p>
-          
-          <footer>
-            <h3 class="visually-hidden">Required Skills</h3>
-            <ul class="skill-tags">
-              <li class="skill-tag">UI Design</li>
-              <li class="skill-tag">UX Research</li>
-              <li class="skill-tag">Figma</li>
-              <li class="skill-tag">Prototyping</li>
-            </ul>
-          </footer>
-        </article>
 
-        <article class="job">
-          <header class="job-header">
-            <hgroup class="job-title-group">
-              <h2 class="job-title">Full-Stack Developer for Web App</h2>
-              <a href="#" class="company">StartupBoost</a>
-            </hgroup>
-            <a href="#" class="apply-button" role="button">Apply Now</a>
-          </header>
-          
-          <dl class="job-details">
-            <dt>Location</dt>
-            <dd><span class="icon-location" aria-hidden="true"></span>Hybrid, New York</dd>
-            
-            <dt>Rate</dt>
-            <dd><span class="icon-rate" aria-hidden="true"></span>$70-90/hr</dd>
-            
-            <dt>Duration</dt>
-            <dd><span class="icon-duration" aria-hidden="true"></span>6+ months</dd>
-          </dl>
-          
-          <p class="job-description">
-            We need a full-stack developer to help build our new web application from the ground up using modern technologies.
-          </p>
-          
-          <footer>
-            <h3 class="visually-hidden">Required Skills</h3>
-            <ul class="skill-tags">
-              <li class="skill-tag">React</li>
-              <li class="skill-tag">Node.js</li>
-              <li class="skill-tag">MongoDB</li>
-              <li class="skill-tag">AWS</li>
-            </ul>
-          </footer>
-        </article>
-
-        <article class="job">
-          <header class="job-header">
-            <hgroup class="job-title-group">
-              <h2 class="job-title">Content Writer for Blog Articles</h2>
-              <a href="#" class="company">ContentFirst Agency</a>
-            </hgroup>
-            <a href="#" class="apply-button" role="button">Apply Now</a>
-          </header>
-          
-          <dl class="job-details">
-            <dt>Location</dt>
-            <dd><span class="icon-location" aria-hidden="true"></span>Remote</dd>
-            
-            <dt>Rate</dt>
-            <dd><span class="icon-rate" aria-hidden="true"></span>$30-45/hr</dd>
-            
-            <dt>Duration</dt>
-            <dd><span class="icon-duration" aria-hidden="true"></span>Ongoing</dd>
-          </dl>
-          
-          <p class="job-description">
-            Seeking a creative content writer to produce engaging blog articles on technology topics for our clients.
-          </p>
-          
-          <footer>
-            <h3 class="visually-hidden">Required Skills</h3>
-            <ul class="skill-tags">
-              <li class="skill-tag">Copywriting</li>
-              <li class="skill-tag">SEO</li>
-              <li class="skill-tag">Research</li>
-              <li class="skill-tag">Editing</li>
-            </ul>
-          </footer>
-        </article>
-      </section>
-
-      <nav class="pagination">
-        <button class="view-more">View More Jobs</button>
-      </nav>
+     
     </section>
+    <nav class="pagination">
+      <button class="view-more">View More Jobs</button>
+    </nav>
+
+    
   </main>
 
-  <style>
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-  </style>
+
+<script src="../scripts/freelancer-home.js"></script>
 </body>
 </html>

@@ -6,13 +6,13 @@
   "scripts": {
     "test": "jest",
     "build": "echo 'No build needed'"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "expree": "^2.1.0",
     "express": "^5.1.0",
     "firebase-admin": "^13.2.0",
     "mongoose": "^8.13.2"
