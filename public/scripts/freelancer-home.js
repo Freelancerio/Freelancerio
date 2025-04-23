@@ -1,0 +1,107 @@
+function createJobItem(job) {
+    const jobList = document.querySelector('.job-list');
+  
+    const article = document.createElement('article');
+    article.classList.add('job');
+  
+    // Header
+    const header = document.createElement('header');
+    header.classList.add('job-header');
+  
+    const hgroup = document.createElement('hgroup');
+    hgroup.classList.add('job-title-group');
+  
+    const h2 = document.createElement('h2');
+    h2.classList.add('job-title');
+    h2.textContent = job.title;
+  
+    const companyLink = document.createElement('a');
+    companyLink.href = '#';
+    companyLink.classList.add('company');
+    companyLink.textContent = job.company;
+  
+    hgroup.appendChild(h2);
+    hgroup.appendChild(companyLink);
+  
+    const applyBtn = document.createElement('a');
+    applyBtn.href = '#';
+    applyBtn.classList.add('apply-button');
+    applyBtn.setAttribute('role', 'button');
+    applyBtn.textContent = 'Apply Now';
+  
+    header.appendChild(hgroup);
+    header.appendChild(applyBtn);
+  
+    // Job Details
+    const dl = document.createElement('dl');
+    dl.classList.add('job-details');
+  
+    const details = [
+      { label: 'Location', value: job.location, iconClass: 'icon-location' },
+      { label: 'Rate', value: job.rate, iconClass: 'icon-rate' },
+      { label: 'Duration', value: job.duration, iconClass: 'icon-duration' },
+    ];
+  
+    details.forEach(detail => {
+      const dt = document.createElement('dt');
+      dt.textContent = detail.label;
+  
+      const dd = document.createElement('dd');
+      const icon = document.createElement('span');
+      icon.classList.add(detail.iconClass);
+      icon.setAttribute('aria-hidden', 'true');
+      dd.appendChild(icon);
+      dd.append(' ' + detail.value);
+  
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+  
+    // Description
+    const desc = document.createElement('p');
+    desc.classList.add('job-description');
+    desc.textContent = job.description;
+  
+    // Footer (Skills)
+    const footer = document.createElement('footer');
+  
+    const hiddenHeading = document.createElement('h3');
+    hiddenHeading.classList.add('visually-hidden');
+    hiddenHeading.textContent = 'Required Skills';
+    footer.appendChild(hiddenHeading);
+  
+    const ul = document.createElement('ul');
+    ul.classList.add('skill-tags');
+    job.skills.forEach(skill => {
+      const li = document.createElement('li');
+      li.classList.add('skill-tag');
+      li.textContent = skill;
+      ul.appendChild(li);
+    });
+  
+    footer.appendChild(ul);
+  
+    // Assemble Article
+    article.appendChild(header);
+    article.appendChild(dl);
+    article.appendChild(desc);
+    article.appendChild(footer);
+  
+    jobList.appendChild(article);
+  }
+  
+
+  async function fetchJobs() {
+    try {
+      const response = await fetch('/job/all-jobs'); // Replace with your actual endpoint
+      if (!response.ok) throw new Error('Failed to fetch jobs');
+      const jobs = await response.json();
+  
+      jobs.forEach(createJobItem);
+    } catch (error) {
+      console.error('Error loading jobs:', error);
+    }
+  }
+
+  
+  document.addEventListener('DOMContentLoaded', fetchJobs);

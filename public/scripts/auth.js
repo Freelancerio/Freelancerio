@@ -58,6 +58,10 @@ if(google_login){
           const result = await signInWithPopup(auth, googleProvider);
           const user = result.user;
           const idToken = await user.getIdToken();
+
+          //get the firebase id
+          const firebaseid = user.uid;
+          sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
@@ -78,9 +82,7 @@ if(google_login){
                   window.location.href = data.RedirectTo; 
               } else {
                   // User doesn't exist, store the user object and redirect to role selection
-                  //get the firebase id
-                  const firebaseid = user.uid;
-                  sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
+                  
                   sessionStorage.setItem('idToken', idToken);
                   sessionStorage.setItem("provider",user.providerData[0].providerId); // getting the third party provider name
                   window.location.href = "./role-selection";
@@ -105,6 +107,10 @@ if(github_login){
           const result = await signInWithPopup(auth, githubProvider);
           const user = result.user;
           const idToken = await user.getIdToken();
+
+          //get the firebase id
+          const firebaseid = user.uid;
+          sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
@@ -124,9 +130,7 @@ if(github_login){
                   window.location.href = data.RedirectTo; 
               } else {
                   // User doesn't exist, store the user object and redirect to role selection
-                  //get the firebase id
-                  const firebaseid = user.uid;
-                  sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
+                  
                   sessionStorage.setItem('idToken', idToken);
                   sessionStorage.setItem("provider",user.providerData[0].providerId); // getting the third party provider name
                   window.location.href = "./role-selection";

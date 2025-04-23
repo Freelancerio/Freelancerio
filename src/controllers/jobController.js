@@ -1,6 +1,6 @@
 // controllers/jobController.js
 
-const Job = require('../models/JobModel');
+const Job = require('../models/jobModel');
 
 // Add a new job
 const addJob = async (req, res) => {
@@ -12,7 +12,10 @@ const addJob = async (req, res) => {
       job_requirements,
       job_category,
       total_pay,
+      taken_status:taken_status
     } = req.body;
+
+    console.log(req.body);
 
     const newJob = new Job({
       client_id,
@@ -21,7 +24,10 @@ const addJob = async (req, res) => {
       job_requirements,
       job_category,
       total_pay,
+      taken_status,
     });
+
+    console.log(newJob);
 
     const savedJob = await newJob.save();
     res.status(201).json({ message: 'Job created successfully', job: savedJob });
@@ -33,16 +39,100 @@ const addJob = async (req, res) => {
 
 // get all the jobs
 
-const allJobs = async (req, res) => {
-    try {
-      const jobs = await Job.find().populate('client_id', 'name email'); // Adjust fields as needed
+// const allJobs = async (req, res) => {
+//     try {
+//       const jobs = await Job.find().populate('client_id', 'name email'); // Adjust fields as needed
   
-      res.status(200).json(jobs);
-    } catch (error) {
-      console.error('Error fetching all jobs:', error);
-      res.status(500).json({ message: 'Internal Server Error', error });
+//       res.status(200).json(jobs);
+//     } catch (error) {
+//       console.error('Error fetching all jobs:', error);
+//       res.status(500).json({ message: 'Internal Server Error', error });
+//     }
+//   };
+
+const allJobs = async (req, res) => {
+  let data = [
+    {
+      "title": "UI/UX Designer for E-commerce Platform",
+      "company": "TechSolutions Inc.",
+      "location": "Remote",
+      "rate": "$40-60/hr",
+      "duration": "3-6 months",
+      "description": "Looking for an experienced UI/UX designer to redesign our e-commerce platform with a focus on user experience and conversion optimization.",
+      "skills": ["UI Design", "UX Research", "Figma", "Prototyping"]
+    },
+    {
+      "title": "Full-Stack Developer (React & Node.js)",
+      "company": "DevCore Labs",
+      "location": "New York, NY",
+      "rate": "$50-75/hr",
+      "duration": "6+ months",
+      "description": "We're seeking a full-stack developer to build scalable web applications using React and Node.js. Experience with REST APIs and MongoDB required.",
+      "skills": ["JavaScript", "React", "Node.js", "MongoDB"]
+    },
+    {
+      "title": "Content Writer for Tech Blog",
+      "company": "Inkwell Media",
+      "location": "Remote",
+      "rate": "$25-35/hr",
+      "duration": "Ongoing",
+      "description": "Join our content team to write high-quality blog posts, tutorials, and guides on software development and emerging tech.",
+      "skills": ["Technical Writing", "SEO", "Markdown", "Content Strategy"]
+    },
+    {
+      "title": "Mobile App QA Tester",
+      "company": "AppTesters Co.",
+      "location": "San Francisco, CA",
+      "rate": "$30-50/hr",
+      "duration": "3 months",
+      "description": "Seeking a detail-oriented QA tester for manual and automated testing of Android and iOS applications. Familiarity with Appium preferred.",
+      "skills": ["QA Testing", "Appium", "iOS", "Android", "Bug Reporting"]
     }
-  };
+    ,
+    {
+      "title": "Mobile App QA Tester",
+      "company": "AppTesters Co.",
+      "location": "San Francisco, CA",
+      "rate": "$30-50/hr",
+      "duration": "3 months",
+      "description": "Seeking a detail-oriented QA tester for manual and automated testing of Android and iOS applications. Familiarity with Appium preferred.",
+      "skills": ["QA Testing", "Appium", "iOS", "Android", "Bug Reporting"]
+    }
+    ,
+    {
+      "title": "Mobile App QA Tester",
+      "company": "AppTesters Co.",
+      "location": "San Francisco, CA",
+      "rate": "$30-50/hr",
+      "duration": "3 months",
+      "description": "Seeking a detail-oriented QA tester for manual and automated testing of Android and iOS applications. Familiarity with Appium preferred.",
+      "skills": ["QA Testing", "Appium", "iOS", "Android", "Bug Reporting"]
+    }
+    ,
+    {
+      "title": "Mobile App QA Tester",
+      "company": "AppTesters Co.",
+      "location": "San Francisco, CA",
+      "rate": "$30-50/hr",
+      "duration": "3 months",
+      "description": "Seeking a detail-oriented QA tester for manual and automated testing of Android and iOS applications. Familiarity with Appium preferred.",
+      "skills": ["QA Testing", "Appium", "iOS", "Android", "Bug Reporting"]
+    }
+    ,
+    {
+      "title": "Mobile App QA Tester",
+      "company": "AppTesters Co.",
+      "location": "San Francisco, CA",
+      "rate": "$30-50/hr",
+      "duration": "3 months",
+      "description": "Seeking a detail-oriented QA tester for manual and automated testing of Android and iOS applications. Familiarity with Appium preferred.",
+      "skills": ["QA Testing", "Appium", "iOS", "Android", "Bug Reporting"]
+    }
+  ]
+
+  res.json(data);
+  
+}  
   
 
 // Remove a job by ID
