@@ -81,6 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update chart placeholder
     chartContainer.innerHTML = '<p class="text-gray-500">Project completion chart will load here</p>';
   }
+ 
+
 
   // Function to show payments report
   function showPaymentsReport() {
