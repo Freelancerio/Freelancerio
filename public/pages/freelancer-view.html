@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Post a Job</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     /* reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -190,6 +189,8 @@
       border: 0;
     }
   </style>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex">
   <!-- Sidebar -->
@@ -202,10 +203,10 @@
           <li class="mb-4 ">
             <a href="/client-home" class="text-white hover:text-blue-400">📝 Post a Job</a>
           </li>
-          <li class="mb-4 bg-blue-800 rounded px-2 py-1">
+          <li class="mb-4">
             <a href="/client-jobs" class="text-white hover:text-blue-400">📋 My Job List</a>
           </li>
-          <li class="mb-4">
+          <li class="mb-4 bg-blue-800 rounded px-2 py-1">
             <a href="/view-freelancer" class="text-white hover:text-blue-400">📋 View Freelancers</a>
           </li>
           
@@ -219,19 +220,14 @@
   <!-- Main Content -->
 <main class="flex-1 p-10">
     <header class="mb-6">
-      <h2 class="text-2xl font-bold text-gray-800">Job Post History</h2>
+      <h2 class="text-2xl font-bold text-gray-800">View Freelancers</h2>
     </header>
 
-    <section class="job-list">
-
-     
-    </section>
-  
+    <section class="freelancer-list"></section>  
     
   </main>
 
- 
-  <script src="../scripts/client-jobs.js"></script>
+  <script src="../scripts/view-freelancer.js"></script>
 </body>
 </html>
 
