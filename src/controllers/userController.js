@@ -75,4 +75,42 @@ const addUser = async (req,res) =>{
 
 }
 
-module.exports = {isUser, addUser };
+const retrieveUsers = async (req, res) => {
+  try {
+    // Fetch all users with role 'user' from MongoDB
+    const users = await User.find({ role: 'user' }).lean();
+
+    // If no users found
+    if (!users || users.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    // Fetch Firebase user info for each user in parallel
+    const enrichedUsers = await Promise.all(
+      users.map(async (user) => {
+        try {
+          const firebaseUser = await admin.auth().getUser(user.id_from_third_party);
+          return {
+            username: firebaseUser.displayName || "N/A",
+            email: firebaseUser.email || "N/A",
+            uid: user.id_from_third_party,
+          };
+        } catch (error) {
+          console.warn(`Firebase user not found for UID: ${user.id_from_third_party}`);
+          return null; // or keep the MongoDB record only if you prefer
+        }
+      })
+    );
+
+    // Filter out any nulls (failed Firebase lookups)
+    const filteredUsers = enrichedUsers.filter(user => user !== null);
+
+    res.status(200).json(filteredUsers);
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+module.exports = {isUser, addUser, retrieveUsers };
