@@ -29,15 +29,8 @@ function createJobItem(job) {
     hgroup.appendChild(h2);
     hgroup.appendChild(companyLink);
   
-    const applyBtn = document.createElement('a');
-    applyBtn.href = '#';
-    applyBtn.classList.add('apply-button');
-    applyBtn.setAttribute('role', 'button');
-    applyBtn.textContent = 'Apply Now';
-  
     header.appendChild(hgroup);
-    header.appendChild(applyBtn);
-  
+
     // Job Details
     const dl = document.createElement('dl');
     dl.classList.add('job-details');
@@ -109,10 +102,10 @@ function createJobItem(job) {
   
 
   async function fetchJobs() {
-  
-    document.getElementById("user-name").textContent = `${sessionStorage.getItem("display-name")}`;
+
     try {
-      const response = await fetch('http://localhost:3000/job/all-jobs'); // Replace with your actual endpoint
+    const userid = sessionStorage.getItem('firebaseId');
+      const response = await fetch(`http://localhost:3000/job/all-jobs/${userid}`); // Replace with your actual endpoint
       if (!response.ok) throw new Error('Failed to fetch jobs');
       const jobs = await response.json();
   

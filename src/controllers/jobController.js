@@ -38,7 +38,6 @@ const addJob = async (req, res) => {
 };
 
 // get all the jobs
-
 const allJobs = async (req, res) => {
   try {
     const jobs = await Job.find().lean(); // Fetch jobs as plain JS objects
@@ -81,6 +80,59 @@ const allJobs = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
 };
+
+// get all jobs by a specific user
+const allJobsByUser = async (req, res) => {
+  try {
+    // Get the user ID from query or params
+    const userId = req.params.userid || req.query.userId;
+
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required.' });
+    }
+
+    // Only fetch jobs posted by this user
+    const jobs = await Job.find({ client_id: userId }).lean();
+
+    const userCache = {};
+
+    const jobsWithCompany = await Promise.all(
+      jobs.map(async (job) => {
+        const uid = job.client_id;
+
+        if (userCache[uid]) {
+          return {
+            ...job,
+            company: userCache[uid]
+          };
+        }
+
+        try {
+          const user = await admin.auth().getUser(uid);
+          const companyName = user.displayName || user.email || 'Unknown';
+          userCache[uid] = companyName;
+
+          return {
+            ...job,
+            company: companyName
+          };
+        } catch (error) {
+          console.warn(`Error fetching user for UID ${uid}:`, error.message);
+          return {
+            ...job,
+            company: 'Unknown'
+          };
+        }
+      })
+    );
+
+    res.status(200).json(jobsWithCompany);
+  } catch (error) {
+    console.error('Error fetching jobs by user:', error);
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+};
+
   
 
 
@@ -134,4 +186,4 @@ const removeJob = async (req, res) => {
 };
 
 
-module.exports = {addJob, removeJob, singleJob, allJobs };
+module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser };

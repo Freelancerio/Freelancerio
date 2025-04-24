@@ -63,8 +63,8 @@ if(google_login){
           const firebaseid = user.uid;
           sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
           const user_name = user.displayName || user.email || "User";
-          alert(user_name);
           sessionStorage.setItem("display-name",user_name);
+          sessionStorage.setItem('user',JSON.stringify(user));
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
@@ -117,6 +117,9 @@ if(github_login){
           sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
           const user_name = user.displayName || user.email || "User";
           sessionStorage.setItem("display-name",user_name);
+          sessionStorage.setItem("email",user.email);
+          sessionStorage.setItem("photoURL",user.photoURL);
+
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
