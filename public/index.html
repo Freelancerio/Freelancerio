@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="Sign up or log in to our application using your preferred provider">
-  <title>Welcome Main</title>
+  <title>Welcome to FreelancerIo</title>
   
   <!-- Font Awesome for brand icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,18 +12,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <link rel="stylesheet" href="./styles/LoginPage1.css">
-
 </head>
-<!--"bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800"-->
-<body class="bg-gradient-to-br to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
   <!-- Header -->
   <header class="w-full text-center py-6 bg-white shadow-md">
-    <h1 class="text-3xl font-bold text-indigo-600"> FreelancerIo </h1>
+    <h1 class="text-3xl font-bold text-indigo-600">FreelancerIo</h1>
   </header>
 
   <!-- Main Authentication Box -->
   <main class="flex-1 w-full flex items-center justify-center px-4">
-    <article class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full space-y-6">
+    <div class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full space-y-6">
       
       <!-- Welcome Text Above The Buttons -->
       <header class="text-center">
@@ -33,47 +32,83 @@
 
       <!-- Auth Options -->
       <section>
-        <h3 class="sr-only"> Auth options </h3> <!-- yes. I'm sure the disabled would agree :) . -->
+        <h3 class="sr-only">Authentication options</h3>
 
         <ul class="space-y-4">
           
           <!-- Google -->
           <li>
             <button id="google-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-                <article class="fab fa-google text-lg"></article>
-              <article>Continue with Google</article>
+              <i class="fab fa-google text-lg"></i>
+              <span>Continue with Google</span>
             </button>
           </li>
           
           <!-- Microsoft -->
           <li>
             <button id="microsoft-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <article class="fab fa-microsoft text-lg"></article>
-              <article>Continue with Microsoft</article>
+              <i class="fab fa-microsoft text-lg"></i>
+              <span>Continue with Microsoft</span>
             </button>
           </li>
 
           <!-- GitHub -->
           <li>
             <button id="github-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-              <article class="fab fa-github text-lg"></article>
-              <article>Continue with GitHub</article>
+              <i class="fab fa-github text-lg"></i>
+              <span>Continue with GitHub</span>
             </button>
           </li>
-
         </ul>
-        
       </section>
-
-    </article>
-
+    </div>
   </main>
 
+  <footer class="bg-blue-800 text-white p-10 mt-10 w-full">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 text-sm">
+      <section>
+        <h3 class="font-semibold mb-2">Freelancerio</h3>
+        <p>The complete platform for managing freelance work.</p>
+      </section>
 
+      <nav aria-label="Quick Links">
+        <h3 class="font-semibold mb-2">Quick Links</h3>
+        <ul>
+          <li><a href="#" class="hover:underline">Find Jobs</a></li>
+          <li><a href="#" class="hover:underline">Find Talent</a></li>
+          <li><a href="#" class="hover:underline">How it Works</a></li>
+          <li><a href="#" class="hover:underline">Success Stories</a></li>
+          <li><a href="#" class="hover:underline">Pricing</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Resources">
+        <h3 class="font-semibold mb-2">Resources</h3>
+        <ul>
+          <li><a href="#" class="hover:underline">Help Center</a></li>
+          <li><a href="#" class="hover:underline">Blog</a></li>
+          <li><a href="#" class="hover:underline">Community</a></li>
+          <li><a href="#" class="hover:underline">Terms of Service</a></li>
+          <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h3 class="font-semibold mb-2">Contact Us</h3>
+        <address class="not-italic">
+          <p><a href="mailto:support@freelancerio.com" class="hover:underline">support@freelancerio.com</a></p>
+          <p>65 Yale Road<br>Parktown</p>
+        </address>
+        <button class="mt-2 bg-white text-blue-800 px-4 py-2 rounded hover:bg-gray-200">Get in Touch</button>
+      </div>
+    </div>
+    <p class="block mt-6 text-center text-xs text-blue-200">&copy; <time id="current-year">2025</time> Freelancerio. All rights reserved.</p>
+  </footer>
 
   <script src="./scripts/auth.js" type="module"></script>
-  
+  <script>
+    // Set current year dynamically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
 </body>
-
 </html>
-
