@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Listings</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Job</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -189,38 +191,45 @@
     }
   </style>
 </head>
-<body>
-  <header class="site-header">
-    <nav class="main-nav">
-      <ul>
-        <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
-        <li><a href="/freelancer-home">Jobs</a></li>
-        <li><a href="/profile-user">Profile</a></li>
-      </ul>
-    </nav>
-  </header>
+<body class="bg-gray-100 min-h-screen flex">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white p-6">
+    <header class="mb-10">
+      <h1 class="text-2xl font-bold">FreelancerIO</h1>
+    </header>
+    <nav>
+        <ul>
+          <li class="mb-4 bg-blue-800 rounded px-2 py-1">
+            <a href="/client-home" class="text-white hover:text-blue-400">📝 Post a Job</a>
+          </li>
+          <li class="mb-4">
+            <a href="/client-jobs" class="text-white hover:text-blue-400">📋 My Job List</a>
+          </li>
+          
+          <li class="mt-8 pt-4 border-t border-gray-700">
+            <a href="/" class="text-white hover:text-red-400">🚪 Logout</a>
+          </li>
+        </ul>
+      </nav>
+  </aside>
 
-  <main class="main-content">
+  <!-- Main Content -->
+<main class="flex-1 p-10">
+    <header class="mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Job Post History</h2>
+    </header>
 
-
-    <section class="jobs-container">
-      <header class="jobs-header">
-        <h1>Job Listings</h1>
-        <p>Clients can post job opportunities and freelancers can easily apply with their profiles.</p>
-      </header>
-
-      <section class="job-list">
+    <section class="job-list">
 
      
-      </section>
-    <nav class="pagination">
-      <button class="view-more">View More Jobs</button>
-    </nav>
-
+    </section>
+  
     
   </main>
 
-
-<script src="../scripts/freelancer-home.js"></script>
+  <script defer src="../scripts/client-home.js"></script>
+  <script src="../scripts/client-jobs.js"></script>
 </body>
 </html>
+
+

@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Listings</title>
+  <link rel="stylesheet" href="../styles/freelancerprofile.css">
+  <title>Freelancer Profile Update</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     /* reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -189,10 +192,11 @@
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-100">
+
   <header class="site-header">
     <nav class="main-nav">
-      <ul>
+      <ul class="flex space-x-8">
         <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
         <li><a href="/freelancer-home">Jobs</a></li>
         <li><a href="/profile-user">Profile</a></li>
@@ -200,27 +204,43 @@
     </nav>
   </header>
 
-  <main class="main-content">
+  <section id="user-details" class="max-w-3xl mx-auto p-6">
+    <!-- User Profile Section -->
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+      <div class="flex justify-center mb-6">
+        <img id="user-profile-picture" src="" alt="Profile Picture" class="rounded-full w-32 h-32 object-cover border-4 border-blue-500">
+      </div>
+      <h2 id="user-name-display" class="text-2xl font-semibold text-gray-900">Loading...</h2>
+      <p id="user-email" class="text-lg text-gray-600">Loading...</p>
+    </div>
+  </section>
 
+  <footer class="bg-gray-200 text-center py-6">
+    <p class="footer-bottom">© 2025 Freelancerio. All rights reserved.</p>
+  </footer>
 
-    <section class="jobs-container">
-      <header class="jobs-header">
-        <h1>Job Listings</h1>
-        <p>Clients can post job opportunities and freelancers can easily apply with their profiles.</p>
-      </header>
+  <script>
+    // Fetch user details from Firebase
+    document.addEventListener('DOMContentLoaded', async () => {
+      let user = true;
 
-      <section class="job-list">
+      document.getElementById("user-name").textContent = `${sessionStorage.getItem("display-name")}`
 
-     
-      </section>
-    <nav class="pagination">
-      <button class="view-more">View More Jobs</button>
-    </nav>
+      if (user) {
+        // Populate the user profile details
+        document.getElementById('user-name-display').textContent = sessionStorage.getItem("display-name") || "Unknown user";
+        document.getElementById('user-email').textContent = sessionStorage.getItem("email")  || "No email available";
 
-    
-  </main>
+        // Display the profile picture
+        document.getElementById('user-profile-picture').src = sessionStorage.getItem("photoURL")  || 'https://www.example.com/default-profile.jpg';
+      } else {
+        // If no user is logged in, display a fallback message
+        document.getElementById('user-name-display').textContent = "Guest";
+        document.getElementById('user-email').textContent = "Not logged in";
+        document.getElementById('user-profile-picture').src = 'https://www.example.com/default-profile.jpg';
+      }
+    });
+  </script>
 
-
-<script src="../scripts/freelancer-home.js"></script>
 </body>
 </html>
