@@ -6,7 +6,7 @@ const { addJob, removeJob, singleJob, allJobs } = require('../controllers/jobCon
 // Job routes
 router.post('/add-job',addJob);
 router.delete('/remove-job',removeJob);
-router.get('/single-job',singleJob);
+router.get('/single-job/:jobId',singleJob);
 router.get('/all-jobs',allJobs);
 
 module.exports = router;
