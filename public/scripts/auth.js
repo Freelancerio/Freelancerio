@@ -62,6 +62,9 @@ if(google_login){
           //get the firebase id
           const firebaseid = user.uid;
           sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
+          const user_name = user.displayName || user.email || "User";
+          alert(user_name);
+          sessionStorage.setItem("display-name",user_name);
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
@@ -79,6 +82,7 @@ if(google_login){
 
               if (data.exists) {
                   // User exists, redirect to home page
+                  
                   window.location.href = data.RedirectTo; 
               } else {
                   // User doesn't exist, store the user object and redirect to role selection
@@ -111,6 +115,8 @@ if(github_login){
           //get the firebase id
           const firebaseid = user.uid;
           sessionStorage.setItem('firebaseId', firebaseid);  // Store user object in sessionStorage
+          const user_name = user.displayName || user.email || "User";
+          sessionStorage.setItem("display-name",user_name);
       
           // Send to your server
           const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
@@ -127,6 +133,7 @@ if(github_login){
            
               if (data.exists) {
                   // User exists, redirect to home page
+                
                   window.location.href = data.RedirectTo; 
               } else {
                   // User doesn't exist, store the user object and redirect to role selection

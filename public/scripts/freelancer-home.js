@@ -13,7 +13,7 @@ function createJobItem(job) {
   
     const h2 = document.createElement('h2');
     h2.classList.add('job-title');
-    h2.textContent = job.title;
+    h2.textContent = job.job_title;
   
     const companyLink = document.createElement('a');
     companyLink.href = '#';
@@ -37,9 +37,9 @@ function createJobItem(job) {
     dl.classList.add('job-details');
   
     const details = [
-      { label: 'Location', value: job.location, iconClass: 'icon-location' },
-      { label: 'Rate', value: job.rate, iconClass: 'icon-rate' },
-      { label: 'Duration', value: job.duration, iconClass: 'icon-duration' },
+      { label: 'Location', value: "South Africa", iconClass: 'icon-location' },
+      { label: 'Rate', value: job.total_pay, iconClass: 'icon-rate' },
+      { label: 'Duration', value: "1 Year", iconClass: 'icon-duration' },
     ];
   
     details.forEach(detail => {
@@ -60,7 +60,7 @@ function createJobItem(job) {
     // Description
     const desc = document.createElement('p');
     desc.classList.add('job-description');
-    desc.textContent = job.description;
+    desc.textContent = job.job_description;
   
     // Footer (Skills)
     const footer = document.createElement('footer');
@@ -72,7 +72,8 @@ function createJobItem(job) {
   
     const ul = document.createElement('ul');
     ul.classList.add('skill-tags');
-    job.skills.forEach(skill => {
+    let skills = getSkills(job.job_requirements);   
+    skills.forEach(skill => {
       const li = document.createElement('li');
       li.classList.add('skill-tag');
       li.textContent = skill;
@@ -89,11 +90,23 @@ function createJobItem(job) {
   
     jobList.appendChild(article);
   }
+
+  const getSkills = (skillsString) => {
+    if (!skillsString || typeof skillsString !== 'string') return [];
+  
+    return skillsString
+      .split(',')               // Split by comma
+      .map(skill => skill.trim()) // Trim spaces around each skill
+      .filter(skill => skill.length > 0); // Remove any empty entries
+  };
+  
   
 
   async function fetchJobs() {
+    console.log(sessionStorage.getItem("display-name"));
+    document.getElementById("user-name").textContent = `Welcome ${sessionStorage.getItem("display-name")}`;
     try {
-      const response = await fetch('/job/all-jobs'); // Replace with your actual endpoint
+      const response = await fetch('http://localhost:3000/job/all-jobs'); // Replace with your actual endpoint
       if (!response.ok) throw new Error('Failed to fetch jobs');
       const jobs = await response.json();
   
