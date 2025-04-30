@@ -19,11 +19,7 @@ body {
     height: 60px;
 }
 
-<<<<<<< HEAD
 .LogoutButton {
-=======
-.LogoutButton{
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
     background-color: #4a90e2;
     color: white;
     border: none;
@@ -121,11 +117,7 @@ body {
     padding: 20px;
     border-radius: 5px;
     width: 23%;
-<<<<<<< HEAD
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-=======
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
 }
 
 .stat-title {
@@ -159,11 +151,7 @@ body {
 .applications-list {
     background: white;
     border-radius: 5px;
-<<<<<<< HEAD
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-=======
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
     margin-bottom: 30px;
 }
 
@@ -217,12 +205,8 @@ body {
     display: flex;
 }
 
-<<<<<<< HEAD
 .view-btn,
 .review-btn {
-=======
-.view-btn, .review-btn {
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
     padding: 8px 15px;
     border-radius: 5px;
     margin-left: 10px;
@@ -241,18 +225,11 @@ body {
     border: none;
 }
 
-<<<<<<< HEAD
 .freelancers-section,
 .current-jobs-section {
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-=======
-.freelancers-section, .current-jobs-section {
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
     padding: 20px;
     margin-bottom: 30px;
 }
@@ -335,11 +312,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-<<<<<<< HEAD
     background-color: rgba(0, 0, 0, 0.5);
-=======
-    background-color: rgba(0,0,0,0.5);
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
 }
 
 .modal-content {
@@ -445,12 +418,8 @@ footer a:hover {
     margin-bottom: 1rem;
 }
 
-<<<<<<< HEAD
 .contact-email,
 .contact-address {
-=======
-.contact-email, .contact-address {
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
     font-size: 0.875rem;
     color: #cbd5e0;
     margin-bottom: 0.5rem;
@@ -477,7 +446,6 @@ footer a:hover {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     max-width: 1200px;
     margin: 2rem auto 0;
-<<<<<<< HEAD
 }
 
 /* Reset and base styles */
@@ -502,7 +470,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px 0 70px; /* Padding left for toggle button */
+    padding: 0 20px 0 70px;
+    /* Padding left for toggle button */
     height: 60px;
     z-index: 99;
     position: relative;
@@ -556,7 +525,8 @@ body {
     width: 250px;
     height: 100%;
     position: fixed;
-    left: -250px; /* Start hidden off-screen */
+    left: -250px;
+    /* Start hidden off-screen */
     top: 0;
     background-color: #1a202c;
     color: #fff;
@@ -568,11 +538,13 @@ body {
 }
 
 .sidebar.open {
-    left: 0; /* Move into view when open */
+    left: 0;
+    /* Move into view when open */
 }
 
 body.sidebar-open {
-    margin-left: 250px; /* Push body content */
+    margin-left: 250px;
+    /* Push body content */
 }
 
 .sidebar-header {
@@ -669,29 +641,29 @@ body.sidebar-open .container {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body.sidebar-open {
-margin-left: 0;
+        margin-left: 0;
     }
-    
+
     .sidebar.open {
-width: 100%;
+        width: 100%;
     }
-    
+
     body.sidebar-open .container {
-margin-left: 0;
-width: 100%;
+        margin-left: 0;
+        width: 100%;
     }
-    
+
     .stats-cards {
-flex-direction: column;
+        flex-direction: column;
     }
-    
+
     .stat-card {
-width: 100%;
-margin-bottom: 10px;
-            }
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
 
-
+/* Updated sidebar toggle button styles */
 .sidebar-toggle {
     position: fixed;
     top: 10px;
@@ -710,6 +682,7 @@ margin-bottom: 10px;
     font-size: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: left 0.3s ease;
+    /* Add transition for smooth movement */
 }
 
 body.sidebar-open .sidebar-toggle {
@@ -718,8 +691,6 @@ body.sidebar-open .sidebar-toggle {
 
 @media (max-width: 768px) {
     body.sidebar-open .sidebar-toggle {
-left: calc(100% - 55px);
+        left: calc(100% - 55px);
     }
-=======
->>>>>>> 254a6bff74178347017e740b66c372273c799d57
 }
