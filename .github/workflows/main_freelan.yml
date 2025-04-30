@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -50,6 +51,60 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+=======
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - Freelan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+>>>>>>> 254a6bff74178347017e740b66c372273c799d57
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -57,6 +112,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2B0D15DA165C48B3871E6A7332C6C77F }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_65E735736EC342E9B635A0EAC4971966 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FEE99E5BF5B74DDDA6300D30436DBC3C }}
+<<<<<<< HEAD
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
@@ -65,4 +121,14 @@ jobs:
           app-name: 'Freelan'
           slot-name: 'Production'
           package: .
+=======
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: 'Freelan'
+          slot-name: 'Production'
+          package: .
+>>>>>>> 254a6bff74178347017e740b66c372273c799d57
           
