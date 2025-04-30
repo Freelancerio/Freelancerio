@@ -1,0 +1,8 @@
+# Java Script files
+node_modules/
+
+#vscode files
+.vs
+.vs/
+.vscode/
+.vscode
