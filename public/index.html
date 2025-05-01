@@ -1,21 +1,27 @@
-﻿<!DOCTYPE html>
+﻿<!-- TODO: replace the start in the package js file with this -->
+<!-- "start": "node src/main.js", -->
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="description" content="Sign up or log in to our application using your preferred provider">
   <title>Welcome Main</title>
-  
+
   <!-- Font Awesome for brand icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <link rel="stylesheet" href="./styles/LoginPage1.css">
 
 </head>
 <!--"bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800"-->
-<body class="bg-gradient-to-br to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
+
+<body
+  class="bg-gradient-to-br to-indigo-100 min-h-screen flex flex-col items-center justify-center font-sans text-gray-800">
   <!-- Header -->
   <header class="w-full text-center py-6 bg-white shadow-md">
     <h1 class="text-3xl font-bold text-indigo-600"> FreelancerIo </h1>
@@ -24,7 +30,7 @@
   <!-- Main Authentication Box -->
   <main class="flex-1 w-full flex items-center justify-center px-4">
     <article class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full space-y-6">
-      
+
       <!-- Welcome Text Above The Buttons -->
       <header class="text-center">
         <h2 class="text-2xl font-semibold text-indigo-700">Welcome</h2>
@@ -36,18 +42,20 @@
         <h3 class="sr-only"> Auth options </h3> <!-- yes. I'm sure the disabled would agree :) . -->
 
         <ul class="space-y-4">
-          
+
           <!-- Google -->
           <li>
-            <button id="google-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-                <article class="fab fa-google text-lg"></article>
+            <button id="google-auth"
+              class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+              <article class="fab fa-google text-lg"></article>
               <article>Continue with Google</article>
             </button>
           </li>
-          
+
           <!-- Microsoft -->
           <li>
-            <button id="microsoft-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+            <button id="microsoft-auth"
+              class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
               <article class="fab fa-microsoft text-lg"></article>
               <article>Continue with Microsoft</article>
             </button>
@@ -55,14 +63,15 @@
 
           <!-- GitHub -->
           <li>
-            <button id="github-auth" class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+            <button id="github-auth"
+              class="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
               <article class="fab fa-github text-lg"></article>
               <article>Continue with GitHub</article>
             </button>
           </li>
 
         </ul>
-        
+
       </section>
 
     </article>
@@ -72,8 +81,7 @@
 
 
   <script src="./scripts/auth.js" type="module"></script>
-  
+
 </body>
 
 </html>
-

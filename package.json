@@ -1,10 +1,11 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Introductions",
   "main": "main.js",
   "scripts": {
-    "start": "node src/main.js",
+    "start-dev": "nodemon ./src/main.js",
+    "start": "node ./src/main.js",
     "test": "jest",
     "build": "echo 'No build needed'"
   },
@@ -16,10 +17,20 @@
     "expree": "^2.1.0",
     "express": "^5.1.0",
     "firebase-admin": "^13.2.0",
-    "mongoose": "^8.13.2"
+    "mongoose": "^8.13.2",
+    "nodemon": "^3.1.10"
   },
+  "type": "commonjs",
   "devDependencies": {
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Freelancerio/Freelancerio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Freelancerio/Freelancerio/issues"
+  },
+  "homepage": "https://github.com/Freelancerio/Freelancerio#readme"
 }

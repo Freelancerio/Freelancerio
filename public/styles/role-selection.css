@@ -1,0 +1,18 @@
+/* Add this to your existing role-selection.css file */
+
+/* Style for the active (selected) card */
+.active-card {
+    background-color: #e3f2fd !important;
+    /* Blue background like hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid #1976d2 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Make sure your card has proper hover styles */
+#Freelancer_box:hover,
+#Hiring_Comp_box:hover {
+    background-color: #e3f2fd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}

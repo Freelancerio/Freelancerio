@@ -5,16 +5,22 @@ const clientSelected = document.getElementById("Hiring_Comp_box");
 const FreelancerSelected = document.getElementById("Freelancer_box");
 
 //add eventlisteners
-clientSelected.addEventListener('click', () =>{
+clientSelected.addEventListener('click', () => {
     selectedRole = "client";
+    // Add selected styling to client box and remove from freelancer box
+    clientSelected.classList.add('active-card');
+    FreelancerSelected.classList.remove('active-card');
 });
 
-FreelancerSelected.addEventListener('click', () =>{
+FreelancerSelected.addEventListener('click', () => {
     selectedRole = "user";
+    // Add selected styling to freelancer box and remove from client box
+    FreelancerSelected.classList.add('active-card');
+    clientSelected.classList.remove('active-card');
 });
 
 
-// Form submission handler
+
 document.getElementById('submit').addEventListener('click', async (e) => {
     e.preventDefault();  // Prevent form from reloading the page
 
@@ -26,7 +32,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
 
     // Store the role in sessionStorage
     sessionStorage.setItem('role', selectedRole);
-    
+
     // Send the data to the server (using the Firebase ID and token if required)
     const firebaseId = sessionStorage.getItem('firebaseId');
     const idToken = sessionStorage.getItem('idToken');
@@ -34,7 +40,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
 
     const data = {
         firebaseId: firebaseId,
-        provider : providerId,
+        provider: providerId,
         role: selectedRole,
     };
 

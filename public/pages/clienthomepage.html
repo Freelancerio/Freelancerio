@@ -341,7 +341,7 @@
 
     <script>
 
-        // Sidebar toggle functionality
+
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
         const body = document.body;
@@ -351,7 +351,7 @@
             body.classList.toggle('sidebar-open');
         });
 
-        // Close sidebar when clicking outside (on mobile)
+
         document.addEventListener('click', function (event) {
             const isClickInsideSidebar = sidebar.contains(event.target);
             const isClickOnToggle = sidebarToggle.contains(event.target);
@@ -362,7 +362,7 @@
             }
         });
 
-        // Modal functionality
+
         const modal = document.getElementById("postJobModal");
 
         function openModal() {
@@ -373,17 +373,17 @@
             modal.style.display = "none";
         }
 
-        // Close modal when clicking outside
+
         window.onclick = function (event) {
             if (event.target == modal) {
                 closeModal();
             }
         }
 
-        // Form submission
+
         document.getElementById("jobForm").addEventListener("submit", function (e) {
             e.preventDefault();
-            // Add form submission logic here
+
             alert("Job posted successfully!");
             closeModal();
         });
