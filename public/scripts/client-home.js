@@ -228,11 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   buildJobPostForm();
 
-
-
-
-  
-
   function setActiveLink(activeId) {
     // Remove active classes from all links
     const navLinks = document.querySelectorAll('nav li');
