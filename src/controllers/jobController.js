@@ -40,7 +40,7 @@ const addJob = async (req, res) => {
 // get all the jobs
 const allJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().lean(); // Fetch jobs as plain JS objects
+    const jobs = await Job.find({ isHidden: false }).lean(); // Fetch jobs as plain JS objects
 
     const userCache = {}; // To prevent duplicate lookups
 
@@ -133,6 +133,33 @@ const allJobsByUser = async (req, res) => {
   }
 };
 
+
+//change the status of isHIdden, is it true then make it false else make it true
+const setIsHidden = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    // Find the job by ID
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    // Toggle the isHidden field
+    job.isHidden = !job.isHidden;
+    await job.save();
+
+    res.status(200).json({
+      message: `Job visibility updated successfully`,
+      jobId: job._id,
+      newStatus: job.isHidden
+    });
+  } catch (error) {
+    console.error('Error toggling isHidden:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
   
 
 
@@ -170,7 +197,7 @@ const singleJob = async (req, res) => {
 // Remove a job by ID
 const removeJob = async (req, res) => {
   try {
-    const { jobId } = req.body; 
+    const { jobId } = req.params; 
 
     const deletedJob = await Job.findByIdAndDelete(jobId);
 
@@ -186,4 +213,4 @@ const removeJob = async (req, res) => {
 };
 
 
-module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser };
+module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden};

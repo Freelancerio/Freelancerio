@@ -1,5 +1,7 @@
 function createFreelancerItem(freelancer) {
-    const freelancerList = document.querySelector('.freelancer-list');
+    //const freelancerList = document.querySelector('.freelancer-list');
+    const freelancerList = document.getElementById("display-section");
+    
     freelancerList.style.marginBottom = "10px";
 
   
@@ -35,56 +37,54 @@ function createFreelancerItem(freelancer) {
     // If you want to add more info later, use this section
     const dl = document.createElement('dl');
     dl.classList.add('freelancer-details');
-    // Add more details here if needed
-  
-    // Article content (optional description/footer if needed)
-    // Remove if not used:
-    // const desc = document.createElement('p');
-    // desc.textContent = freelancer.description || '';
-  
-    // const footer = document.createElement('footer');
-    // footer.textContent = 'More info'; // Customize this
+   
   
     // Assemble Article
     article.appendChild(header);
     article.appendChild(dl);
-    // article.appendChild(desc);
-    // article.appendChild(footer);
+ 
   
     freelancerList.appendChild(article);
   }
   
   async function fetchFreelancers() {
+    document.getElementById('client-page-heading').textContent = "View Freelancers";
     try {
       const userid = sessionStorage.getItem('firebaseId');
-      const response = await fetch(`http://localhost:3000/auth/get-users`); // Update this endpoint name if it's actually fetching freelancers
+      const response = await fetch(`http://localhost:3000/auth/get-users`); 
   
       if (!response.ok) throw new Error('Failed to fetch freelancers');
   
       const freelancers = await response.json();
+      document.getElementById("display-section").innerHTML = '';
       freelancers.forEach(createFreelancerItem);
     } catch (error) {
       console.error('Error loading freelancers:', error);
     }
   }
-  
 
-  async function singleFreelancer(freelancerId){
-    try {
-        const response = await fetch(`http://localhost:3000/auth/single-freelancer/${freelancerId}`); // Adjust to your actual endpoint
-        if (!response.ok) throw new Error('Failed to fetch job details');
-        const job = await response.json();
+  function setActiveLink(activeId) {
+    // Remove active classes from all links
+    const navLinks = document.querySelectorAll('nav li');
+    navLinks.forEach(link => {
+      link.classList.remove('bg-blue-800', 'rounded', 'px-2', 'py-1');
+    });
   
-        // Render job details on the page (you can use a similar pattern as createJobItem or customize it)
-        document.getElementById('job-title').textContent = job.job_title;
-        document.getElementById('company-name').textContent = job.company;
-        document.getElementById('job-description').textContent = job.job_description;
-        // Add more fields as needed
-      } catch (error) {
-        console.error('Error fetching job details:', error);
-        document.body.innerHTML = '<p>Error loading job details.</p>';
-      }
+    // Add active classes to the clicked link
+    const activeLink = document.getElementById(activeId);
+    activeLink.classList.add('bg-blue-800', 'rounded', 'px-2', 'py-1');
   }
+    
+  
+  document.getElementById('view_freelancers').addEventListener('click', (event) => {
+    event.preventDefault();
+    setActiveLink('view_freelancers');
+    fetchFreelancers();
+  });
+
+  document.getElementById('post_job').addEventListener('click', (event) => {
+    event.preventDefault(); // Prevent the default link navigation behavior
+    setActiveLink('post_job'); // Change the active link color
+  });
 
   
-  document.addEventListener('DOMContentLoaded', fetchFreelancers());
