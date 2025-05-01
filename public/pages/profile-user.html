@@ -14,13 +14,12 @@
   <header class="bg-white shadow-sm">
     <nav class="max-w-7xl mx-auto px-4 py-3" aria-label="Main navigation">
       <ul class="flex space-x-6 items-center">
-        <li><a href="/freelancer-home" id="user-name" >Welcome John</a></li>
+        <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
         <li><a href="/freelancer-home" class="hover:text-blue-600 transition-colors">Jobs</a></li>
-        <li><a href="/profile-user" class="font-medium text-blue-600 hover:text-blue-700 transition-colors" aria-current="page">Profile</a></li>
+        <li><a href="/profile-user" class="font-medium text-blue-600 hover:text-blue-700 transition-colors"
+            aria-current="page">Profile</a></li>
         <li><a href="/" class="hover:text-blue-600 transition-colors">Logout</a></li>
       </ul>
-
-      
     </nav>
   </header>
 
@@ -28,54 +27,65 @@
     <article class="bg-white shadow rounded-xl p-6">
       <header class="text-center mb-10">
         <figure class="flex justify-center mb-4">
-          <!-- we will probably have the company logo here -->
-          <img id="user-profile-picture" src="" alt="Profile picture" 
-               class="rounded-full w-32 h-32 border-4 border-blue-100 object-cover shadow-md">
+          <img id="user-profile-picture" src="" alt="Profile picture"
+            class="rounded-full w-32 h-32 border-4 border-blue-100 object-cover shadow-md">
         </figure>
-
-        <h1 id="profile-heading" class="text-3xl font-bold mb-1 text-gray-900">Your Profile</h1>
-        <p id="user-name-display" class="text-xl font-semibold text-gray-800">Loading...</p>
-        <p id="user-email" class="text-sm text-gray-500">Loading...</p>
+        <h1 class="text-3xl font-bold mb-1 text-gray-900">Your Profile</h1>
+        <section class="space-y-1">
+          <h1 id="user-name-display" class="text-2xl font-semibold text-gray-900">Loading Name...</h1>
+          <p id="user-email" class="text-2xl font-semibold text-gray-900">Loading Email...</p>
+        </section>
       </header>
 
       <section aria-labelledby="edit-heading">
-        <h2 id="edit-heading" class="text-2xl font-semibold mb-6 text-gray-900 border-b pb-2">Update Your Details</h2>
-        <form id="update-profile-form" class="space-y-6">
-          <section  class="grid md:grid-cols-2 gap-6">
-            <section>
-              <!-- <label for="name" class="block font-medium text-gray-700 mb-1"></label> -->
-              <input type="text" id="name" name="name" placeholder="Enter your full name" required
-                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-            </section>
+        <h2 id="edit-heading" class="text-2xl font-semibold mb-6 text-gray-900 border-b pb-2">Profile Summary</h2>
 
-            <section>
-              <!-- <label for="email" class="block font-medium text-gray-700 mb-1"></label> -->
-              <input type="email" id="email" name="email" placeholder="Enter your email" required
-                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-            </section>
+        <!-- Display Fields -->
+        <section id="display-section" class="space-y-6">
+          <section>
+            <label class="block font-medium text-gray-700 mb-1">Skills</label>
+            <p id="skills-display" class="bg-gray-100 p-3 rounded-lg">Loading skills...</p>
           </section>
 
           <section>
-            <label for="experience" class="block font-medium text-gray-700 mb-1">Work Experience</label>
-            <textarea id="experience" name="experience" rows="4" placeholder="Summarize your work experience"
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+            <label class="block font-medium text-gray-700 mb-1">About You</label>
+            <p id="about-display" class="bg-gray-100 p-3 rounded-lg">Loading about info...</p>
           </section>
 
           <section>
-            <label for="experience" class="block font-medium text-gray-700 mb-1">Skills</label>
-            <textarea id="experience" name="experience" rows="4" placeholder="list your skills sepearated by a comma (e.g python,java,etc)"
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+            <label class="block font-medium text-gray-700 mb-1">Work Experience (Read-only)</label>
+            <p id="experience-display" class="bg-gray-100 p-3 rounded-lg">Loading work experience...</p>
+          </section>
+
+          <section class="flex justify-end">
+            <button id="edit-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+              <i class="fas fa-edit mr-2"></i>Edit Profile
+            </button>
+          </section>
+        </section>
+
+        <!-- Editable Form Fields -->
+        <form id="edit-form" class="space-y-6 hidden mt-8">
+          <section>
+            <label for="skills" class="block font-medium text-gray-700 mb-1">Skills</label>
+            <textarea id="skills" name="skills" rows="3"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
           </section>
 
           <section>
             <label for="about" class="block font-medium text-gray-700 mb-1">About You</label>
-            <textarea id="about" name="about" rows="4" placeholder="Tell us about yourself"
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+            <textarea id="about" name="about" rows="4"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
           </section>
 
-          <section class="flex justify-end">
-            <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors shadow-md font-medium">
-              <i class="fas fa-save mr-2" aria-hidden="true"></i> Save Changes
+          <section class="flex justify-end gap-4">
+            <button type="button" id="cancel-btn"
+              class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition">
+              Cancel
+            </button>
+            <button type="submit"
+              class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition font-medium">
+              <i class="fas fa-save mr-2"></i> Save Changes
             </button>
           </section>
         </form>
@@ -92,42 +102,53 @@
       const name = sessionStorage.getItem("display-name") || "Unknown User";
       const email = sessionStorage.getItem("email") || "No email available";
       const photo = sessionStorage.getItem("photoURL") || "https://www.gravatar.com/avatar/default?s=200&d=mp";
+      const skills = sessionStorage.getItem("skills") || "JavaScript, HTML, CSS";
+      const about = sessionStorage.getItem("about") || "I am a passionate freelancer ready to tackle any tech challenge.";
+      const experience = sessionStorage.getItem("experience") || "2 years as a web developer at XYZ Agency.";
 
       document.getElementById("user-name").textContent = `Welcome ${name}`;
       document.getElementById("user-name-display").textContent = name;
       document.getElementById("user-email").textContent = email;
-      document.getElementById("user-profile-picture").src = photo; //its a const, do not remove it, its the avatar
+      document.getElementById("user-profile-picture").src = photo;
 
-      // Pre-fill form fields
-      document.getElementById("name").value = name;
-      document.getElementById("email").value = email;
+      // Fill display section
+      document.getElementById("skills-display").textContent = skills;
+      document.getElementById("about-display").textContent = about;
+      document.getElementById("experience-display").textContent = experience;
 
-      // Handle form submission
-      document.getElementById("update-profile-form").addEventListener("submit", (e) => {
+      // Prefill form
+      document.getElementById("skills").value = skills;
+      document.getElementById("about").value = about;
+
+      const displaySection = document.getElementById("display-section");
+      const editForm = document.getElementById("edit-form");
+
+      document.getElementById("edit-btn").addEventListener("click", () => {
+        displaySection.classList.add("hidden");
+        editForm.classList.remove("hidden");
+      });
+
+      document.getElementById("cancel-btn").addEventListener("click", () => {
+        editForm.classList.add("hidden");
+        displaySection.classList.remove("hidden");
+      });
+
+      document.getElementById("edit-form").addEventListener("submit", (e) => {
         e.preventDefault();
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalContent = submitBtn.innerHTML;
-        
-        // Show loading state
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2" aria-hidden="true"></i> Saving...';
-        submitBtn.disabled = true;
-        
-        // Simulate API call
-        setTimeout(() => {
-          submitBtn.innerHTML = '<i class="fas fa-check mr-2" aria-hidden="true"></i> Saved!';
-          submitBtn.classList.replace('bg-blue-500', 'bg-green-500');
-          submitBtn.classList.replace('hover:bg-blue-600', 'hover:bg-green-600');
-          
-          // Reset after 2 seconds
-          setTimeout(() => {
-            submitBtn.innerHTML = originalContent;
-            submitBtn.classList.replace('bg-green-500', 'bg-blue-500');
-            submitBtn.classList.replace('hover:bg-green-600', 'hover:bg-blue-600');
-            submitBtn.disabled = false;
-          }, 2000);
-        }, 1500);
+        const updatedSkills = document.getElementById("skills").value;
+        const updatedAbout = document.getElementById("about").value;
+
+        sessionStorage.setItem("skills", updatedSkills);
+        sessionStorage.setItem("about", updatedAbout);
+
+        document.getElementById("skills-display").textContent = updatedSkills;
+        document.getElementById("about-display").textContent = updatedAbout;
+
+        editForm.classList.add("hidden");
+        displaySection.classList.remove("hidden");
       });
     });
   </script>
 </body>
+
 </html>
