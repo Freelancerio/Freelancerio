@@ -11,6 +11,8 @@ const addJob = async (req, res) => {
       job_description,
       job_requirements,
       job_category,
+      location_category,
+      duration_months,
       total_pay,
       taken_status:taken_status
     } = req.body;
@@ -23,6 +25,8 @@ const addJob = async (req, res) => {
       job_description,
       job_requirements,
       job_category,
+      location_category,
+      duration_months,
       total_pay,
       taken_status,
     });
@@ -213,4 +217,23 @@ const removeJob = async (req, res) => {
 };
 
 
-module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden};
+//function to update a job
+const updateJob = async (req, res) =>{
+  try {
+    const { jobId} = req.params;
+    const updateFields = req.body;
+   
+
+    const updatedJob = await Job.findByIdAndUpdate(jobId, updateFields, { new: true });
+
+    if (!updatedJob) return res.status(404).json({ message: 'Job not found' });
+
+    res.status(200).json(updatedJob);
+  } catch (err) {
+    res.status(500).json({ message: 'Update failed', error: err.message });
+  }
+
+};
+
+
+module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden, updateJob };

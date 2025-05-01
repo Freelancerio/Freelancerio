@@ -37,9 +37,9 @@ function createJobItem(job) {
     dl.classList.add('job-details');
   
     const details = [
-      { label: 'Location', value: "South Africa", iconClass: 'icon-location' },
+      { label: 'Location', value: job.location_category, iconClass: 'icon-location' },
       { label: 'Rate', value: job.total_pay, iconClass: 'icon-rate' },
-      { label: 'Duration', value: "1 Year", iconClass: 'icon-duration' },
+      { label: 'Duration', value: `${job.duration_months} Months`, iconClass: 'icon-duration' },
     ];
   
     details.forEach(detail => {
@@ -182,12 +182,12 @@ function createJobItem(job) {
         // Location
         const location = document.createElement('p');
         location.classList.add('text-gray-700');
-        location.innerHTML = `<strong>Location:</strong> South Africa`;
+        location.innerHTML = `<strong>Location:</strong> ${job.location_category}`;
 
         // Duration
         const duration = document.createElement('p');
         duration.classList.add('text-gray-700');
-        duration.innerHTML = `<strong>Duration:</strong> 1 Year`;
+        duration.innerHTML = `<strong>Duration:</strong> ${job.duration_months} Months`;
 
         jobDetailsGrid.appendChild(category);
         jobDetailsGrid.appendChild(rate);
@@ -256,7 +256,7 @@ function createJobItem(job) {
         editButton.textContent = 'Edit Post';
 
         editButton.addEventListener('click', () => {
-            alert('You have applied for this job!');
+            editJobPosting(job, jobId);
         });
 
         buttonSection.appendChild(editButton);
@@ -301,6 +301,7 @@ function createJobItem(job) {
         displaySection.innerHTML = '<p>Error loading job details.</p>';
     }
 }
+
 
 function createDeleteConfirmationModal(job_id) {
   const modal = document.createElement('div');
@@ -353,7 +354,6 @@ function createDeleteConfirmationModal(job_id) {
 }
 
 
-
 function createHideConfirmationModal(job_id) {
   const modal = document.createElement('div');
   modal.classList.add('fixed', 'inset-0', 'bg-black', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
@@ -362,7 +362,7 @@ function createHideConfirmationModal(job_id) {
   modalContent.classList.add('bg-white', 'p-6', 'rounded-lg', 'shadow-lg', 'w-full', 'sm:w-96');
 
   const modalHeader = document.createElement('h2');
-  modalHeader.textContent = `Are you sure you want to hide this post?`;
+  modalHeader.textContent = `Are you sure you want to hide/unhide this post?`;
   modalHeader.classList.add('text-xl', 'font-semibold', 'mb-4');
 
   const modalButtons = document.createElement('div');
@@ -373,7 +373,7 @@ function createHideConfirmationModal(job_id) {
   cancelButton.classList.add('bg-gray-400', 'text-white', 'px-4', 'py-2', 'rounded-lg', 'hover:bg-gray-500', 'transition', 'duration-300');
 
   const confirmButton = document.createElement('button');
-  confirmButton.textContent = 'Yes, Hide';
+  confirmButton.textContent = 'Yes, Hide/unHide';
   confirmButton.classList.add('bg-red-600', 'text-white', 'px-4', 'py-2', 'rounded-lg', 'hover:bg-red-700', 'transition', 'duration-300');
 
   modalButtons.appendChild(cancelButton);
@@ -391,15 +391,196 @@ function createHideConfirmationModal(job_id) {
       const response = await fetch(`http://localhost:3000/job/set-hidden-status/${job_id}`, {
         method: 'PUT'
       });
-      if (!response.ok) throw new Error('Failed to hide job');
+      if (!response.ok) throw new Error('Failed to hide/unHide job');
 
-      alert(`Post with ID ${job_id} has been hidden!`);
+      alert(`Post with ID ${job_id} has been hidden/unhidden!`);
       modal.remove();
     } catch (error) {
-      alert('Error hiding job: ' + error.message);
+      alert('Error hiding/unhiding job: ' + error.message);
     }
   });
 
   document.body.appendChild(modal);
 }
  
+
+
+function editJobPosting(job, job_id) {
+  // Modal overlay
+  const modal = document.createElement('section');
+  modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50';
+
+  // Modal content wrapper
+  const modalContent = document.createElement('section');
+  modalContent.className = 'bg-white p-8 rounded shadow-md max-w-4xl w-full relative overflow-y-auto max-h-[90vh]';
+
+  // Close button
+  const closeButton = document.createElement('button');
+  closeButton.textContent = '×';
+  closeButton.className = 'absolute top-2 right-4 text-2xl text-gray-600 hover:text-gray-800';
+  closeButton.addEventListener('click', () => modal.remove());
+  modalContent.appendChild(closeButton);
+
+  // Article container
+  const article = document.createElement('article');
+  article.className = 'bg-white';
+
+  // Helper to create labeled fields
+  function createField(labelText, inputElement, required = true) {
+    const section = document.createElement('section');
+    section.className = 'mb-4';
+
+    const label = document.createElement('label');
+    label.className = 'block text-gray-700 font-semibold mb-2';
+    label.textContent = labelText;
+    label.htmlFor = inputElement.id;
+
+    if (required) inputElement.required = true;
+
+    section.appendChild(label);
+    section.appendChild(inputElement);
+    return section;
+  }
+
+  // Job Title
+  const jobTitleInput = document.createElement('input');
+  jobTitleInput.type = 'text';
+  jobTitleInput.id = 'jobTitle';
+  jobTitleInput.name = 'job_title';
+  jobTitleInput.placeholder = 'e.g. UI/UX Designer';
+  jobTitleInput.className = 'w-full border border-gray-300 p-2 rounded';
+  jobTitleInput.value = job.job_title || '';
+  article.appendChild(createField('Job Title*', jobTitleInput));
+
+  // Job Description
+  const jobDescriptionTextarea = document.createElement('textarea');
+  jobDescriptionTextarea.id = 'jobDescription';
+  jobDescriptionTextarea.name = 'job_description';
+  jobDescriptionTextarea.placeholder = 'Describe the job...';
+  jobDescriptionTextarea.className = 'w-full border border-gray-300 p-2 rounded';
+  jobDescriptionTextarea.value = job.job_description || '';
+  article.appendChild(createField('Job Description*', jobDescriptionTextarea));
+
+  // Job Requirements
+  const jobRequirementsTextarea = document.createElement('textarea');
+  jobRequirementsTextarea.id = 'jobRequirements';
+  jobRequirementsTextarea.name = 'job_requirements';
+  jobRequirementsTextarea.placeholder = 'List required skills, separated by commas';
+  jobRequirementsTextarea.className = 'w-full border border-gray-300 p-2 rounded';
+  jobRequirementsTextarea.value = job.job_requirements || '';
+  article.appendChild(createField('Job Requirements*', jobRequirementsTextarea));
+
+  // Job Category Select
+  const jobCategorySelect = document.createElement('select');
+  jobCategorySelect.id = 'jobCategory';
+  jobCategorySelect.name = 'job_category';
+  jobCategorySelect.className = 'w-full border border-gray-300 p-2 rounded';
+  const categories = ['IT', 'Marketing', 'Finance', 'Design', 'Education', 'Healthcare', 'Construction', 'Other'];
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = 'Select a category';
+  jobCategorySelect.appendChild(defaultOption);
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    if (job.job_category === cat) opt.selected = true;
+    jobCategorySelect.appendChild(opt);
+  });
+  article.appendChild(createField('Job Category*', jobCategorySelect));
+
+  // Location Select
+  const locationCategorySelect = document.createElement('select');
+  locationCategorySelect.id = 'locationCategory';
+  locationCategorySelect.name = 'location_category';
+  locationCategorySelect.className = 'w-full border border-gray-300 p-2 rounded';
+  const location_categories = ['Gauteng', 'Limpopo', 'Mpumalanga', 'North West', 'KwaZulu-Natal', 'Free State', 'Eastern Cape', 'Northern Cape', 'Western Cape', 'Remote', 'Other'];
+  const defaultLoc = document.createElement('option');
+  defaultLoc.value = '';
+  defaultLoc.textContent = 'Select a category';
+  locationCategorySelect.appendChild(defaultLoc);
+  location_categories.forEach(loc => {
+    const opt = document.createElement('option');
+    opt.value = loc;
+    opt.textContent = loc;
+    if (job.location_category === loc) opt.selected = true;
+    locationCategorySelect.appendChild(opt);
+  });
+  article.appendChild(createField('Location Category*', locationCategorySelect));
+
+  // Total Pay
+  const totalPayInput = document.createElement('input');
+  totalPayInput.type = 'number';
+  totalPayInput.id = 'totalPay';
+  totalPayInput.name = 'total_pay';
+  totalPayInput.min = '0';
+  totalPayInput.placeholder = 'e.g. 1000';
+  totalPayInput.className = 'w-full border border-gray-300 p-2 rounded';
+  totalPayInput.value = job.total_pay || '';
+  article.appendChild(createField('Total Pay*', totalPayInput));
+
+  // Duration
+  const totalDuration = document.createElement('input');
+  totalDuration.type = 'number';
+  totalDuration.id = 'totalDuration';
+  totalDuration.name = 'total_duration';
+  totalDuration.min = '0';
+  totalDuration.placeholder = 'e.g. 12';
+  totalDuration.className = 'w-full border border-gray-300 p-2 rounded';
+  totalDuration.value = job.total_duration || 12;
+  article.appendChild(createField('Duration in Months*', totalDuration));
+
+  // Submit Button
+  const footer = document.createElement('footer');
+  const postJobButton = document.createElement('button');
+  postJobButton.id = 'updateJobBtn';
+  postJobButton.type = 'submit';
+  postJobButton.textContent = 'Update Job';
+  postJobButton.className = 'bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded';
+  footer.appendChild(postJobButton);
+  article.appendChild(footer);
+
+  // Form handling
+  postJobButton.addEventListener('click', async (e) => {
+    e.preventDefault();
+    postJobButton.disabled = true;
+    postJobButton.textContent = 'Updating...';
+
+    const data = {
+      client_id: job.client_id,
+      job_title: jobTitleInput.value.trim(),
+      job_description: jobDescriptionTextarea.value.trim(),
+      job_requirements: jobRequirementsTextarea.value.trim(),
+      job_category: jobCategorySelect.value,
+      taken_status:job.taken_status,
+      location_category: locationCategorySelect.value,
+      total_pay: parseFloat(totalPayInput.value),
+      isHidden: job.isHidden,
+      duration_months: parseInt(totalDuration.value)
+    };
+
+    try {
+      const res = await fetch(`http://localhost:3000/job/update-job/${job_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Failed to update job');
+
+      alert('Job updated successfully!');
+      modal.remove();
+      showJobDetails(job_id)
+    } catch (err) {
+      alert('Error updating job: ' + err.message);
+    } finally {
+      postJobButton.disabled = false;
+      postJobButton.textContent = 'Update Job';
+    }
+  });
+
+  modalContent.appendChild(article);
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+}
+
+

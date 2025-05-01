@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const jobRequirementsTextarea = document.createElement('textarea');
         jobRequirementsTextarea.id = 'jobRequirements';
         jobRequirementsTextarea.name = 'job_requirements';
-        jobRequirementsTextarea.placeholder = 'List required skills, experience...';
+        jobRequirementsTextarea.placeholder = 'List required skills, experience, THey must be separated by a comma';
         jobRequirementsTextarea.className = 'w-full border border-gray-300 p-2 rounded';
         article.appendChild(createField('Job Requirements*', jobRequirementsTextarea));
       
@@ -86,6 +86,37 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       
         article.appendChild(createField('Job Category*', jobCategorySelect));
+
+        // Location Selection
+        const locationCategorySelect = document.createElement('select');
+        locationCategorySelect.id = 'locationCategory';
+        locationCategorySelect.name = 'location_category';
+        locationCategorySelect.className = 'w-full border border-gray-300 p-2 rounded';
+      
+        const location_categories = [
+          { value: '', text: 'Select a category' },
+          { value: 'Gauteng', text: 'Gauteng' },
+          { value: 'Limpopo', text: 'Limpopo' },
+          { value: 'Mpumalanga', text: 'Mpumalanga' },
+          { value: 'North West', text: 'North West' },
+          { value: 'KwaZulu-Natal', text: 'KwaZulu-Natal' },
+          { value: 'Free State', text: 'Free State' },
+          { value: 'Eastern Cape', text: 'Eastern Cape' },
+          { value: 'Northern Cape', text: 'Northern Cape' },
+          { value: 'Western Cape', text: 'Western Cape' },
+          { value: 'Remote', text: 'Remote' },
+          { value: 'Other', text: 'Other' }
+        ];
+      
+        location_categories.forEach(opt => {
+          const option = document.createElement('option');
+          option.value = opt.value;
+          option.textContent = opt.text;
+          locationCategorySelect.appendChild(option);
+        });
+      
+        article.appendChild(createField('Location Category*', locationCategorySelect));
+
       
         // Total Pay
         const totalPayInput = document.createElement('input');
@@ -96,6 +127,16 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPayInput.placeholder = 'e.g. 1000';
         totalPayInput.className = 'w-full border border-gray-300 p-2 rounded';
         article.appendChild(createField('Total Pay*', totalPayInput));
+
+        // Duration in months
+        const totalDuration = document.createElement('input');
+        totalDuration.type = 'number';
+        totalDuration.id = 'totalDuration';
+        totalDuration.name = 'total_duration';
+        totalDuration.min = '0';
+        totalDuration.placeholder = 'e.g. 12';
+        totalDuration.className = 'w-full border border-gray-300 p-2 rounded';
+        article.appendChild(createField('Duration in Months*', totalDuration));
       
         // Submit Button
         const footer = document.createElement('footer');
@@ -109,14 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
       
         // Append the complete article to the section
         displaySection.appendChild(article);
-      }
 
-      buildJobPostForm();
-
-
-
-
-  const btnSubmit = document.getElementById("jpostJobBtn");
+        const btnSubmit = document.getElementById("jpostJobBtn");
   let uid = sessionStorage.getItem('firebaseId');
 
   btnSubmit.addEventListener('click', async (e) => {
@@ -139,6 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
               job_description: document.getElementById("jobDescription").value.trim(),
               job_requirements: document.getElementById("jobRequirements").value.trim(),
               job_category: document.getElementById("jobCategory").value,
+              location_category: document.getElementById("locationCategory").value,
+              duration_months: parseInt(document.getElementById("totalDuration").value),
               total_pay: totalPay,
               taken_status: false
           };
@@ -175,6 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("jobRequirements").value = "";
           document.getElementById("jobCategory").value = "";
           document.getElementById("totalPay").value = "";
+          document.getElementById("locationCategory").value = "";
+          document.getElementById("totalDuration").value = "";
 
       } catch (err) {
           console.error("Job posting failed:", err);
@@ -185,6 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
           btnSubmit.textContent = "Post Job";
       }
   });
+}
+
+  buildJobPostForm();
+
+
+
+
+  
 
   function setActiveLink(activeId) {
     // Remove active classes from all links

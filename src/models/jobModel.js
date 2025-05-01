@@ -40,6 +40,15 @@ const JobSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  location_category: {
+    type: String,
+    default: 'Other',
+  },
+  duration_months: {
+    type: Number,
+    required: true,
+    min: 1,
+  }
 }, {
   timestamps: true,
 });
