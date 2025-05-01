@@ -18,6 +18,12 @@ const userSchema = new Schema({
         required:true,
         enum: ['admin', 'user', 'client'] 
 
+    },
+    about:{
+        type:String
+    },
+    skills:{
+        type: String
     }
 }, { timestamps: true});
 
