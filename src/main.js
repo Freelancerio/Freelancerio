@@ -48,12 +48,12 @@ app.get('/profile-user', (req,res) => {
 
 // Render the client jobs page
 app.get('/client-jobs', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/client-jobs.html'))
+  res.sendFile(path.join(__dirname,'../public/pages/client-home.html'))
 });
 
 // Render the client jobs page
 app.get('/view-freelancer', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/freelancer-view.html'))
+  res.sendFile(path.join(__dirname,'../public/pages/client-home.html'))
 });
 
 // Render the job single page of the freelancer
@@ -89,3 +89,4 @@ mongoose.connect(db_url)
     });
   })
   .catch((err) => console.log(err));
+

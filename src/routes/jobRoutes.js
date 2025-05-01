@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { addJob, removeJob, singleJob, allJobs, allJobsByUser } = require('../controllers/jobController');
+const { addJob, removeJob, singleJob, allJobs, allJobsByUser, setIsHidden } = require('../controllers/jobController');
 
 // Job routes
 router.post('/add-job',addJob);
-router.delete('/remove-job',removeJob);
+router.delete('/remove-job/:jobId',removeJob);
 router.get('/single-job/:jobId',singleJob);
 router.get('/all-jobs',allJobs);
 router.get('/all-jobs/:userid',allJobsByUser);
+router.put('/set-hidden-status/:jobId',setIsHidden);
 
 module.exports = router;

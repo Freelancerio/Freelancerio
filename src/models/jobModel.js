@@ -32,6 +32,10 @@ const JobSchema = new Schema({
     required: true,
     min: 0,
   },
+  isHidden: {
+    type: Boolean,
+    default: false,
+  },
   taken_status: {
     type: Boolean,
     default: false,

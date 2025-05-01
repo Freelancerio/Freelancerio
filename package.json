@@ -16,7 +16,7 @@
     "expree": "^2.1.0",
     "express": "^5.1.0",
     "firebase-admin": "^13.2.0",
-    "mongoose": "^8.13.2"
+    "mongoose": "^8.14.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",
