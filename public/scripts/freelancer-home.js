@@ -43,9 +43,9 @@ function createJobItem(job) {
     dl.classList.add('job-details');
   
     const details = [
-      { label: 'Location', value: "South Africa", iconClass: 'icon-location' },
+      { label: 'Location', value: job.location_category, iconClass: 'icon-location' },
       { label: 'Rate', value: job.total_pay, iconClass: 'icon-rate' },
-      { label: 'Duration', value: "1 Year", iconClass: 'icon-duration' },
+      { label: 'Duration', value: `${job.duration_months} Months`, iconClass: 'icon-duration' },
     ];
   
     details.forEach(detail => {
