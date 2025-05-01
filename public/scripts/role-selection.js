@@ -1,40 +1,39 @@
 let selectedRole = null;
 
-//get the role 
 const clientSelected = document.getElementById("Hiring_Comp_box");
-const FreelancerSelected = document.getElementById("Freelancer_box");
+const freelancerSelected = document.getElementById("Freelancer_box");
 
-//add eventlisteners
-clientSelected.addEventListener('click', () =>{
+// Add click event listeners
+clientSelected.addEventListener('click', () => {
     selectedRole = "client";
+    clientSelected.classList.add("selected-role");
+    freelancerSelected.classList.remove("selected-role");
 });
 
-FreelancerSelected.addEventListener('click', () =>{
+freelancerSelected.addEventListener('click', () => {
     selectedRole = "user";
+    freelancerSelected.classList.add("selected-role");
+    clientSelected.classList.remove("selected-role");
 });
 
-
-// Form submission handler
+// Handle form submission
 document.getElementById('submit').addEventListener('click', async (e) => {
-    e.preventDefault();  // Prevent form from reloading the page
+    e.preventDefault();
 
-    // Check if role is selected
     if (!selectedRole) {
         alert("Please select a user type.");
         return;
     }
 
-    // Store the role in sessionStorage
     sessionStorage.setItem('role', selectedRole);
-    
-    // Send the data to the server (using the Firebase ID and token if required)
+
     const firebaseId = sessionStorage.getItem('firebaseId');
     const idToken = sessionStorage.getItem('idToken');
     const providerId = sessionStorage.getItem('provider');
 
     const data = {
         firebaseId: firebaseId,
-        provider : providerId,
+        provider: providerId,
         role: selectedRole,
     };
 
@@ -43,7 +42,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${idToken}`, // Firebase ID token
+                Authorization: `Bearer ${idToken}`,
             },
             body: JSON.stringify(data),
         });
@@ -53,8 +52,6 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         }
 
         const responseData = await response.json();
-
-        // Redirect to another page after successful submission
         window.location.href = responseData.RedirectTo;
     } catch (error) {
         console.error("Error:", error);

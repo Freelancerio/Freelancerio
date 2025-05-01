@@ -1,246 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../styles/freelancerprofile.css">
+  <meta name="description" content="Update your freelancer profile information">
   <title>Freelancer Profile Update</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    /* reset & base */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6; color: #333;
-      background: #F3F9FF;
-    }
-
-    /* header/nav */
-    .site-header {
-      background: #fff; padding: 1rem 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .main-nav ul {
-      display: flex; gap: 2rem; list-style: none;
-    }
-    .main-nav a {
-      text-decoration: none; color: #333; font-weight: 500;
-      transition: color 0.2s;
-    }
-    .main-nav a:hover { color: #007bff; }
-
-    /* main content */
-    .main-content {
-      display: flex; justify-content: center;
-      padding: 2rem;
-    }
-    .jobs-container {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      max-width: 900px;
-      width: 100%;
-      padding: 2rem;
-    }
-    .jobs-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .jobs-header h1 {
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-    }
-    .jobs-header p {
-      color: #666;
-    }
-
-    /* job listings */
-    .job-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .job {
-      border: 1px solid #e3e8ef;
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .job:hover {
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    /* job header */
-    .job-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .job-title-group {
-      display: flex;
-      flex-direction: column;
-    }
-    .job-title {
-      font-size: 1.25rem;
-      color: #1a1a1a;
-    }
-    .company {
-      display: block;
-      font-size: 0.95rem;
-      color: #007bff;
-      margin-top: 0.25rem;
-      text-decoration: none;
-    }
-    .apply-button {
-      background: #006BFF;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .apply-button:hover { background: #0056cc; }
-
-    /* job details */
-    .job-details {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .job-details dt {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    .job-details dd {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    .icon-location::before { content: "📍"; }
-    .icon-rate::before     { content: "💲"; }
-    .icon-duration::before { content: "⏱"; }
-
-    /* description */
-    .job-description {
-      font-size: 0.95rem;
-      color: #333;
-      line-height: 1.4;
-    }
-
-    /* tags */
-    .skill-tags {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .skill-tag {
-      background: #EAF2FF;
-      color: #006BFF;
-      padding: 0.35rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-    }
-
-    /* pagination */
-    .pagination {
-      margin-top: 1rem;
-      text-align: center;
-    }
-    .view-more {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    .view-more:hover { background: #0056b3; }
-
-    /* responsive */
-    @media (max-width: 600px) {
-      .job-header { flex-direction: column; align-items: stretch; gap: 1rem; }
-      .apply-button { width: 100%; text-align: center; }
-    }
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
 
-  <header class="site-header">
-    <nav class="main-nav">
-      <ul class="flex space-x-8">
-        <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
-        <li><a href="/freelancer-home">Jobs</a></li>
-        <li><a href="/profile-user">Profile</a></li>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+  <header class="bg-white shadow-sm">
+    <nav class="max-w-7xl mx-auto px-4 py-3" aria-label="Main navigation">
+      <ul class="flex space-x-6 items-center">
+        <li><a href="/freelancer-home" id="user-name" >Welcome John</a></li>
+        <li><a href="/freelancer-home" class="hover:text-blue-600 transition-colors">Jobs</a></li>
+        <li><a href="/profile-user" class="font-medium text-blue-600 hover:text-blue-700 transition-colors" aria-current="page">Profile</a></li>
+        <li><a href="/" class="hover:text-blue-600 transition-colors">Logout</a></li>
       </ul>
+
+      
     </nav>
   </header>
 
-  <section id="user-details" class="max-w-3xl mx-auto p-6">
-    <!-- User Profile Section -->
-    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
-      <div class="flex justify-center mb-6">
-        <img id="user-profile-picture" src="" alt="Profile Picture" class="rounded-full w-32 h-32 object-cover border-4 border-blue-500">
-      </div>
-      <h2 id="user-name-display" class="text-2xl font-semibold text-gray-900">Loading...</h2>
-      <p id="user-email" class="text-lg text-gray-600">Loading...</p>
-    </div>
-  </section>
+  <main class="flex-grow max-w-4xl mx-auto my-8 px-4 w-full">
+    <article class="bg-white shadow rounded-xl p-6">
+      <header class="text-center mb-10">
+        <figure class="flex justify-center mb-4">
+          <!-- we will probably have the company logo here -->
+          <img id="user-profile-picture" src="" alt="Profile picture" 
+               class="rounded-full w-32 h-32 border-4 border-blue-100 object-cover shadow-md">
+        </figure>
 
-  <footer class="bg-gray-200 text-center py-6">
-    <p class="footer-bottom">© 2025 Freelancerio. All rights reserved.</p>
+        <h1 id="profile-heading" class="text-3xl font-bold mb-1 text-gray-900">Your Profile</h1>
+        <p id="user-name-display" class="text-xl font-semibold text-gray-800">Loading...</p>
+        <p id="user-email" class="text-sm text-gray-500">Loading...</p>
+      </header>
+
+      <section aria-labelledby="edit-heading">
+        <h2 id="edit-heading" class="text-2xl font-semibold mb-6 text-gray-900 border-b pb-2">Update Your Details</h2>
+        <form id="update-profile-form" class="space-y-6">
+          <section  class="grid md:grid-cols-2 gap-6">
+            <section>
+              <!-- <label for="name" class="block font-medium text-gray-700 mb-1"></label> -->
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required
+                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            </section>
+
+            <section>
+              <!-- <label for="email" class="block font-medium text-gray-700 mb-1"></label> -->
+              <input type="email" id="email" name="email" placeholder="Enter your email" required
+                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            </section>
+          </section>
+
+          <section>
+            <label for="experience" class="block font-medium text-gray-700 mb-1">Work Experience</label>
+            <textarea id="experience" name="experience" rows="4" placeholder="Summarize your work experience"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+          </section>
+
+          <section>
+            <label for="experience" class="block font-medium text-gray-700 mb-1">Skills</label>
+            <textarea id="experience" name="experience" rows="4" placeholder="list your skills sepearated by a comma (e.g python,java,etc)"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+          </section>
+
+          <section>
+            <label for="about" class="block font-medium text-gray-700 mb-1">About You</label>
+            <textarea id="about" name="about" rows="4" placeholder="Tell us about yourself"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+          </section>
+
+          <section class="flex justify-end">
+            <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors shadow-md font-medium">
+              <i class="fas fa-save mr-2" aria-hidden="true"></i> Save Changes
+            </button>
+          </section>
+        </form>
+      </section>
+    </article>
+  </main>
+
+  <footer class="bg-gray-100 text-center py-6 mt-12">
+    <p class="text-gray-600">&copy; 2025 Freelancerio. All rights reserved.</p>
   </footer>
 
   <script>
-    // Fetch user details from Firebase
-    document.addEventListener('DOMContentLoaded', async () => {
-      let user = true;
+    document.addEventListener('DOMContentLoaded', () => {
+      const name = sessionStorage.getItem("display-name") || "Unknown User";
+      const email = sessionStorage.getItem("email") || "No email available";
+      const photo = sessionStorage.getItem("photoURL") || "https://www.gravatar.com/avatar/default?s=200&d=mp";
 
-      document.getElementById("user-name").textContent = `${sessionStorage.getItem("display-name")}`
+      document.getElementById("user-name").textContent = `Welcome ${name}`;
+      document.getElementById("user-name-display").textContent = name;
+      document.getElementById("user-email").textContent = email;
+      document.getElementById("user-profile-picture").src = photo; //its a const, do not remove it, its the avatar
 
-      if (user) {
-        // Populate the user profile details
-        document.getElementById('user-name-display').textContent = sessionStorage.getItem("display-name") || "Unknown user";
-        document.getElementById('user-email').textContent = sessionStorage.getItem("email")  || "No email available";
+      // Pre-fill form fields
+      document.getElementById("name").value = name;
+      document.getElementById("email").value = email;
 
-        // Display the profile picture
-        document.getElementById('user-profile-picture').src = sessionStorage.getItem("photoURL")  || 'https://www.example.com/default-profile.jpg';
-      } else {
-        // If no user is logged in, display a fallback message
-        document.getElementById('user-name-display').textContent = "Guest";
-        document.getElementById('user-email').textContent = "Not logged in";
-        document.getElementById('user-profile-picture').src = 'https://www.example.com/default-profile.jpg';
-      }
+      // Handle form submission
+      document.getElementById("update-profile-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalContent = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2" aria-hidden="true"></i> Saving...';
+        submitBtn.disabled = true;
+        
+        // Simulate API call
+        setTimeout(() => {
+          submitBtn.innerHTML = '<i class="fas fa-check mr-2" aria-hidden="true"></i> Saved!';
+          submitBtn.classList.replace('bg-blue-500', 'bg-green-500');
+          submitBtn.classList.replace('hover:bg-blue-600', 'hover:bg-green-600');
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            submitBtn.innerHTML = originalContent;
+            submitBtn.classList.replace('bg-green-500', 'bg-blue-500');
+            submitBtn.classList.replace('hover:bg-green-600', 'hover:bg-blue-600');
+            submitBtn.disabled = false;
+          }, 2000);
+        }, 1500);
+      });
     });
   </script>
-
 </body>
 </html>
