@@ -161,7 +161,7 @@
             applyButton.classList.add('button-active');
 
             // Check if user is logged in (you can implement actual auth check)
-            const isLoggedIn = localStorage.getItem('user_token'); // example auth check
+            const isLoggedIn = localStorage.getItem(`user_token`);
 
             if (!isLoggedIn) {
               // If not logged in, redirect to login page with return URL
@@ -169,6 +169,8 @@
               window.location.href = `/?redirect=${returnUrl}`;
               return;
             }
+            console.log("Here is the isLogged const " + isLoggedIn);
+            console.log("Here is the jobId const " + jobId);
 
             // If logged in, redirect to application page with job ID using the cleaner URL structure
             window.location.href = `/apply?jobId=${jobId}`;

@@ -64,21 +64,22 @@ app.get('/job-details', (req, res) => {
 // Render the apply page to apply for a job
 app.get('/apply', (req, res) => {
   // The jobId will be available as req.query.jobId
-  const jobId = req.query.jobId;
+  // const jobId = req.query.jobId;
+  const jobId = sessionStorage.firebaseId;
 
   if (!jobId) {
     // Redirect to jobs listing if no job ID is provided
     return res.redirect('/freelancer-home');
   }
-  
 
   console.log('Job application started for job ID:', jobId);
 
-  res.sendFile(path.join(__dirname, `../public/pages/home.html`));
+
+  res.sendFile(path.join(__dirname, 'public/pages/apply.html'));
 });
 
 app.get('/freelancer-home', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/pages/applys.html'));
+  res.sendFile(path.join(__dirname, '../public/pages/home.html'));
 });
 
 // Render the home page => this is the page where the user lands when they are successfully logged in
