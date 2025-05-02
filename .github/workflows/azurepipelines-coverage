@@ -1,0 +1,17 @@
+name: codecoverage
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  runs-on: ubuntu-latest
+
+  build:
+  coverage:
+    status:
+      comments: on
+      diff:
+        target: 60%
