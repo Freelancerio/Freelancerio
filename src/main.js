@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 
 // Middleware to parse JSON data in request body
 app.use(express.json());
@@ -41,28 +41,44 @@ app.get('/client-home', (req, res) => {
 });
 
 // Render the profile page of the freelancer
-app.get('/profile-user', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/profile-user.html'))
+app.get('/profile-user', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/profile-user.html'))
 });
 
 
 // Render the client jobs page
-app.get('/client-jobs', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/client-jobs.html'))
+app.get('/client-jobs', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/client-jobs.html'))
 });
 
 // Render the client jobs page
-app.get('/view-freelancer', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/freelancer-view.html'))
+app.get('/view-freelancer', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/freelancer-view.html'))
 });
 
 // Render the job single page of the freelancer
-app.get('/job-details', (req,res) => {
-  res.sendFile(path.join(__dirname,'../public/pages/single-job-post.html'))
+app.get('/job-details', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/single-job-post.html'))
+});
+
+// Render the apply page to apply for a job
+app.get('/apply', (req, res) => {
+  // The jobId will be available as req.query.jobId
+  const jobId = req.query.jobId;
+
+  if (!jobId) {
+    // Redirect to jobs listing if no job ID is provided
+    return res.redirect('/freelancer-home');
+  }
+  
+
+  console.log('Job application started for job ID:', jobId);
+
+  res.sendFile(path.join(__dirname, `../public/pages/home.html`));
 });
 
 app.get('/freelancer-home', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/pages/home.html'));
+  res.sendFile(path.join(__dirname, '../public/pages/applys.html'));
 });
 
 // Render the home page => this is the page where the user lands when they are successfully logged in
@@ -85,7 +101,7 @@ const db_url = "mongodb+srv://freelance-io-admin:freelance-io-admin@freelanceio-
 mongoose.connect(db_url)
   .then((result) => {
     app.listen(port, () => {
-       console.log(`Server is running on http://localhost:${port}`);
+      console.log(`Server is running on http://localhost:${port}`);
     });
   })
   .catch((err) => console.log(err));

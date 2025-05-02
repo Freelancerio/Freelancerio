@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/clienthomepage.css">
-    <title>Freelancerio - Client Dashboard</title>
-
+    <title>FreelancerIO - Client Dashboard</title>
 </head>
 
 <body>
@@ -50,11 +49,9 @@
             <article class="avatar">JD</article>
             <kbd>John Doe - Microsoft Admin</kbd>
         </article>
-
     </section>
 
     <section class="container">
-
         <section class="welcome-header">
             <article class="welcome-message">
                 <h1>Welcome back, John!</h1>
@@ -64,7 +61,6 @@
                 <kbd>+</kbd> Post a New Job
             </button>
         </section>
-
 
         <section class="stats-cards">
             <section class="stat-card">
@@ -89,7 +85,6 @@
             </section>
         </section>
 
-
         <h2 class="section-title">Recent Job Applications</h2>
         <section class="applications-list">
             <section class="application-item">
@@ -111,8 +106,8 @@
                     </section>
                 </section>
                 <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
+                    <button class="view-btn" onclick="viewProfile('amanda-rodriguez')">View Profile</button>
+                    <button class="review-btn" onclick="reviewApplication('amanda-rodriguez', 'Frontend Developer for E-commerce Redesign')">Review Application</button>
                 </section>
             </section>
             <section class="application-item">
@@ -134,8 +129,8 @@
                     </section>
                 </section>
                 <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
+                    <button class="view-btn" onclick="viewProfile('michael-smith')">View Profile</button>
+                    <button class="review-btn" onclick="reviewApplication('michael-smith', 'UI/UX Designer for Mobile App')">Review Application</button>
                 </section>
             </section>
             <section class="application-item">
@@ -157,12 +152,11 @@
                     </section>
                 </section>
                 <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
+                    <button class="view-btn" onclick="viewProfile('james-lee')">View Profile</button>
+                    <button class="review-btn" onclick="reviewApplication('james-lee', 'Backend Developer for API Integration')">Review Application</button>
                 </section>
             </section>
         </section>
-
 
         <h2 class="section-title">Current Freelancers</h2>
         <section class="freelancers-section">
@@ -191,7 +185,6 @@
                 <button class="view-btn">Message</button>
             </section>
         </section>
-
 
         <h2 class="section-title">Active Jobs</h2>
         <section class="current-jobs-section">
@@ -254,7 +247,6 @@
         </section>
     </section>
 
-
     <section id="postJobModal" class="modal">
         <section class="modal-content">
             <article class="close" onclick="closeModal()">&times;</article>
@@ -286,7 +278,7 @@
         <section class="footer-content">
             <!-- Company Info -->
             <article class="company-info">
-                <h2>Freelancerio</h2>
+                <h2>FreelancerIO</h2>
                 <p class="company-description">
                     The complete platform for managing freelance work, from job postings to payments and everything in
                     between.
@@ -335,13 +327,11 @@
 
         <!-- Copyright -->
         <section class="footer-bottom">
-            <p>© 2025 Freelancerio. All rights reserved.</p>
+            <p>© 2025 FreelancerIO. All rights reserved.</p>
         </section>
     </footer>
 
     <script>
-
-
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
         const body = document.body;
@@ -350,7 +340,6 @@
             sidebar.classList.toggle('open');
             body.classList.toggle('sidebar-open');
         });
-
 
         document.addEventListener('click', function (event) {
             const isClickInsideSidebar = sidebar.contains(event.target);
@@ -362,7 +351,6 @@
             }
         });
 
-
         const modal = document.getElementById("postJobModal");
 
         function openModal() {
@@ -373,13 +361,11 @@
             modal.style.display = "none";
         }
 
-
         window.onclick = function (event) {
             if (event.target == modal) {
                 closeModal();
             }
         }
-
 
         document.getElementById("jobForm").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -387,5 +373,22 @@
             alert("Job posted successfully!");
             closeModal();
         });
+
+        // Functions for handling View Profile and Review Application buttons
+        function viewProfile(freelancerId) {
+            // Store the freelancer ID in localStorage to retrieve it on the profile page
+            localStorage.setItem('currentFreelancer', freelancerId);
+            // Navigate to the profile page
+            window.location.href = '/freelancer-profile.html';
+        }
+
+        function reviewApplication(freelancerId, jobTitle) {
+            // Store the freelancer ID and job title in localStorage
+            localStorage.setItem('applicationFreelancer', freelancerId);
+            localStorage.setItem('applicationJob', jobTitle);
+            // Navigate to the application review page
+            window.location.href = '/review-application.html';
+        }
     </script>
 </body>
+</html>

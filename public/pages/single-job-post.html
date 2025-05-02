@@ -7,6 +7,7 @@
   <title>Job Details</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../scripts/job-details.js"></script>
+
   <style>
     /* Apply button styles */
     #apply-button {
@@ -139,9 +140,43 @@
           skillsContainer.appendChild(tag);
         });
 
-        // Apply button action
-        document.getElementById('apply-button').addEventListener('click', () => {
-          window.location.href = `apply.html?jobId=${job._id}`; // Adjust the apply link as necessary
+        // // Apply button action
+        // document.getElementById('apply-button').addEventListener('click', () => {
+        //   window.location.href = `apply.html?jobId=${job._id}`; // Adjust the apply link as necessary
+        // });
+
+        // Updated apply button handler to match the cleaner URL structure
+        document.getElementById('apply-button').addEventListener('click', async () => {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const jobId = params.get('id');
+
+            if (!jobId) {
+              alert('Job ID not found. Cannot proceed with application.');
+              return;
+            }
+
+            // Visual feedback on button click
+            const applyButton = document.getElementById('apply-button');
+            applyButton.classList.add('button-active');
+
+            // Check if user is logged in (you can implement actual auth check)
+            const isLoggedIn = localStorage.getItem('user_token'); // example auth check
+
+            if (!isLoggedIn) {
+              // If not logged in, redirect to login page with return URL
+              const returnUrl = encodeURIComponent(window.location.href);
+              window.location.href = `/?redirect=${returnUrl}`;
+              return;
+            }
+
+            // If logged in, redirect to application page with job ID using the cleaner URL structure
+            window.location.href = `/apply?jobId=${jobId}`;
+
+          } catch (error) {
+            console.error('Error handling application:', error);
+            alert('An error occurred while processing your application. Please try again later.');
+          }
         });
 
       } catch (error) {

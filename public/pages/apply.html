@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply for Job</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../styles/apply.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+  <header class="bg-blue-600 text-white p-6">
+    <div class="max-w-4xl mx-auto">
+      <h1 id="job-title" class="text-3xl font-semibold">Apply for <span id="job-title-text">Loading...</span></h1>
+      <p id="company-name" class="text-xl mt-2">Company: <span id="company-name-text">Loading...</span></p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Job Summary Section -->
+    <section class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">Job Summary</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <p class="text-gray-700"><strong>Category:</strong> <span id="job-category" class="font-medium"></span></p>
+        <p class="text-gray-700"><strong>Rate:</strong> R<span id="total-pay" class="font-medium"></span></p>
+        <p class="text-gray-700"><strong>Location:</strong> South Africa</p>
+        <p class="text-gray-700"><strong>Duration:</strong> 1 Year</p>
+      </div>
+    </section>
+
+    <!-- Application Form Section -->
+    <section class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">Your Application</h2>
+      <form id="application-form">
+        <input type="hidden" id="job-id" name="jobId">
+
+        <div class="mb-4">
+          <label for="full-name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+          <input type="text" id="full-name" name="fullName" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+          <input type="email" id="email" name="email" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="cover-letter" class="block text-gray-700 font-medium mb-2">Cover Letter</label>
+          <textarea id="cover-letter" name="coverLetter" rows="5" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="resume" class="block text-gray-700 font-medium mb-2">Upload Resume/CV</label>
+          <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p class="text-sm text-gray-500 mt-1">Accepted file types: PDF, DOC, DOCX (Max 5MB)</p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">Skills Match</label>
+          <div id="skills-container" class="flex flex-wrap gap-2 mb-2"></div>
+          <div class="mb-4">
+            <label for="additional-skills" class="block text-gray-700 font-medium mb-2">Additional Skills</label>
+            <textarea id="additional-skills" name="additionalSkills" rows="3"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="List any additional skills relevant to this job"></textarea>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="expected-rate" class="block text-gray-700 font-medium mb-2">Expected Rate (R)</label>
+          <input type="number" id="expected-rate" name="expectedRate" required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <p class="text-sm text-gray-500 mt-1">Suggested rate: R<span id="suggested-rate"></span></p>
+        </div>
+
+        <div class="mb-6">
+          <label class="flex items-center">
+            <input type="checkbox" required class="mr-2 form-checkbox text-blue-600">
+            <span class="text-gray-700">I confirm that all information provided is accurate and complete</span>
+          </label>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <button type="submit" id="submit-application" 
+            class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">
+            Submit Application
+          </button>
+          <a href="javascript:history.back()" 
+            class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition duration-300">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white p-6 mt-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <p>© 2025 Freelancer Platform. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+      <h3 class="text-2xl font-bold text-gray-900 mb-4">Application Submitted!</h3>
+      <p class="text-gray-700 mb-6">Your application has been successfully submitted. We'll review it and get back to you soon.</p>
+      <div class="flex justify-center">
+        <button id="close-modal" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          Return to Jobs
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../scripts/apply.js"></script>
+</body>
+
+</html>
