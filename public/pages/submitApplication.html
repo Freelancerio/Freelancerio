@@ -1,0 +1,32 @@
+<!--This page asks permission to share the user's profile information with a specific company.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../scripts/submitApplication.js"></script>
+    <link rel="stylesheet" href="../styles/submitApplication.css">
+    <title>Application Consent</title>
+</head>
+<body>
+    <section class="consent-container">
+        <h1>🔒 Share Your Profile</h1>
+        <p class="consent-message">
+            By clicking the checkbox below, you agree to share your profile information 
+            with <span class="company-name">Company X</span>. This will allow them to view:
+            <ul class="consent-message">
+                <li>Your full profile including skills and experience</li>
+                <li>Contact information from your profile</li>
+                <li>Your previous work history and ratings</li>
+            </ul>
+        </p>
+
+        <article class="checkbox-group">
+            <input type="checkbox" id="consentCheckbox">
+            <label for="consentCheckbox">I agree to share my profile with Company X</label>
+        </article>
+
+        <button id="submitBtn">Submit Application</button>
+    </section>
+</body>
+</html>

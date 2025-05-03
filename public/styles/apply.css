@@ -93,3 +93,118 @@ body {
       margin-bottom: 10px;
     }
   }
+
+  /* Basic styles for the application form */
+
+/* Custom styling for form elements */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Skill badges styling */
+.skill-badge {
+  display: inline-block;
+  background-color: #e5edff;
+  color: #1e40af;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.skill-match {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.skill-nomatch {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Success modal animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+#success-modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+#success-modal > section {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Custom form validation styles */
+input:invalid, textarea:invalid {
+  border-color: #ef4444;
+}
+
+.error-message {
+  color: #b91c1c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .flex-wrap {
+    flex-direction: column;
+  }
+  
+  button, a {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+}
+
+/* File input styling */
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px dashed #cbd5e1;
+  background-color: #f8fafc;
+}
+
+input[type="file"]:hover {
+  background-color: #f1f5f9;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Focus styles for accessibility */
+:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Typography improvements */
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.5;
+}
+
+/* Hover effects for buttons */
+button:hover, a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+button:active, a:active {
+  transform: translateY(0);
+}

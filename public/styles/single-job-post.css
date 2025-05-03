@@ -1,0 +1,32 @@
+/* Apply button styles */
+#apply-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#apply-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Active state for button - this will remain after clicking */
+.button-active {
+    background-color: #3d8b40 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(1px) !important;
+    /* Optional: add a border to emphasize active state */
+    border: 2px solid #2e6b31 !important;
+}
+
+/* Disabled state after application is submitted */
+#apply-button:disabled {
+    background-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+}

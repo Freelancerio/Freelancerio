@@ -1,0 +1,237 @@
+    /* reset & base */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #F3F9FF;
+    }
+
+    /* header/nav */
+    .site-header {
+        background: #fff;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav ul {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+    }
+
+    .main-nav a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .main-nav a:hover {
+        color: #007bff;
+    }
+
+    /* main content */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .jobs-container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        max-width: 900px;
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .jobs-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .jobs-header h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .jobs-header p {
+        color: #666;
+    }
+
+    /* job listings */
+    .job-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .job {
+        border: 1px solid #e3e8ef;
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .job:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    /* job header */
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .job-title-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .job-title {
+        font-size: 1.25rem;
+        color: #1a1a1a;
+    }
+
+    .company {
+        display: block;
+        font-size: 0.95rem;
+        color: #007bff;
+        margin-top: 0.25rem;
+        text-decoration: none;
+    }
+
+    .apply-button {
+        background: #006BFF;
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .apply-button:hover {
+        background: #0056cc;
+    }
+
+    /* job details */
+    .job-details {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .job-details dt {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+
+    .job-details dd {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .icon-location::before {
+        content: "📍";
+    }
+
+    .icon-rate::before {
+        content: "💲";
+    }
+
+    .icon-duration::before {
+        content: "⏱";
+    }
+
+    /* description */
+    .job-description {
+        font-size: 0.95rem;
+        color: #333;
+        line-height: 1.4;
+    }
+
+    /* tags */
+    .skill-tags {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .skill-tag {
+        background: #EAF2FF;
+        color: #006BFF;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+
+    /* pagination */
+    .pagination {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .view-more {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .view-more:hover {
+        background: #0056b3;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+        .job-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+
+        .apply-button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }

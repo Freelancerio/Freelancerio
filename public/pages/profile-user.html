@@ -1,56 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles/freelancerprofile.css">
+  <link rel="stylesheet" href="../styles/profile-user.css">
   <title>Freelancer Profile Update</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     /* reset & base */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6; color: #333;
+      line-height: 1.6;
+      color: #333;
       background: #F3F9FF;
     }
 
     /* header/nav */
     .site-header {
-      background: #fff; padding: 1rem 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .main-nav ul {
-      display: flex; gap: 2rem; list-style: none;
+      display: flex;
+      gap: 2rem;
+      list-style: none;
     }
+
     .main-nav a {
-      text-decoration: none; color: #333; font-weight: 500;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
       transition: color 0.2s;
     }
-    .main-nav a:hover { color: #007bff; }
+
+    .main-nav a:hover {
+      color: #007bff;
+    }
 
     /* main content */
     .main-content {
-      display: flex; justify-content: center;
+      display: flex;
+      justify-content: center;
       padding: 2rem;
     }
+
     .jobs-container {
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       max-width: 900px;
       width: 100%;
       padding: 2rem;
     }
+
     .jobs-header {
       text-align: center;
       margin-bottom: 2rem;
     }
+
     .jobs-header h1 {
       font-size: 1.75rem;
       margin-bottom: 0.5rem;
     }
+
     .jobs-header p {
       color: #666;
     }
@@ -61,6 +84,7 @@
       flex-direction: column;
       gap: 1.5rem;
     }
+
     .job {
       border: 1px solid #e3e8ef;
       border-radius: 12px;
@@ -69,8 +93,9 @@
       flex-direction: column;
       gap: 1rem;
     }
+
     .job:hover {
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       transform: translateY(-2px);
       transition: transform 0.2s, box-shadow 0.2s;
     }
@@ -81,14 +106,17 @@
       justify-content: space-between;
       align-items: flex-start;
     }
+
     .job-title-group {
       display: flex;
       flex-direction: column;
     }
+
     .job-title {
       font-size: 1.25rem;
       color: #1a1a1a;
     }
+
     .company {
       display: block;
       font-size: 0.95rem;
@@ -96,6 +124,7 @@
       margin-top: 0.25rem;
       text-decoration: none;
     }
+
     .apply-button {
       background: #006BFF;
       color: #fff;
@@ -107,7 +136,10 @@
       text-decoration: none;
       display: inline-block;
     }
-    .apply-button:hover { background: #0056cc; }
+
+    .apply-button:hover {
+      background: #0056cc;
+    }
 
     /* job details */
     .job-details {
@@ -118,6 +150,7 @@
       font-size: 0.9rem;
       color: #555;
     }
+
     .job-details dt {
       position: absolute;
       width: 1px;
@@ -128,14 +161,24 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
+
     .job-details dd {
       display: flex;
       align-items: center;
       gap: 0.25rem;
     }
-    .icon-location::before { content: "📍"; }
-    .icon-rate::before     { content: "💲"; }
-    .icon-duration::before { content: "⏱"; }
+
+    .icon-location::before {
+      content: "📍";
+    }
+
+    .icon-rate::before {
+      content: "💲";
+    }
+
+    .icon-duration::before {
+      content: "⏱";
+    }
 
     /* description */
     .job-description {
@@ -151,6 +194,7 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
+
     .skill-tag {
       background: #EAF2FF;
       color: #006BFF;
@@ -164,6 +208,7 @@
       margin-top: 1rem;
       text-align: center;
     }
+
     .view-more {
       background: #007bff;
       color: #fff;
@@ -173,13 +218,25 @@
       font-size: 1rem;
       cursor: pointer;
     }
-    .view-more:hover { background: #0056b3; }
+
+    .view-more:hover {
+      background: #0056b3;
+    }
 
     /* responsive */
     @media (max-width: 600px) {
-      .job-header { flex-direction: column; align-items: stretch; gap: 1rem; }
-      .apply-button { width: 100%; text-align: center; }
+      .job-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+
+      .apply-button {
+        width: 100%;
+        text-align: center;
+      }
     }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -192,6 +249,7 @@
     }
   </style>
 </head>
+
 <body class="bg-gray-100">
 
   <header class="site-header">
@@ -208,7 +266,8 @@
     <!-- User Profile Section -->
     <div class="bg-white p-8 rounded-lg shadow-lg text-center">
       <div class="flex justify-center mb-6">
-        <img id="user-profile-picture" src="" alt="Profile Picture" class="rounded-full w-32 h-32 object-cover border-4 border-blue-500">
+        <img id="user-profile-picture" src="" alt="Profile Picture"
+          class="rounded-full w-32 h-32 object-cover border-4 border-blue-500">
       </div>
       <h2 id="user-name-display" class="text-2xl font-semibold text-gray-900">Loading...</h2>
       <p id="user-email" class="text-lg text-gray-600">Loading...</p>
@@ -219,28 +278,8 @@
     <p class="footer-bottom">© 2025 Freelancerio. All rights reserved.</p>
   </footer>
 
-  <script>
-    // Fetch user details from Firebase
-    document.addEventListener('DOMContentLoaded', async () => {
-      let user = true;
-
-      document.getElementById("user-name").textContent = `${sessionStorage.getItem("display-name")}`
-
-      if (user) {
-        // Populate the user profile details
-        document.getElementById('user-name-display').textContent = sessionStorage.getItem("display-name") || "Unknown user";
-        document.getElementById('user-email').textContent = sessionStorage.getItem("email")  || "No email available";
-
-        // Display the profile picture
-        document.getElementById('user-profile-picture').src = sessionStorage.getItem("photoURL")  || 'https://www.example.com/default-profile.jpg';
-      } else {
-        // If no user is logged in, display a fallback message
-        document.getElementById('user-name-display').textContent = "Guest";
-        document.getElementById('user-email').textContent = "Not logged in";
-        document.getElementById('user-profile-picture').src = 'https://www.example.com/default-profile.jpg';
-      }
-    });
-  </script>
+  <script src="../scripts/profile-user.js"></script>
 
 </body>
+
 </html>
