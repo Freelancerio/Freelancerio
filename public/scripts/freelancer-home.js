@@ -124,3 +124,6 @@ function createJobItem(job) {
 
   
   document.addEventListener('DOMContentLoaded', fetchJobs);
+  module.exports = { createJobItem };
+
+  

@@ -402,6 +402,8 @@ function createHideConfirmationModal(job_id) {
 
   document.body.appendChild(modal);
 }
+module.exports = { createJobItem };
+
  
 
 
