@@ -87,4 +87,9 @@ function createFreelancerItem(freelancer) {
     setActiveLink('post_job'); // Change the active link color
   });
 
+  if (typeof module !== 'undefined') {
+    module.exports = { createFreelancerItem };
+  }
+  
+
   

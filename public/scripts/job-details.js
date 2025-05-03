@@ -55,3 +55,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.innerHTML = '<p>Error loading job details.</p>';
   }
 });
+
+// Export only for testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { /* optionally list functions if needed */ };
+}
