@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/main.js",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "build": "echo 'No build needed'"
   },
   "keywords": [],
