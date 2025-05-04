@@ -625,7 +625,7 @@ async function viewApplications(jobId) {
   displaySection.appendChild(backButton);
 
   try {
-    const response = await fetch(`http://localhost:3000/apply/getApplicants/${jobId}`);
+    const response = await fetch(`${baseURL}/apply/getApplicants/${jobId}`);
     const applicants = await response.json();
 
     if (!Array.isArray(applicants) || applicants.length === 0) {
@@ -730,7 +730,7 @@ async function viewApplications(jobId) {
 
 const getUserDetails = async (profile_id) => {
   try {
-      const response = await fetch(`http://localhost:3000/auth/get-user/${profile_id}`);
+      const response = await fetch(`${baseURL}/auth/get-user/${profile_id}`);
       if (!response.ok) {
           throw new Error('Failed to fetch user details');
       }
