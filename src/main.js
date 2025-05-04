@@ -15,6 +15,15 @@ app.use(cors());
 // For serving static files
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Serve .mjs files with correct MIME type -> might need to remove this
+app.use('/scripts', express.static(path.join(__dirname, 'scripts'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.mjs')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
 // Import routes
 const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
