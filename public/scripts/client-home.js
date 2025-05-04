@@ -1,3 +1,5 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
 
 document.addEventListener("DOMContentLoaded", () => {
     function buildJobPostForm() {
@@ -187,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           console.log("Submitting job:", formData);
 
-          const response = await fetch("http://localhost:3000/job/add-job", {
+          const response = await fetch(`${baseURL}/job/add-job`, {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",

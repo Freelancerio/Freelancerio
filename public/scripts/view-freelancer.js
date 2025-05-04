@@ -1,3 +1,6 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 function createFreelancerItem(freelancer) {
     //const freelancerList = document.querySelector('.freelancer-list');
     const freelancerList = document.getElementById("display-section");
@@ -51,7 +54,7 @@ function createFreelancerItem(freelancer) {
     document.getElementById('client-page-heading').textContent = "View Freelancers";
     try {
       const userid = sessionStorage.getItem('firebaseId');
-      const response = await fetch(`http://localhost:3000/auth/get-users`); 
+      const response = await fetch(`${baseURL}/auth/get-users`); 
   
       if (!response.ok) throw new Error('Failed to fetch freelancers');
   

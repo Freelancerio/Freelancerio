@@ -1,3 +1,6 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 const getSkills = (skillsString) => {
   if (!skillsString || typeof skillsString !== 'string') return [];
   return skillsString
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/job/single-job/${jobId}`);
+    const response = await fetch(`${baseURL}/job/single-job/${jobId}`);
     if (!response.ok) throw new Error('Failed to fetch job details');
     const job = await response.json();
 
@@ -53,11 +56,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       const params = new URLSearchParams(window.location.search);
       const jobId = params.get('id');
       console.log(`job id: ${jobId}`);
-      const getResponse = await fetch(`http://localhost:3000/job/get-client-id/${jobId}`);
+      const getResponse = await fetch(`${baseURL}/job/get-client-id/${jobId}`);
       const clientId =  await getResponse.json();
       console.log(`client id: ${clientId}`);
       try{
-        const response = await fetch('http://localhost:3000/apply/job-apply',{
+        const response = await fetch(`${baseURL}/apply/job-apply`,{
           method: "POST",
           headers: {'Content-Type' : 'application/json'},
           body : JSON.stringify({

@@ -1,3 +1,6 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 let selectedRole = null;
 
 const clientSelected = document.getElementById("Hiring_Comp_box");
@@ -38,7 +41,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
     };
 
     try {
-        const response = await fetch("http://localhost:3000/auth/add-user", {
+        const response = await fetch(`${baseURL}/auth/add-user`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

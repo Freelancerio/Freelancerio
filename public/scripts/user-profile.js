@@ -1,10 +1,13 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 document.addEventListener('DOMContentLoaded', () => {
     const firebaseId = sessionStorage.getItem('firebaseId');
 
     // Get user details on page load
     const getUserDetails = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/auth/get-user/${firebaseId}`);
+            const response = await fetch(`${baseURL}/auth/get-user/${firebaseId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch user details');
             }
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Send PUT request to update skills and about
-            const response = await fetch(`http://localhost:3000/auth/updateUser/${firebaseId}`, {
+            const response = await fetch(`${baseURL}/auth/updateUser/${firebaseId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
