@@ -1,3 +1,6 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 function createJobItem(job) {
     //const jobList = document.querySelector('.job-list');
     const jobList = document.getElementById("display-section");
@@ -106,7 +109,7 @@ function createJobItem(job) {
     document.getElementById('client-page-heading').textContent = "Job Post History";
     try {
     const userid = sessionStorage.getItem('firebaseId');
-      const response = await fetch(`http://localhost:3000/job/all-jobs/${userid}`); // Replace with your actual endpoint
+      const response = await fetch(`${baseURL}/job/all-jobs/${userid}`); // Replace with your actual endpoint
       if (!response.ok) throw new Error('Failed to fetch jobs');
       const jobs = await response.json();
       
@@ -147,7 +150,7 @@ function createJobItem(job) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/job/single-job/${jobId}`);
+        const response = await fetch(`${baseURL}/job/single-job/${jobId}`);
         if (!response.ok) throw new Error('Failed to fetch job details');
 
         const job = await response.json();
@@ -350,7 +353,7 @@ function createDeleteConfirmationModal(job_id) {
 
   confirmButton.addEventListener('click', async () => {
     try {
-      const response = await fetch(`http://localhost:3000/job/remove-job/${job_id}`, {
+      const response = await fetch(`${baseURL}/job/remove-job/${job_id}`, {
         method: 'DELETE'
       });
       if (!response.ok) throw new Error('Failed to delete job');
@@ -401,7 +404,7 @@ function createHideConfirmationModal(job_id) {
 
   confirmButton.addEventListener('click', async () => {
     try {
-      const response = await fetch(`http://localhost:3000/job/set-hidden-status/${job_id}`, {
+      const response = await fetch(`${baseURL}/job/set-hidden-status/${job_id}`, {
         method: 'PUT'
       });
       if (!response.ok) throw new Error('Failed to hide/unHide job');
@@ -573,7 +576,7 @@ function editJobPosting(job, job_id) {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/job/update-job/${job_id}`, {
+      const res = await fetch(`${baseURL}/job/update-job/${job_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

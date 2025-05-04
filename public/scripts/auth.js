@@ -3,6 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
 import { getAuth, signInWithPopup, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
 
 // Firebase config
 const firebaseConfig = {
@@ -67,7 +69,7 @@ if(google_login){
           sessionStorage.setItem('user',JSON.stringify(user));
       
           // Send to your server
-          const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
+          const response = await fetch(`${baseURL}/auth/check-auth?id=${user.uid}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -122,7 +124,7 @@ if(github_login){
 
       
           // Send to your server
-          const response = await fetch(`http://localhost:3000/auth/check-auth?id=${user.uid}`, {
+          const response = await fetch(`${baseURL}/auth/check-auth?id=${user.uid}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

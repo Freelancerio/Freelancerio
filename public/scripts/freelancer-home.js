@@ -1,3 +1,6 @@
+import getBaseUrl from './base-url.mjs';
+const baseURL = getBaseUrl();
+
 function createJobItem(job) {
     const jobList = document.querySelector('.job-list');
   
@@ -112,7 +115,7 @@ function createJobItem(job) {
   
     document.getElementById("user-name").textContent = `${sessionStorage.getItem("display-name")}`;
     try {
-      const response = await fetch('http://localhost:3000/job/all-jobs'); // Replace with your actual endpoint
+      const response = await fetch(`${baseURL}/job/all-jobs`); // Replace with your actual endpoint
       if (!response.ok) throw new Error('Failed to fetch jobs');
       const jobs = await response.json();
   
