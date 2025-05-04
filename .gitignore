@@ -6,3 +6,6 @@ node_modules/
 .vs/
 .vscode/
 .vscode
+
+# Test coverage output
+coverage/
