@@ -46,8 +46,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Apply button action
-    document.getElementById('apply-button').addEventListener('click', () => {
-      window.location.href = `apply.html?jobId=${job._id}`; // Adjust the apply link as necessary
+    document.getElementById('apply-button').addEventListener('click', async () => {
+      //window.location.href = `/public/pages/single-job-post.html`; // Adjust the apply link as necessary
+      console.log('What is happening');
+      const userId = sessionStorage.getItem('firebaseId');
+      const params = new URLSearchParams(window.location.search);
+      const jobId = params.get('id');
+      console.log(`job id: ${jobId}`);
+      const getResponse = await fetch(`http://localhost:3000/job/get-client-id/${jobId}`);
+      const clientId =  await getResponse.json();
+      console.log(`client id: ${clientId}`);
+      try{
+        const response = await fetch('http://localhost:3000/apply/job-apply',{
+          method: "POST",
+          headers: {'Content-Type' : 'application/json'},
+          body : JSON.stringify({
+            client_id : clientId ,
+            user_id : userId,
+            job_id : jobId
+          })});
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `Server Error: ${response.statusText}`);
+        }
+        //window.location.href = "/freelancer-home";
+        alert("Successfully Applied");
+      }
+      catch(error){
+        console.error("Job application failed:", error);
+        alert(err.message || "There was an error posting the job application. Please try again.");
+      }
     });
 
   } catch (error) {

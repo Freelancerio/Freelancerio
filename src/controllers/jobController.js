@@ -235,5 +235,17 @@ const updateJob = async (req, res) =>{
 
 };
 
+const getClientId = async (req,res) => {
+  try{
+    const { jobId } = req.params; 
+    const job = await Job.findById(jobId).lean();
+    const clientId = job.client_id;
+    res.status(200).json(clientId);
+  }
+  catch(error){
+    res.status(500).json({message : 'Get client id request failed', error: error.message});
+  }
+}
 
-module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden, updateJob };
+
+module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden, updateJob,getClientId };
