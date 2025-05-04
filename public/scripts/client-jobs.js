@@ -143,6 +143,7 @@ function createJobItem(job) {
 
   async function showJobDetails(jobId) {
     const displaySection = document.getElementById('display-section');
+    document.getElementById('client-page-heading').textContent = "Job Post Details";
     // Clear any previous content in displaySection
     while (displaySection.firstChild) {
         displaySection.removeChild(displaySection.firstChild);
@@ -263,6 +264,18 @@ function createJobItem(job) {
         });
 
         buttonSection.appendChild(editButton);
+
+
+        // create the view applications button
+        const applicationsButton = document.createElement('button');
+        applicationsButton.classList.add('inline-block', 'bg-teal-600', 'text-white', 'px-6', 'py-2', 'rounded-lg', 'hover:bg-teal-700', 'transition', 'duration-300', 'w-full', 'sm:w-auto', 'ml-4');
+        applicationsButton.textContent = 'View Applications';
+
+        applicationsButton.addEventListener('click', () => {
+            viewApplications(jobId);
+        });
+
+        buttonSection.appendChild(applicationsButton);
 
         //create the hide button
         const hideButton = document.createElement('button');
@@ -587,3 +600,286 @@ function editJobPosting(job, job_id) {
 }
 
 
+async function viewApplications(jobId) {
+  const displaySection = document.getElementById("display-section");
+  displaySection.innerHTML = ""; // Clear the section
+
+  document.getElementById('client-page-heading').textContent = "Job Applications";
+
+  // Create and append a back button
+  const backButton = document.createElement("button");
+  backButton.textContent = "← Back to Job Postings";
+  backButton.classList.add(
+    "mb-4",
+    "px-4",
+    "py-2",
+    "bg-gray-500",
+    "text-white",
+    "rounded",
+    "hover:bg-gray-600",
+    "transition"
+  );
+  backButton.onclick = () => {
+    showJobDetails(jobId);
+  };
+  displaySection.appendChild(backButton);
+
+  try {
+    const response = await fetch(`http://localhost:3000/apply/getApplicants/${jobId}`);
+    const applicants = await response.json();
+
+    if (!Array.isArray(applicants) || applicants.length === 0) {
+      const noResult = document.createElement("p");
+      noResult.textContent = "No applicants found for this job.";
+      noResult.classList.add("text-gray-600", "mt-4");
+      displaySection.appendChild(noResult);
+      return;
+    }
+
+    applicants.forEach(app => {
+      const card = document.createElement("div");
+      card.classList.add(
+        "bg-white",
+        "shadow-md",
+        "rounded-lg",
+        "p-6",
+        "mb-4",
+        "flex",
+        "items-center",
+        "justify-between"
+      );
+
+      const infoContainer = document.createElement("div");
+      infoContainer.classList.add("flex", "items-center");
+
+      const img = document.createElement("img");
+      img.src = app.user?.photoURL || "https://via.placeholder.com/60";
+      img.alt = `${app.user?.name || "Applicant"}'s profile picture`;
+      img.classList.add("w-16", "h-16", "rounded-full", "mr-4");
+
+      const details = document.createElement("div");
+
+      const nameLink = document.createElement("a");
+      nameLink.href = `#`;  // You can modify this to a specific URL for the profile page
+      nameLink.textContent = app.user?.displayName || "No Name";
+      nameLink.classList.add("text-lg", "font-semibold", "text-blue-600", "hover:underline");
+      nameLink.onclick = (event) => {
+        event.preventDefault();  
+        viewApplicantProfile(app.user_id,jobId);
+      };
+
+      const email = document.createElement("p");
+      email.textContent = app.user?.email || "No Email";
+      email.classList.add("text-gray-600");
+
+      details.appendChild(nameLink);  // Append the nameLink instead of name
+      details.appendChild(email);
+      infoContainer.appendChild(img);
+      infoContainer.appendChild(details);
+
+      const buttonContainer = document.createElement("div");
+      buttonContainer.classList.add("space-x-2");
+
+      const acceptBtn = document.createElement("button");
+      acceptBtn.textContent = "Accept";
+      acceptBtn.classList.add(
+        "bg-green-600",
+        "text-white",
+        "px-4",
+        "py-2",
+        "rounded",
+        "hover:bg-green-700",
+        "transition"
+      );
+      // Add accept functionality here
+      acceptBtn.onclick = () => alert(`Accepted ${app.user?.name}`);
+
+      const rejectBtn = document.createElement("button");
+      rejectBtn.textContent = "Reject";
+      rejectBtn.classList.add(
+        "bg-red-600",
+        "text-white",
+        "px-4",
+        "py-2",
+        "rounded",
+        "hover:bg-red-700",
+        "transition"
+      );
+      // Add reject functionality here
+      rejectBtn.onclick = () => alert(`Rejected ${app.user?.name}`);
+
+      buttonContainer.appendChild(acceptBtn);
+      buttonContainer.appendChild(rejectBtn);
+
+      card.appendChild(infoContainer);
+      card.appendChild(buttonContainer);
+
+      displaySection.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Failed to fetch applicants:", error);
+    const errorMsg = document.createElement("p");
+    errorMsg.textContent = "An error occurred while loading applicants.";
+    errorMsg.classList.add("text-red-500", "mt-4");
+    displaySection.appendChild(errorMsg);
+  }
+}
+
+
+
+
+const getUserDetails = async (profile_id) => {
+  try {
+      const response = await fetch(`http://localhost:3000/auth/get-user/${profile_id}`);
+      if (!response.ok) {
+          throw new Error('Failed to fetch user details');
+      }
+
+      const user = await response.json();
+
+      // Set user details to the page
+      document.getElementById("user-name-display").textContent = user.user.displayName || "Unknown User";
+      document.getElementById("user-email").textContent = user.user.email|| "No email available";
+      document.getElementById("user-profile-picture").src = user.user.photoURL || "https://www.gravatar.com/avatar/default?s=200&d=mp";
+
+      // Fill display section
+      document.getElementById("skills-display").textContent = user.user.skills || "No skills listed";
+      document.getElementById("about-display").textContent = user.user.about|| "No about information provided";
+
+  } catch (error) {
+      console.error("Error fetching user details:", error);
+      alert("There was an error fetching your details.");
+  }
+};
+
+
+
+
+function renderUserProfileTemplate(jobId) {
+  const container = document.getElementById("display-section");
+  container.innerHTML = ""; // Clear previous content
+
+  // Main article wrapper
+  const article = document.createElement("article");
+  article.className = "bg-white shadow rounded-xl p-6";
+
+  // Header
+  const header = document.createElement("header");
+  header.className = "text-center mb-10";
+
+  const figure = document.createElement("figure");
+  figure.className = "flex justify-center mb-4";
+  const img = document.createElement("img");
+  img.id = "user-profile-picture";
+  img.src = "";
+  img.alt = "Profile picture";
+  img.className = "rounded-full w-32 h-32 border-4 border-blue-100 object-cover shadow-md";
+  figure.appendChild(img);
+
+  const title = document.createElement("h1");
+  title.className = "text-3xl font-bold mb-1 text-gray-900";
+  title.textContent = "Your Profile";
+
+  const nameSection = document.createElement("section");
+  nameSection.className = "space-y-1";
+
+  const name = document.createElement("h1");
+  name.id = "user-name-display";
+  name.className = "text-2xl font-semibold text-gray-900";
+  name.textContent = "Loading Name...";
+
+  const email = document.createElement("p");
+  email.id = "user-email";
+  email.className = "text-2xl font-semibold text-gray-900";
+  email.textContent = "Loading Email...";
+
+  nameSection.appendChild(name);
+  nameSection.appendChild(email);
+
+  header.appendChild(figure);
+  header.appendChild(title);
+  header.appendChild(nameSection);
+  article.appendChild(header);
+
+  // Profile summary
+  const summaryWrapper = document.createElement("section");
+  summaryWrapper.setAttribute("aria-labelledby", "edit-heading");
+
+  const summaryHeading = document.createElement("h2");
+  summaryHeading.id = "edit-heading";
+  summaryHeading.className = "text-2xl font-semibold mb-6 text-gray-900 border-b pb-2";
+  summaryHeading.textContent = "Profile Summary";
+  summaryWrapper.appendChild(summaryHeading);
+
+  const displaySection = document.createElement("section");
+  displaySection.id = "profile-display-fields";
+  displaySection.className = "space-y-6";
+
+  // About You
+  const aboutSection = document.createElement("section");
+  const aboutLabel = document.createElement("label");
+  aboutLabel.className = "block font-medium text-gray-700 mb-1";
+  aboutLabel.textContent = "About You";
+  const aboutText = document.createElement("p");
+  aboutText.id = "about-display";
+  aboutText.className = "bg-gray-100 p-3 rounded-lg";
+  aboutText.textContent = "Loading about info...";
+  aboutSection.appendChild(aboutLabel);
+  aboutSection.appendChild(aboutText);
+
+  // Skills
+  const skillsSection = document.createElement("section");
+  const skillsLabel = document.createElement("label");
+  skillsLabel.className = "block font-medium text-gray-700 mb-1";
+  skillsLabel.textContent = "Skills";
+  const skillsText = document.createElement("p");
+  skillsText.id = "skills-display";
+  skillsText.className = "bg-gray-100 p-3 rounded-lg";
+  skillsText.textContent = "Loading skills...";
+  skillsSection.appendChild(skillsLabel);
+  skillsSection.appendChild(skillsText);
+
+  // Work Experience
+  const expSection = document.createElement("section");
+  const expLabel = document.createElement("label");
+  expLabel.className = "block font-medium text-gray-700 mb-1";
+  expLabel.textContent = "Work Experience (Read-only)";
+  const expText = document.createElement("p");
+  expText.id = "experience-display";
+  expText.className = "bg-gray-100 p-3 rounded-lg";
+  expText.textContent = "Loading work experience...";
+  expSection.appendChild(expLabel);
+  expSection.appendChild(expText);
+
+  // Edit Button
+  const backSection = document.createElement("section");
+  backSection.className = "flex justify-end";
+  const backBtn = document.createElement("button");
+  backBtn.id = "back-btn";
+  backBtn.className = "bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition";
+  backBtn.innerHTML = '<i class="fas fa-edit mr-2"></i>Back';
+  backSection.appendChild(backBtn);
+
+  backBtn.addEventListener('click', () =>{
+    viewApplications(jobId);
+  })
+
+  // Append all sections
+  displaySection.appendChild(aboutSection);
+  displaySection.appendChild(skillsSection);
+  displaySection.appendChild(expSection);
+  displaySection.appendChild(backSection);
+
+  summaryWrapper.appendChild(displaySection);
+  article.appendChild(summaryWrapper);
+
+  // Append article to the container
+  container.appendChild(article);
+}
+
+
+function viewApplicantProfile(profile_id,jobId){
+  renderUserProfileTemplate(jobId);
+  getUserDetails(profile_id)
+
+}
