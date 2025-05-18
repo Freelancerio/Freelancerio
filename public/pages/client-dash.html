@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="../styles/jobcard.css" />
 </head>
 <body class="bg-gray-100 min-h-screen flex">
@@ -41,10 +42,10 @@
       <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Breakdown</button>
     </article>
 
-    <section class="display-section">
-      <header>
-        <h3 class="text-lg font-semibold mb-2">🟢 Active Jobs</h3>
-      </header>
+    <section id="display-section">
+      <article>
+        <p class="text-lg font-semibold mb-2" id = "actJobs">🟢 Active Jobs</p>
+      </article>
 
       <article id="jobs-container" class="space-y-4"></article>
       <!-- Jobs will be rendered here -->
@@ -62,17 +63,13 @@
   <aside class="w-80 p-6 bg-white shadow-lg">
     <header class="mb-4">
       <h3 class="text-lg font-bold text-gray-800">📊 Job Duration Overview</h3>
+      <p>
+        This pie chart is a visual representation that shows the distribution of durations among your current projects.
+      </p>
     </header>
-    <div id="job-duration-pie" class="h-64">
-      <!-- Pie chart will be rendered here with JS -->
-    </div>
-    <ul class="mt-4 text-sm text-gray-600 space-y-1">
-      <li>1–3 months</li>
-      <li>4–6 months</li>
-      <li>7–9 months</li>
-      <li>10–12 months</li>
-      <li>12+ months</li>
-    </ul>
+    <article class="h-64">
+      <canvas id="job-duration-pie"></canvas>
+    </article>
   </aside>
 </body>
 <script type="module" src="../scripts/client-dash.js"></script>

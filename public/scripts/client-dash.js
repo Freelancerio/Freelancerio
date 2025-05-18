@@ -1,121 +1,119 @@
 import getBaseUrl from './base-url.mjs';
 const baseURL = getBaseUrl();
 
-document.addEventListener('DOMContentLoaded',()=> {
-  fetchJobs();  
-});
-
-
-function createJobItem(job){
-    const jobList = document.getElementById("jobs-container");
-    const article = document.createElement('article');
-    article.classList.add('job');
-
-    //Add click event to redirect to job details page
-    article.addEventListener('click', async() => {
-        await showJobDetails(job._id);
-    });
-
-    //Header
-    const header = document.createElement('header');
-    header.classList.add('job-header');
-
-    const hgroup = document.createElement('hgroup');
-    hgroup.classList.add('job-title-group');
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('job-title');
-    h2.textContent = job.job_title;
-
-    const companyLink = document.createElement('a');
-    companyLink.href = '#';
-    companyLink.classList.add('company');
-    companyLink.textContent = job.company;
-
-    hgroup.appendChild(h2);
-    hgroup.appendChild(companyLink);
-
-    header.appendChild(hgroup);
-    //Job Details
-
-    const dl = document.createElement('dl');
-    dl.classList.add('job-details');
-
-    const details = [
-        {label: 'Location', value: job.location_category, iconClass: 'icon-location'},
-        {label: 'Rate', value: job.total_pay, iconClass : 'icon-rate'},
-        {label: 'Duration',value: `${job.duration_months} Months`, iconClass: 'icon-duration'}
-    ];
-
-    details.forEach(detail => {
-        const dt = document.createElement('dt');
-        dt.textContent = detail.label;
+document.addEventListener('DOMContentLoaded', async function() {
     
-        const dd = document.createElement('dd');
-        const icon = document.createElement('span');
-        icon.classList.add(detail.iconClass);
-        icon.setAttribute('aria-hidden', 'true');
-        dd.appendChild(icon);
-        dd.append(' ' + detail.value);
-    
-        dl.appendChild(dt);
-        dl.appendChild(dd)});
-
-        const desc = document.createElement('p');
-    desc.classList.add('job-description');
-    desc.textContent = job.job_description;
+    //const userId = sessionStorage.getItem('firebaseId');
+    const jobs = await fetchJobs();
+    console.log(jobs);
+    const durationArr = [0,0,0,0,0,0];
+    let numMonths = 0;
+    for (let i = 0; i < jobs.length;i++){
+        numMonths = jobs[i].duration_months; 
+        if (numMonths >= 1 && numMonths <= 3){
+            durationArr[0] += 1;
+        }
+        else if (numMonths >= 4 && numMonths <= 6){
+            durationArr[1] +=1;
+        }
+        else if (numMonths >= 7 && numMonths <= 9){
+            durationArr[2] += 1;
+        }
+        else if (numMonths >= 10 && numMonths <= 12){
+            durationArr[3] += 1;
+        }
+        else if (numMonths >= 13 && numMonths <= 15){
+            durationArr[4] += 1;
+        }
+        else{
+            durationArr[5] += 1;
+        }
+    }
+    const jobDurationData = {
+      labels: ['1-3 months', '4-6 months', '7-9 months', '10-12 months', '13-15 months', '15+ months'],
+      datasets: [{
+        data: /*[12, 19, 8, 5, 3, 7]*/ durationArr, // Sample counts for each category
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 159, 64, 0.7)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    };
   
-    // Footer (Skills)
-    const footer = document.createElement('footer');
+    // Get the canvas element
+    const ctx = document.getElementById('job-duration-pie').getContext('2d');
   
-    const hiddenHeading = document.createElement('h3');
-    hiddenHeading.classList.add('visually-hidden');
-    hiddenHeading.textContent = 'Required Skills';
-    footer.appendChild(hiddenHeading);
-  
-    const ul = document.createElement('ul');
-    ul.classList.add('skill-tags');
-    let skills = getSkills(job.job_requirements);   
-    skills.forEach(skill => {
-      const li = document.createElement('li');
-      li.classList.add('skill-tag');
-      li.textContent = skill;
-      ul.appendChild(li);
+    // Create the pie chart
+    const jobDurationChart = new Chart(ctx, {
+      type: 'pie',
+      data: jobDurationData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = Math.round((value / total) * 100);
+                return `${label}: ${value} (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
     });
   
-    footer.appendChild(ul);
-  
-    // Assemble Article
-    article.appendChild(header);
-    article.appendChild(dl);
-    article.appendChild(desc);
-    article.appendChild(footer);
-  
-    jobList.appendChild(article);
-
-};
-
-const getSkills = (skillsString) => {
-    if (!skillsString || typeof skillsString !== 'string') return [];
-  
-    return skillsString
-      .split(',')               // Split by comma
-      .map(skill => skill.trim()) // Trim spaces around each skill
-      .filter(skill => skill.length > 0); // Remove any empty entries
-  };
+    // Here you would typically fetch real data from your backend
+    // fetchJobDurationData();
+    
+    // Example function to fetch real data
+    /*
+    async function fetchJobDurationData() {
+      try {
+        const response = await fetch('/api/job-duration-stats');
+        const data = await response.json();
+        
+        // Update chart with real data
+        jobDurationChart.data.datasets[0].data = data.counts;
+        jobDurationChart.update();
+      } catch (error) {
+        console.error('Error fetching job duration data:', error);
+      }
+    }
+    */
+    const activeJobs = document.getElementById("actJobs");
+    activeJobs.innerHTML = `<p class="text-lg font-semibold mb-2" id = "actJobs">🟢 Active Jobs: ${durationArr.length}</p>`
+  });
   
   
 
   async function fetchJobs() {
-    document.getElementById('client-page-heading').textContent = "Job Post History";
+    //document.getElementById('client-page-heading').textContent = "Job Post History";
     try {
     const userid = sessionStorage.getItem('firebaseId');
       const response = await fetch(`${baseURL}/job/all-jobs/${userid}`); // Replace with your actual endpoint
       if (!response.ok) throw new Error('Failed to fetch jobs');
       const jobs = await response.json();
-      
-      document.getElementById("display-section").innerHTML = '';
-      jobs.forEach(createJobItem);
+      return jobs;
     } catch (error) {
       console.error('Error loading jobs:', error);
     }
