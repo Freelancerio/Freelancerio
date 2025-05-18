@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../styles/jobcard.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white p-6">
+    <header class="mb-10">
+      <h1 class="text-2xl font-bold">FreelancerIO</h1>
+    </header>
+    <nav>
+      <ul>
+        <li class="mb-4 bg-blue-800 rounded px-2 py-1" id="post_job">
+          <a href="/client-home" class="text-white hover:text-blue-400">📝 Post a Job</a>
+        </li>
+        <li class="mb-4" id="view_jobs">
+          <a href="/client-jobs" class="text-white hover:text-blue-400">📋 My Job List</a>
+        </li>
+        <li class="mb-4" id="view_freelancers">
+          <a href="/view-freelancer" class="text-white hover:text-blue-400">📋 View Freelancers</a>
+        </li>
+        <li class = "mb-4" id="dashboard">
+          <a href="/client-dashboard" class="text-white hover:text-blue-400">📈 Dashboard</a>
+        </li>
+        <li class="mt-8 pt-4 border-t border-gray-700">
+          <a href="/" class="text-white hover:text-red-400">🚪 Logout</a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-10">
+    <article>
+      <h3 class="text-xl font-semibold mb-2">💰 Total Money Paid: $0.00 </h3>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">See Breakdown</button>
+    </article>
+
+    <section class="display-section">
+      <header>
+        <h3 class="text-lg font-semibold mb-2">🟢 Active Jobs</h3>
+      </header>
+
+      <article id="jobs-container" class="space-y-4"></article>
+      <!-- Jobs will be rendered here -->
+    </section>
+
+    <section class="jobs-freelancers-container">
+      <header>
+        <h3 class="text-lg font-semibold mb-2">📂 Job History & Freelancers</h3>
+      </header>
+      <!-- History data will be injected here -->
+    </section>
+  </main>
+
+  <!-- Right Panel: Pie Chart -->
+  <aside class="w-80 p-6 bg-white shadow-lg">
+    <header class="mb-4">
+      <h3 class="text-lg font-bold text-gray-800">📊 Job Duration Overview</h3>
+    </header>
+    <div id="job-duration-pie" class="h-64">
+      <!-- Pie chart will be rendered here with JS -->
+    </div>
+    <ul class="mt-4 text-sm text-gray-600 space-y-1">
+      <li>1–3 months</li>
+      <li>4–6 months</li>
+      <li>7–9 months</li>
+      <li>10–12 months</li>
+      <li>12+ months</li>
+    </ul>
+  </aside>
+</body>
+<script type="module" src="../scripts/client-dash.js"></script>
+</html>

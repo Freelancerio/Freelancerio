@@ -81,6 +81,10 @@ app.get('/user-dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/pages/user-dashboard.html'));
 });
 
+app.use('/client-dashboard',(req,res)=> {
+  res.sendFile(path.join(__dirname,'../public/pages/client-dash.html'));
+})
+
 // Render the 404 error page (when the route doesn't exist)
 app.get('/error-404', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/pages/404.html'));
