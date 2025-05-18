@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require('path');
 const cors = require('cors');
 const app = express();
+require('dotenv').config(); // ✅ Required to access .env (for Stripe keys)
 
 const port = process.env.PORT || 3000; 
 
@@ -28,13 +29,13 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts'), {
 const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationsRoutes');
-
+const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
 
 // Use routes
 app.use('/auth', userRoutes);
 app.use('/job', jobRoutes);
-app.use('/apply',applicationRoutes);
-
+app.use('/apply', applicationRoutes);
+app.use('/', paymentRoutes); // ✅ NEW LINE
 
 // Render the index.html => this is where the user logs in
 app.get('/', (req, res) => {
@@ -55,7 +56,6 @@ app.get('/client-home', (req, res) => {
 app.get('/profile-user', (req,res) => {
   res.sendFile(path.join(__dirname,'../public/pages/profile-user.html'))
 });
-
 
 // Render the client jobs page
 app.get('/client-jobs', (req,res) => {
@@ -104,4 +104,3 @@ mongoose.connect(db_url)
     });
   })
   .catch((err) => console.log(err));
-

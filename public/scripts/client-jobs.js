@@ -305,6 +305,34 @@ function createJobItem(job) {
 
         buttonSection.appendChild(deleteButton);
 
+        //create make payment button
+        const payButton = document.createElement('button');
+        payButton.textContent = 'Make Payment';
+        payButton.classList.add(
+        'inline-block', 'bg-purple-600', 'text-white',
+  'px-6', 'py-2', 'rounded-lg', 'hover:bg-purple-700',
+  'transition', 'duration-300', 'w-full', 'sm:w-auto', 'ml-4'
+);
+
+payButton.addEventListener('click', async () => {
+  try {
+    const res = await fetch(`${baseURL}/create-checkout-session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        job_title: job.job_title,
+        total_pay: job.total_pay
+      })
+    });
+    const { url } = await res.json();
+    window.location.href = url; // Redirect to Stripe Checkout
+  } catch (err) {
+    alert('Failed to redirect to payment page: ' + err.message);
+  }
+});
+
+buttonSection.appendChild(payButton);
+
 
         // Append everything to display-section
         displaySection.appendChild(jobDetailsSection);
