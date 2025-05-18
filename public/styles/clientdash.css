@@ -1,0 +1,62 @@
+/* Base font and layout normalization */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  h1 { font-size: 20px; }
+  h2 { font-size: 16px; }
+  h3 { font-size: 14px; }
+  
+  main, aside {
+    padding: 1.5rem;
+  }
+  
+  /* Sidebar */
+  aside {
+    font-size: 14px;
+  }
+  
+  aside nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  aside nav ul li a:hover {
+    color: #60a5fa; /* Tailwind blue-400 */
+  }
+  
+  /* Buttons */
+  button {
+    font-size: 14px;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  /* Sections */
+  section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .jobs-container,
+  .jobs-freelancers-container {
+    background-color: #fff;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Pie chart container */
+  #job-duration-pie {
+    height: 16rem;
+    margin-bottom: 1rem;
+  }
+  
