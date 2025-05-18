@@ -5,53 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Job Details</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Additional styles for disabled button */
+    .disabled-btn {
+      opacity: 0.7;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Modal background */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modal content */
+    .modal-content {
+      background-color: #fcf7e6;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body class="bg-gray-100 font-sans">
 
-  <header class="bg-blue-800 text-white p-6">
-    <div class="max-w-4xl mx-auto">
-      <h1 id="job-title" class="text-3xl font-semibold">Loading...</h1>
-      <p id="company-name" class="text-xl mt-2">Loading...</p>
+<header class="bg-blue-800 text-white p-6">
+  <div class="max-w-4xl mx-auto">
+    <h1 id="job-title" class="text-3xl font-semibold">Loading...</h1>
+    <p id="company-name" class="text-xl mt-2">Loading...</p>
+  </div>
+</header>
+
+<main class="max-w-4xl mx-auto p-6 space-y-8">
+  <!-- Job Details Section -->
+  <section class="bg-white p-6 rounded-lg shadow-lg">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <p class="text-gray-700"><strong>Category:</strong> <span id="job-category" class="font-medium"></span></p>
+      <p class="text-gray-700"><strong>Rate:</strong> R<span id="total-pay" class="font-medium"></span></p>
+      <p class="text-gray-700"><strong>Status:</strong> <span id="taken-status" class="font-medium"></span></p>
+      <p class="text-gray-700"><strong>Posted On:</strong> <span id="created-at" class="font-medium"></span></p>
+      <p class="text-gray-700"><strong>Location:</strong> <span id="location-category" class="font-medium"></span> </p>
+      <p class="text-gray-700"><strong>Duration:</strong>  <span id="duration-months" class="font-medium"></span></p>
     </div>
-  </header>
+  </section>
 
-  <main class="max-w-4xl mx-auto p-6 space-y-8">
-    <!-- Job Details Section -->
-    <section class="bg-white p-6 rounded-lg shadow-lg">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <p class="text-gray-700"><strong>Category:</strong> <span id="job-category" class="font-medium"></span></p>
-        <p class="text-gray-700"><strong>Rate:</strong> R<span id="total-pay" class="font-medium"></span></p>
-        <p class="text-gray-700"><strong>Status:</strong> <span id="taken-status" class="font-medium"></span></p>
-        <p class="text-gray-700"><strong>Posted On:</strong> <span id="created-at" class="font-medium"></span></p>
-        <p class="text-gray-700"><strong>Location:</strong> <span id="location-category" class="font-medium"></span> </p>
-        <p class="text-gray-700"><strong>Duration:</strong>  <span id="duration-months" class="font-medium"></span></p>
-      </div>
-    </section>
+  <!-- Job Description Section -->
+  <section class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Job Description</h2>
+    <p id="job-description" class="text-gray-700"></p>
+  </section>
 
-    <!-- Job Description Section -->
-    <section class="bg-white p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-gray-900 mb-4">Job Description</h2>
-      <p id="job-description" class="text-gray-700"></p>
-    </section>
-
-    <!-- Required Skills Section -->
-    <section class="bg-white p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-gray-900 mb-4">Required Skills</h2>
-      <div id="skills" class="flex flex-wrap gap-2"></div>
-    </section>
+  <!-- Required Skills Section -->
+  <section class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Required Skills</h2>
+    <div id="skills" class="flex flex-wrap gap-2"></div>
+  </section>
 
 
-    <!-- Apply Button -->
-    <section>
-      <a href="/freelancer-home" class="inline-block bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">← Back to Job Listings</a>
-      <button 
-        id="apply-button"
-        class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 w-full sm:w-auto"
-      >
-        Apply Now
-      </button>
-    </section>
-  </main>
-  <script type = "module" src="../scripts/job-details.js"></script>
+  <!-- Apply Button -->
+  <section>
+    <a href="/freelancer-home" class="inline-block bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">← Back to Job Listings</a>
+    <button
+            id="apply-button"
+            class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 w-full sm:w-auto"
+    >
+      Apply Now
+    </button>
+  </section>
+</main>
+
+<!-- Success Modal -->
+<div id="success-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h2 class="text-3xl font-bold mb-3">SUCCESS!</h2>
+    <p class="mb-6">You have successfully applied for this job.</p>
+    <button id="modal-ok-button" class="bg-blue-800 text-white px-8 py-2 rounded-lg hover:bg-blue-700 transition duration-300">OK</button>
+  </div>
+</div>
+
+<script type="module" src="../scripts/job-details.js"></script>
 </body>
 </html>
