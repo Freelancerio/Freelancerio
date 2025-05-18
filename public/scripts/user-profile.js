@@ -1,4 +1,6 @@
 import getBaseUrl from './base-url.mjs';
+
+
 const baseURL = getBaseUrl();
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,4 +1,5 @@
 import getBaseUrl from './base-url.mjs';
+
 const baseURL = getBaseUrl();
 
 const getSkills = (skillsString) => {

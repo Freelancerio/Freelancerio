@@ -4,6 +4,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase
 import { getAuth, signInWithPopup, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 import getBaseUrl from './base-url.mjs';
+
 const baseURL = getBaseUrl();
 
 // Firebase config
