@@ -246,6 +246,4 @@ const getClientId = async (req,res) => {
     res.status(500).json({message : 'Get client id request failed', error: error.message});
   }
 }
-
-
 module.exports = {addJob, removeJob, singleJob, allJobs, allJobsByUser , setIsHidden, updateJob,getClientId };
