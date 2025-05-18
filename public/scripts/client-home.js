@@ -248,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
     buildJobPostForm();
   });
     
-
 });
 
 
