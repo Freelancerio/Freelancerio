@@ -6,6 +6,7 @@ let selectedRole = null;
 
 const clientSelected = document.getElementById("Hiring_Comp_box");
 const freelancerSelected = document.getElementById("Freelancer_box");
+const adminSelected = document.getElementById("admin_box");
 
 // Add click event listeners
 clientSelected.addEventListener('click', () => {
@@ -19,6 +20,14 @@ freelancerSelected.addEventListener('click', () => {
     freelancerSelected.classList.add("selected-role");
     clientSelected.classList.remove("selected-role");
 });
+
+adminSelected.addEventListener('click', ()=>{
+    selectedRole = "admin";
+    freelancerSelected.classList.remove("selected-role");
+    clientSelected.classList.remove("selected-role");
+    adminSelected.classList.add("selected-role");
+
+})
 
 // Handle form submission
 document.getElementById('submit').addEventListener('click', async (e) => {
@@ -39,6 +48,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         firebaseId: firebaseId,
         provider: providerId,
         role: selectedRole,
+        password: document.getElementById("password").value || null,
     };
 
     try {

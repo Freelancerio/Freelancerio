@@ -720,8 +720,61 @@ async function viewApplications(jobId) {
         "hover:bg-green-700",
         "transition"
       );
-      // Add accept functionality here
-      acceptBtn.onclick = () => alert(`Accepted ${app.user?.name}`);
+
+
+        // Modal creation
+        const modalOverlay = document.createElement("div");
+        modalOverlay.classList.add(
+          "fixed",
+          "top-0",
+          "left-0",
+          "w-full",
+          "h-full",
+          "bg-black",
+          "bg-opacity-50",
+          "flex",
+          "items-center",
+          "justify-center",
+          "z-50",
+          "hidden"
+        );
+
+        const modalBox = document.createElement("div");
+        modalBox.classList.add(
+          "bg-white",
+          "p-6",
+          "rounded-lg",
+          "w-full",
+          "max-w-2xl",
+          "shadow-lg"
+        )
+
+      // Add content to modal
+      modalBox.innerHTML = `
+        <h2 class="text-2xl font-bold mb-4">Enter Details for Contract with ${app.user?.displayName}</h2>
+        <textarea class="w-full h-64 border p-2 rounded mb-4 resize-none" placeholder="Enter your notes here..."></textarea>
+        <div class="text-right">
+          <button id="confirmModalBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Confirm
+          </button>
+        </div>
+      `;
+
+      modalOverlay.appendChild(modalBox);
+      document.body.appendChild(modalOverlay);
+
+      // Show modal on accept
+      acceptBtn.onclick = () => {
+        modalOverlay.classList.remove("hidden");
+      };
+
+      // Handle confirm button
+      modalBox.querySelector("#confirmModalBtn").onclick = () => {
+        const textareaValue = modalBox.querySelector("textarea").value;
+        console.log("Confirmed with text:", textareaValue);
+        alert(`Confirmed for ${app.user?.displayName} with message: ${textareaValue}`);
+        modalOverlay.classList.add("hidden"); // Close modal
+      };
 
       const rejectBtn = document.createElement("button");
       rejectBtn.textContent = "Reject";
@@ -735,7 +788,7 @@ async function viewApplications(jobId) {
         "transition"
       );
       // Add reject functionality here
-      rejectBtn.onclick = () => alert(`Rejected ${app.user?.name}`);
+      rejectBtn.onclick = () => alert(`Rejected ${app.user?.displayName}`);
 
       buttonContainer.appendChild(acceptBtn);
       buttonContainer.appendChild(rejectBtn);

@@ -95,4 +95,4 @@ function createFreelancerItem(freelancer) {
   }
   
 
-  
+export { fetchFreelancers };

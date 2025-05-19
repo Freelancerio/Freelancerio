@@ -43,7 +43,11 @@ const addUser = async (req,res) =>{
         const uidFromToken = decodedToken.uid;
         const providerFromToken = decodedToken.firebase?.sign_in_provider;
 
-        const { firebaseId, provider, role } = req.body;
+        const { firebaseId, provider, role , password } = req.body;
+
+        if(role === "admin" && password != "kgadi_selepe100%"){
+          return res.status(403).json({ error: 'User ID mismatch', RedirectTo: "/", message : "User ID mismatch" });
+        }
 
         if (firebaseId !== uidFromToken) {
             return res.status(403).json({ error: 'User ID mismatch', RedirectTo: "/", message : "User ID mismatch" });
@@ -59,8 +63,10 @@ const addUser = async (req,res) =>{
         await user.save();
         if(role == "user"){
           res.status(200).json({ message: 'User saved successfully!',RedirectTo: "/freelancer-home" });
-        }else{
+        }else if (role == "client"){
           res.status(200).json({ message: 'User saved successfully!',RedirectTo: "/client-home" });
+        }else{
+          res.status(200).json({ message: 'User saved successfully!',RedirectTo: "/admin-home" });
         }
 
     } catch (error) {

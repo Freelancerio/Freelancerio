@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jsPDF and AutoTable for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-6 mb-6">
+    <h1 class="text-4xl font-extrabold text-gray-800">Admin Dashboard</h1>
+    <p class="text-sm text-gray-500 mt-1">Manage users, jobs, and applications effectively</p>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4">
+
+    <!-- Dashboard Summary -->
+    <section id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <!-- Cards dynamically inserted here -->
+    </section>
+
+    <!-- Filters -->
+    <section class="grid md:grid-cols-2 gap-6 mb-10">
+      <div>
+        <label for="filter-role" class="block mb-1 text-sm font-medium text-gray-700">Filter Users by Role</label>
+        <select id="filter-role" class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2">
+          <option value="">All</option>
+          <option value="admin">Admin</option>
+          <option value="user">Freelancer</option>
+          <option value="client">Client</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filter-job-category" class="block mb-1 text-sm font-medium text-gray-700">Filter Jobs by Category</label>
+        <select id="filter-job-category" class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2">
+          <option value="">All</option>
+          <option value="IT">IT</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Design">Design</option>
+          <option value="Finance">Finance</option>
+          <option value="Education">Education</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Tables -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Users</h2>
+      <div class="overflow-x-auto bg-white rounded shadow">
+        <table id="users-table" class="min-w-full text-sm text-gray-700"></table>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Jobs</h2>
+      <div class="overflow-x-auto bg-white rounded shadow">
+        <table id="jobs-table" class="min-w-full text-sm text-gray-700"></table>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Applications</h2>
+      <div class="overflow-x-auto bg-white rounded shadow">
+        <table id="apps-table" class="min-w-full text-sm text-gray-700"></table>
+      </div>
+    </section>
+
+    <!-- Export Buttons -->
+    <div class="flex justify-end gap-4 mt-6">
+      <button id="export-csv" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded shadow">Export CSV</button>
+      <button id="export-pdf" class="bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2 rounded shadow">Export PDF</button>
+    </div>
+
+  </main>
+
+  <script src="../scripts/dashboard.js"></script>
+
+</body>
+
+</html>

@@ -29,11 +29,13 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts'), {
 const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationsRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
 
 // Use routes
 app.use('/auth', userRoutes);
 app.use('/job', jobRoutes);
+app.use('/dashboard', dashboardRoutes);
 app.use('/apply', applicationRoutes);
 app.use('/', paymentRoutes); // ✅ NEW LINE
 
@@ -50,6 +52,11 @@ app.get('/role-selection', (req, res) => {
 // Render the home page => this is the page where the user lands when they are successfully logged in
 app.get('/client-home', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/pages/client-home.html'));
+});
+
+// Render the home page => this is the page where the user lands when they are successfully logged in
+app.get('/admin-home', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/admin-dashboard.html'));
 });
 
 // Render the profile page of the freelancer
