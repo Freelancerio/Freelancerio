@@ -111,3 +111,5 @@ mongoose.connect(db_url)
     });
   })
   .catch((err) => console.log(err));
+
+    module.exports = app;
