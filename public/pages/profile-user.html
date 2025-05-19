@@ -7,21 +7,22 @@
   <meta name="description" content="Update your freelancer profile information">
   <title>Freelancer Profile Update</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../styles/jobcard.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
-  <header class="bg-white shadow-sm">
-    <nav class="max-w-7xl mx-auto px-4 py-3" aria-label="Main navigation">
-      <ul class="flex space-x-6 items-center">
-        <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
-        <li><a href="/freelancer-home" class="hover:text-blue-600 transition-colors">Jobs</a></li>
-        <li><a href="/profile-user" class="font-medium text-blue-600 hover:text-blue-700 transition-colors"
-            aria-current="page">Profile</a></li>
-        <li><a href="/" class="hover:text-blue-600 transition-colors">Logout</a></li>
-      </ul>
-    </nav>
-  </header>
+<body >
+<header class="site-header">
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/freelancer-home" id="user-name">Welcome John</a></li>
+      <li><a href="/freelancer-home">Jobs</a></li>
+      <li><a href="/profile-user">Profile</a></li>
+      <li><a href="/freelancer-dash">Dashboard</a> </li>
+      <li><a href="/">Logout</a></li>
+    </ul>
+  </nav>
+</header>
 
   <main class="flex-grow max-w-4xl mx-auto my-8 px-4 w-full">
     <article class="bg-white shadow rounded-xl p-6">

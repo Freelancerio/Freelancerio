@@ -1,0 +1,97 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    color: #333;
+    padding: 20px;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #1a237e;
+    font-size: 2rem;
+}
+
+header aside {
+    font-weight: 600;
+    color: #444;
+    background: #e3f2fd;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+article {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    margin-bottom: 30px;
+}
+
+article h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #0d47a1;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background: #f9fafb;
+    font-weight: 600;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.active {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.completed {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}

@@ -30,14 +30,14 @@ const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationsRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
-const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
+// const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
 
 // Use routes
 app.use('/auth', userRoutes);
 app.use('/job', jobRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/apply', applicationRoutes);
-app.use('/', paymentRoutes); // ✅ NEW LINE
+// app.use('/', paymentRoutes); // ✅ NEW LINE
 
 // Render the index.html => this is where the user logs in
 app.get('/', (req, res) => {
@@ -82,6 +82,12 @@ app.get('/job-details', (req,res) => {
 app.get('/freelancer-home', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/pages/home.html'));
 });
+
+app.get('/freelancer-dash', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/pages/freelancer-dashboard.html'));
+});
+
+
 
 // Render the home page => this is the page where the user lands when they are successfully logged in
 app.get('/user-dashboard', (req, res) => {
