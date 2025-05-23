@@ -30,19 +30,20 @@ const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationsRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
-const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
+const paymentRoutes = require('./routes/paymentRoutes'); 
 
 // Use routes
 app.use('/auth', userRoutes);
 app.use('/job', jobRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/apply', applicationRoutes);
-app.use('/', paymentRoutes); // ✅ NEW LINE
 
 // Render the index.html => this is where the user logs in
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+
+app.use('/', paymentRoutes); 
 
 // Render the role-selection.html => this is where the user selects their role on the system
 app.get('/role-selection', (req, res) => {
