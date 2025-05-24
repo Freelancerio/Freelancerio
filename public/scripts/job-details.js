@@ -1,4 +1,4 @@
-import getBaseUrl from './base-url.mjs';
+import getBaseUrl from '../base-url.mjs';
 
 const baseURL = getBaseUrl();
 

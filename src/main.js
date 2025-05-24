@@ -74,6 +74,11 @@ app.get('/view-freelancer', (req,res) => {
   res.sendFile(path.join(__dirname,'../public/pages/client-home.html'))
 });
 
+// Render the client jobs page
+app.get('/view-applications', (req,res) => {
+  res.sendFile(path.join(__dirname,'../public/pages/jobapplicants.html'))
+});
+
 // Render the job single page of the freelancer
 app.get('/job-details', (req,res) => {
   res.sendFile(path.join(__dirname,'../public/pages/single-job-post.html'))

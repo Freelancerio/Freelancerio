@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Job Applicants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2b6cb0 0%, #2b6cb0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .job-selector {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .job-selector h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .job-dropdown {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .job-dropdown:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .applicants-section {
+            padding: 30px;
+        }
+
+        .applicants-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+
+        .applicant-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .applicant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .applicant-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .applicant-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2b6cb0, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .applicant-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .applicant-info h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .applicant-info h3:hover {
+            color: #667eea;
+        }
+
+        .applicant-email {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .applicant-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .detail-value {
+            color: #6c757d;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-applied {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-accepted {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status-reviewed {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-accept {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+        }
+
+        .btn-accept:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
+            transform: translateY(-2px);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            transform: translateY(-2px);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            transform: translateY(-2px);
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .btn-create:hover {
+            background: linear-gradient(135deg, #f57c00, #ef6c00);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+        .no-applicants {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+        .no-applicants h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #2c3e50;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2b6cb0, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .profile-section h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #667eea;
+            display: inline-block;
+        }
+
+        .profile-section p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .applicants-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="container">
+    <section class="header">
+        <h1>Manage Job Applicants</h1>
+        <p>Review and manage applications for your job postings</p>
+    </section>
+
+    <section class="job-selector">
+        <h2>Select a Job</h2>
+        <select id="jobDropdown" class="job-dropdown">
+            <option value="">Select a job to view applicants...</option>
+        </select>
+    </section>
+
+    <section class="applicants-section">
+        <section id="loadingState" class="loading">
+            <h3>Select a job to view applicants</h3>
+        </section>
+        <section id="noApplicants" class="no-applicants" style="display: none;">
+            <h3>No applicants yet</h3>
+            <p>No one has applied for this job yet. Check back later!</p>
+        </section>
+        <section id="applicantsGrid" class="applicants-grid" style="display: none;"></section>
+    </section>
+</section>
+
+<!-- Profile Modal -->
+<section id="profileModal" class="modal">
+    <section class="modal-content">
+        <span class="close">&times;</span>
+        <section id="profileContent"></section>
+    </section>
+</section>
+
+<script type="module">
+    // Configuration
+    const API_BASE_URL = 'http://localhost:3000'; // Replace with your actual API base URL
+
+    let currentJobs = [];
+    let currentApplicants = [];
+    let CLIENT_ID = null;
+
+    // Get URL parameters to check if a specific job was passed
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselectedJobId = urlParams.get('jobId');
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeApp();
+    });
+
+    async function initializeApp() {
+        try {
+            console.log('Initializing app...');
+
+            // Try to get client ID from multiple sources
+            await getClientId();
+            console.log('Client ID obtained:', CLIENT_ID);
+
+            // Load jobs for this client
+            await loadClientJobs();
+            console.log('Jobs loaded:', currentJobs.length);
+
+            setupEventListeners();
+
+            // If a specific job was passed in URL, preselect it
+            if (preselectedJobId) {
+                const jobDropdown = document.getElementById('jobDropdown');
+                jobDropdown.value = preselectedJobId;
+                await loadApplicants(preselectedJobId);
+            }
+        } catch (error) {
+            console.error('Error initializing app:', error);
+            showErrorPage('Failed to initialize application', error.message);
+        }
+    }
+
+    async function getClientId() {
+        try {
+            // Try multiple sources for client ID
+            CLIENT_ID = sessionStorage.getItem('clientId') ||
+                localStorage.getItem('clientId') ||
+                urlParams.get('clientId') ||
+                'kb9i7ctTl0MyXc0xQTSoiR2vl2D2'; // Your actual client ID as fallback
+
+            console.log('Using Client ID:', CLIENT_ID);
+        } catch (error) {
+            console.error('Error getting client ID:', error);
+            // Use the fallback client ID
+            CLIENT_ID = 'kb9i7ctTl0MyXc0xQTSoiR2vl2D2';
+        }
+    }
+
+    function setupEventListeners() {
+        const jobDropdown = document.getElementById('jobDropdown');
+        const modal = document.getElementById('profileModal');
+        const closeBtn = document.querySelector('.close');
+
+        jobDropdown.addEventListener('change', function() {
+            if (this.value) {
+                loadApplicants(this.value);
+            } else {
+                showLoadingState();
+            }
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    async function loadClientJobs() {
+        try {
+            console.log(`Fetching jobs for client: ${CLIENT_ID}`);
+            const response = await fetch(`${API_BASE_URL}/jobs/user/${CLIENT_ID}`);
+
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.log('Error response:', errorText);
+                throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+            }
+
+            const jobs = await response.json();
+            console.log('Raw jobs response:', jobs);
+            console.log('Type of jobs response:', typeof jobs);
+            console.log('Is jobs an array?', Array.isArray(jobs));
+
+            // Handle different response formats
+            let jobsArray;
+            if (Array.isArray(jobs)) {
+                jobsArray = jobs;
+            } else if (jobs && Array.isArray(jobs.jobs)) {
+                jobsArray = jobs.jobs;
+            } else if (jobs && typeof jobs === 'object') {
+                // If single job object, wrap in array
+                jobsArray = [jobs];
+            } else {
+                jobsArray = [];
+            }
+
+            console.log('Processed jobs array:', jobsArray);
+
+            currentJobs = jobsArray;
+            populateJobDropdown(currentJobs);
+
+            if (currentJobs.length === 0) {
+                console.log('No jobs found for client');
+                showLoadingState('No jobs found for this client');
+            } else {
+                console.log(`Successfully loaded ${currentJobs.length} jobs`);
+            }
+        } catch (error) {
+            console.error('Detailed error loading client jobs:', error);
+            console.error('Error stack:', error.stack);
+            throw new Error(`Failed to load jobs: ${error.message}`);
+        }
+    }
+
+    function populateJobDropdown(jobs) {
+        const dropdown = document.getElementById('jobDropdown');
+        dropdown.innerHTML = '<option value="">Select a job to view applicants...</option>';
+
+        jobs.forEach(job => {
+            const option = document.createElement('option');
+            // Handle MongoDB ObjectId properly
+            const jobId = job._id?.$oid || job._id || job.id;
+            option.value = jobId;
+            option.textContent = `${job.job_title} - ${job.total_pay}`;
+            dropdown.appendChild(option);
+
+            console.log('Added job to dropdown:', {
+                title: job.job_title,
+                id: jobId,
+                fullJob: job
+            });
+        });
+
+        console.log('Dropdown populated with', jobs.length, 'jobs');
+    }
+
+    async function loadApplicants(jobId) {
+        showLoadingState('Loading applicants...');
+
+        try {
+            console.log(`Loading applicants for job ID: "${jobId}"`);
+            console.log('Job ID type:', typeof jobId);
+
+            // Make sure we have a valid job ID
+            if (!jobId || jobId.trim() === '') {
+                throw new Error('Invalid job ID provided');
+            }
+
+            const url = `${API_BASE_URL}/applications/job/${encodeURIComponent(jobId)}/details`;
+            console.log('Fetching from URL:', url);
+
+            const response = await fetch(url);
+            console.log('Applicants response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.log('Applicants error response:', errorText);
+                throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+            }
+
+            const applicants = await response.json();
+            console.log('Raw applicants response:', applicants);
+            console.log('Type of applicants response:', typeof applicants);
+            console.log('Is applicants an array?', Array.isArray(applicants));
+
+            // Handle different response formats
+            let applicantsArray;
+            if (Array.isArray(applicants)) {
+                applicantsArray = applicants;
+            } else if (applicants && Array.isArray(applicants.applications)) {
+                applicantsArray = applicants.applications;
+            } else if (applicants && typeof applicants === 'object') {
+                // If single applicant object, wrap in array
+                applicantsArray = [applicants];
+            } else {
+                applicantsArray = [];
+            }
+
+            console.log('Processed applicants array:', applicantsArray);
+            currentApplicants = applicantsArray;
+
+            if (currentApplicants.length === 0) {
+                console.log('No applicants found for this job');
+                showNoApplicants();
+            } else {
+                console.log(`Successfully loaded ${currentApplicants.length} applicants`);
+                displayApplicants(currentApplicants);
+            }
+        } catch (error) {
+            console.error('Detailed error loading applicants:', error);
+            console.error('Error stack:', error.stack);
+            showError('Failed to load applicants: ' + error.message);
+        }
+    }
+
+    function displayApplicants(applicants) {
+        const grid = document.getElementById('applicantsGrid');
+        const loadingState = document.getElementById('loadingState');
+        const noApplicants = document.getElementById('noApplicants');
+
+        loadingState.style.display = 'none';
+        noApplicants.style.display = 'none';
+        grid.style.display = 'grid';
+
+        grid.innerHTML = applicants.map(applicant => createApplicantCard(applicant)).join('');
+    }
+
+    function createApplicantCard(applicant) {
+        const user = applicant.user || {};
+        const initial = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U';
+        const appliedDate = new Date(applicant.createdAt).toLocaleDateString();
+
+        return `
+            <section class="applicant-card">
+                <section class="applicant-header">
+                    <section class="applicant-avatar" onclick="showFreelancerProfile('${applicant.user_id}')">
+                        ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : initial}
+                    </section>
+                    <section class="applicant-info">
+                        <h3 onclick="showFreelancerProfile('${applicant.user_id}')">${user.displayName || 'Unknown User'}</h3>
+                        <section class="applicant-email">${user.email || 'No email'}</section>
+                    </section>
+                </section>
+
+                <section class="applicant-details">
+                    <section class="detail-item">
+                        <span class="detail-label">Applied on:</span>
+                        <span class="detail-value">${appliedDate}</span>
+                    </section>
+                    <section class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-${applicant.status || 'applied'}">${(applicant.status || 'applied').toUpperCase()}</span>
+                    </section>
+                </section>
+
+                <section class="action-buttons">
+                    ${applicant.status !== 'accepted' ? `
+                        <button class="btn btn-accept" onclick="updateApplicationStatus('${applicant._id}', 'accepted')">
+                            Accept
+                        </button>
+                    ` : ''}
+                    ${applicant.status !== 'rejected' ? `
+                        <button class="btn btn-reject" onclick="updateApplicationStatus('${applicant._id}', 'rejected')">
+                            Reject
+                        </button>
+                    ` : ''}
+                    <button class="btn btn-view" onclick="showFreelancerProfile('${applicant.user_id}')">
+                        View Profile
+                    </button>
+                    ${applicant.status === 'accepted' ? `
+                        <button class="btn btn-create" onclick="createContract('${applicant.user_id}', '${applicant.job_id}')">
+                            Create Contract
+                        </button>
+                    ` : ''}
+                </section>
+            </section>
+        `;
+    }
+
+    window.updateApplicationStatus = async function(applicationId, status) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/applications/${applicationId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status })
+            });
+
+            if (!response.ok) throw new Error('Failed to update application status');
+
+            // Reload applicants to show updated status
+            const jobId = document.getElementById('jobDropdown').value;
+            if (jobId) {
+                await loadApplicants(jobId);
+            }
+
+            showSuccess(`Application ${status} successfully!`);
+        } catch (error) {
+            console.error('Error updating application status:', error);
+            showError('Failed to update application status: ' + error.message);
+        }
+    }
+
+    window.showFreelancerProfile = async function(userId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/users/${userId}/details`);
+            if (!response.ok) throw new Error('Failed to fetch user profile');
+
+            const userData = await response.json();
+            const user = userData.user || {};
+
+            const profileContent = document.getElementById('profileContent');
+            const initial = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U';
+
+            profileContent.innerHTML = `
+                <section class="profile-header">
+                    <section class="profile-avatar">
+                        ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : initial}
+                    </section>
+                    <h2>${user.displayName || 'Unknown User'}</h2>
+                    <p>${user.email || 'No email available'}</p>
+                </section>
+
+                <section class="profile-section">
+                    <h3>About</h3>
+                    <p>${user.about || 'No information provided yet.'}</p>
+                </section>
+
+                <section class="profile-section">
+                    <h3>Skills</h3>
+                    <p>${user.skills || 'No skills listed yet.'}</p>
+                </section>
+            `;
+
+            document.getElementById('profileModal').style.display = 'block';
+        } catch (error) {
+            console.error('Error loading freelancer profile:', error);
+            showError('Failed to load freelancer profile: ' + error.message);
+        }
+    }
+
+    window.createContract = function(freelancerId, jobId) {
+        // Redirect to contract creation page with necessary parameters
+        window.location.href = `/create-contract?freelancerId=${freelancerId}&jobId=${jobId}&clientId=${CLIENT_ID}`;
+    }
+
+    function showLoadingState(message = 'Select a job to view applicants') {
+        const loadingState = document.getElementById('loadingState');
+        const noApplicants = document.getElementById('noApplicants');
+        const grid = document.getElementById('applicantsGrid');
+
+        loadingState.innerHTML = `<h3>${message}</h3>`;
+        loadingState.style.display = 'block';
+        noApplicants.style.display = 'none';
+        grid.style.display = 'none';
+    }
+
+    function showNoApplicants() {
+        const loadingState = document.getElementById('loadingState');
+        const noApplicants = document.getElementById('noApplicants');
+        const grid = document.getElementById('applicantsGrid');
+
+        loadingState.style.display = 'none';
+        noApplicants.style.display = 'block';
+        grid.style.display = 'none';
+    }
+
+    function showErrorPage(title, details) {
+        const errorPage = document.getElementById('errorPage');
+        const mainContent = document.getElementById('mainContent');
+        const errorDetails = document.getElementById('errorDetails');
+
+        document.querySelector('.error-title').textContent = title;
+
+        if (details) {
+            errorDetails.textContent = details;
+            errorDetails.style.display = 'block';
+        }
+
+        mainContent.style.display = 'none';
+        errorPage.style.display = 'block';
+    }
+
+    window.retryLoading = function() {
+        const errorPage = document.getElementById('errorPage');
+        const mainContent = document.getElementById('mainContent');
+
+        errorPage.style.display = 'none';
+        mainContent.style.display = 'block';
+
+        // Reset and retry
+        setTimeout(() => {
+            initializeApp();
+        }, 100);
+    }
+
+    window.goToJobPage = function() {
+        // Navigate back to the job application page
+        window.location.href = '/jobApplication.html'; // Adjust this path as needed
+    }
+
+    function showSuccess(message) {
+        // Simple success notification - you can enhance this with a proper notification system
+        alert('✅ ' + message);
+    }
+
+    function showError(message) {
+        // Simple error notification - you can enhance this with a proper notification system
+        alert('❌ ' + message);
+    }
+</script>
+</body>
+</html>

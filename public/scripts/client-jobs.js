@@ -276,6 +276,55 @@ function createJobItem(job) {
             viewApplications(jobId);
         });
 
+        // Function to handle viewing applications for a specific job
+        function viewApplications(jobId) {
+            try {
+                // Store the client ID in sessionStorage so the applications page can access it
+                const clientId = getCurrentUserId(); // Replace this with your actual function to get current user ID
+                sessionStorage.setItem('clientId', clientId);
+
+                // Navigate to the applications page with the job ID as a parameter
+                window.location.href = `/view-applications?jobId=${jobId}`;
+            } catch (error) {
+                console.error('Error navigating to applications page:', error);
+                alert('Failed to load applications page. Please try again.');
+            }
+        }
+
+        // Alternative approach - if you want to pass more data via URL parameters
+        function viewApplicationsWithData(jobId, jobTitle, totalPay) {
+            try {
+                const clientId = getCurrentUserId();
+                sessionStorage.setItem('clientId', clientId);
+
+                // Pass additional job data as URL parameters
+                const params = new URLSearchParams({
+                    jobId: jobId,
+                    jobTitle: jobTitle,
+                    totalPay: totalPay
+                });
+
+                window.location.href = `/view-applications?${params.toString()}`;
+            } catch (error) {
+                console.error('Error navigating to applications page:', error);
+                alert('Failed to load applications page. Please try again.');
+            }
+        }
+
+        // Helper function to get current user ID - replace with your actual implementation
+        function getCurrentUserId() {
+            // This should return the current logged-in client's ID
+            // Replace with your actual authentication logic
+            return localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'your-client-id';
+        }
+        // const applicationsButton = document.createElement('button');
+        // applicationsButton.classList.add('inline-block', 'bg-teal-600', 'text-white', 'px-6', 'py-2', 'rounded-lg', 'hover:bg-teal-700', 'transition', 'duration-300', 'w-full', 'sm:w-auto', 'ml-4');
+        // applicationsButton.textContent = 'View Applications';
+        //
+        // applicationsButton.addEventListener('click', () => {
+        //     viewApplications(jobId);
+        // });
+
         buttonSection.appendChild(applicationsButton);
 
         //create the hide button
