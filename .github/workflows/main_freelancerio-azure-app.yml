@@ -21,11 +21,22 @@ jobs:
 
       - name: Prepare deployment
         run: |
-          # Create root web.config if missing
-          if not exist web.config (
-            copy public\web.config web.config || echo "Web.config copied from public folder"
-          )
+          # Create root web.config from public folder
+          if (!(Test-Path -Path "web.config")) {
+            Copy-Item -Path "public/web.config" -Destination "web.config" -ErrorAction SilentlyContinue
+            if (!(Test-Path -Path "web.config")) {
+              Write-Output "Failed to create root web.config - ensure public/web.config exists"
+            }
+          }
+          
+          # Run build script
           npm run build
+          
+          # Verify critical files
+          if (!(Test-Path -Path "public/web.config")) {
+            Write-Error "Missing public/web.config - deployment will fail!"
+            exit 1
+          }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
