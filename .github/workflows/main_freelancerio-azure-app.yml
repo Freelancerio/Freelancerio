@@ -1,68 +1,29 @@
-name: Azure Deployment
+deploy:
+  runs-on: ubuntu-latest
+  needs: build
+  environment:
+    name: 'Production'
+    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: node-app
 
-jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        npm install --production
+        # Verify express is installed
+        if [ ! -d "node_modules/express" ]; then
+          echo "Critical error: Express not installed!"
+          exit 1
+        fi
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Prepare deployment
-        run: |
-          # Create root web.config from public folder
-          if (!(Test-Path -Path "web.config")) {
-            Copy-Item -Path "public/web.config" -Destination "web.config" -ErrorAction SilentlyContinue
-            if (!(Test-Path -Path "web.config")) {
-              Write-Output "Failed to create root web.config - ensure public/web.config exists"
-            }
-          }
-          
-          # Run build script
-          npm run build
-          
-          # Verify critical files
-          if (!(Test-Path -Path "public/web.config")) {
-            Write-Error "Missing public/web.config - deployment will fail!"
-            exit 1
-          }
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app
-          path: |
-            .
-            !node_modules/
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-
-      - name: Deploy to Azure
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'freelancerio-azure-app'
-          slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6685209C9EF84057A46D4974926C36DF }}
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'freelancerio-azure-app'
+        slot-name: 'Production'
+        package: .
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6685209C9EF84057A46D4974926C36DF }}
