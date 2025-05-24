@@ -1,56 +1,730 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Post a Job</title>
-  
+  <title>Post a Job - Freelancerio</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../styles/jobcard.css">
+
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2563eb 0%, ghostwhite 100%);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Custom gradient backgrounds */
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .sidebar-gradient {
+      background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    }
+
+    /* Glass morphism effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* Sidebar animations */
+    .sidebar-item {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .sidebar-item:hover::before {
+      left: 100%;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateX(5px);
+    }
+
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Main content animations */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Enhanced Sidebar */
+    aside {
+      width: 280px;
+      background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+      color: white;
+      padding: 2rem;
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative background pattern */
+    aside::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image: radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%);
+    }
+
+    aside header {
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo-container {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      border-radius: 1rem;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .logo-container span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    aside h1 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .portal-subtitle {
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+
+    aside nav {
+      position: relative;
+      z-index: 10;
+    }
+
+    aside nav ul {
+      list-style: none;
+      space-y: 0.75rem;
+    }
+
+    aside nav li {
+      margin-bottom: 0.75rem;
+    }
+
+    aside nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #d1d5db;
+      text-decoration: none;
+      padding: 0.875rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-icon {
+      width: 2rem;
+      height: 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    aside nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    aside nav a:hover::before {
+      left: 100%;
+    }
+
+    aside nav a:hover {
+      color: white;
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateX(5px);
+    }
+
+    aside nav li.active a {
+      color: white;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .logout-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #374151;
+    }
+
+    .logout-section a {
+      color: #fca5a5 !important;
+    }
+
+    .logout-section a:hover {
+      color: #ef4444 !important;
+      background: rgba(239, 68, 68, 0.1) !important;
+    }
+
+    /* Enhanced Main Content */
+    main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Header Section */
+    main header {
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    #client-page-heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+      color: #6b7280;
+      font-size: 1.125rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Display Section */
+    #display-section {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      min-height: 500px;
+      position: relative;
+    }
+
+    /* Default content when no specific page is loaded */
+    .default-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      text-align: center;
+    }
+
+    .default-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .default-icon span {
+      font-size: 2rem;
+      color: white;
+    }
+
+    .default-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.75rem;
+    }
+
+    .default-description {
+      color: #6b7280;
+      font-size: 1rem;
+      max-width: 400px;
+    }
+
+    /* Enhanced job cards and forms styling */
+    .jobs-container {
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      max-width: none;
+      width: 100%;
+      padding: 0;
+    }
+
+    .jobs-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .jobs-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .jobs-header p {
+      color: #6b7280;
+      font-size: 1.125rem;
+    }
+
+    /* Job listings */
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .job {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .job:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Job header */
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .job-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+
+    .company {
+      color: #3b82f6;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .company:hover {
+      color: #1d4ed8;
+    }
+
+    .apply-button {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    }
+
+    .apply-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Job details */
+    .job-details {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+
+    .job-details dd {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(59, 130, 246, 0.1);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+    }
+
+    /* Description */
+    .job-description {
+      font-size: 0.95rem;
+      color: #374151;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    /* Skill tags */
+    .skill-tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      color: #1d4ed8;
+      padding: 0.5rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    /* Form styling */
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    textarea.form-control {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      width: 100%;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Pagination */
+    .pagination {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .view-more {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      padding: 0.875rem 2rem;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .view-more:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      aside {
+        width: 100%;
+        padding: 1rem;
+      }
+
+      aside header {
+        margin-bottom: 1.5rem;
+      }
+
+      .logo-container {
+        width: 48px;
+        height: 48px;
+      }
+
+      aside h1 {
+        font-size: 1.5rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      #client-page-heading {
+        font-size: 2rem;
+      }
+
+      .job-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .apply-button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .job-details {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
+
+    /* Utility classes */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex">
-  <!-- Sidebar -->
-  <aside class="w-64 bg-gray-900 text-white p-6">
-    <header class="mb-10">
-      <h1 class="text-2xl font-bold">FreelancerIO</h1>
-    </header>
-    <nav>
-      <ul>
-        <!-- -->
-        <li class="mb-4 bg-blue-800 rounded px-2 py-1 " id="post_job">
-          <a href="/client-home" class="text-white hover:text-blue-400" >📝 Post a Job</a>
-        </li>
-        <li class="mb-4 " id="view_jobs">
-          <a href="/client-jobs" class="text-white hover:text-blue-400" >📋 My Job List</a>
-        </li>
-        <li class="mb-4" id="view_freelancers">
-          <a href="/view-freelancer" class="text-white hover:text-blue-400" >📋 View Freelancers</a>
-        </li>
-        <li class = "mb-4" id="dashboard">
-          <a href="/client-dashboard" class="text-white hover:text-blue-400">📈 Dashboard</a>
-        </li>
-        <li class="mt-8 pt-4 border-t border-gray-700">
-          <a href="/" class="text-white hover:text-red-400">🚪 Logout</a>
-        </li>
-      </ul>
-    </nav>
-  </aside>
 
-  <!-- Main Content -->
-<main class="flex-1 p-10">
-    <header class="mb-6">
-      <h2 class="text-2xl font-bold text-gray-800" id="client-page-heading">Post a New Job</h2>
-    </header>
-
-    <section id="display-section">
+<body>
+<!-- Enhanced Sidebar -->
+<aside class="custom-scrollbar">
+  <header>
+    <section class="logo-container">
+      <span>F</span>
     </section>
-  
-  </main>
+    <h1>Freelancerio</h1>
+    <p class="portal-subtitle">Client Portal</p>
+  </header>
 
-  <script type = "module" src="../scripts/client-home.js"></script>
-  <script type = "module" src="../scripts/client-jobs.js"></script>
-  <script type = "module" src="../scripts/view-freelancer.js"></script>
+  <nav>
+    <ul>
+      <li class="sidebar-item active" id="post_job">
+        <a href="/client-home">
+          <span class="nav-icon">📝</span>
+          Post a Job
+        </a>
+      </li>
+      <li class="sidebar-item" id="view_jobs">
+        <a href="/client-jobs">
+          <span class="nav-icon">📋</span>
+          My Job List
+        </a>
+      </li>
+      <li class="sidebar-item" id="view_freelancers">
+        <a href="/view-freelancer">
+          <span class="nav-icon">👥</span>
+          View Freelancers
+        </a>
+      </li>
+      <li class="sidebar-item" id="dashboard">
+        <a href="/client-dashboard">
+          <span class="nav-icon">📈</span>
+          Dashboard
+        </a>
+      </li>
+
+      <li class="logout-section">
+        <a href="/">
+          <span class="nav-icon">🚪</span>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- Enhanced Main Content -->
+<main class="custom-scrollbar">
+  <header class="fade-in">
+    <h2 id="client-page-heading">Post a New Job</h2>
+    <p class="page-subtitle">Create and publish job opportunities to find the perfect freelancer for your project</p>
+  </header>
+
+  <section id="display-section" class="fade-in">
+    <!-- Default content when no specific page is loaded -->
+    <section class="default-content">
+      <section class="default-icon">
+        <span>⚡</span>
+      </section>
+      <h3 class="default-title">Ready to Get Started?</h3>
+      <p class="default-description">
+        Select an option from the sidebar to begin managing your projects, posting jobs, or viewing freelancer profiles.
+      </p>
+    </section>
+  </section>
+</main>
+
+<script type="module" src="../scripts/client-home.js"></script>
+<script type="module" src="../scripts/client-jobs.js"></script>
+<script type="module" src="../scripts/view-freelancer.js"></script>
+
+<script>
+  // Add smooth transitions for dynamic content
+  document.addEventListener('DOMContentLoaded', function() {
+    const displaySection = document.getElementById('display-section');
+
+    // Observer for fade-in animations
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1) { // Element node
+              node.classList.add('fade-in');
+            }
+          });
+        }
+      });
+    });
+
+    observer.observe(displaySection, { childList: true, subtree: true });
+
+    // Sidebar navigation active state management
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const currentPath = window.location.pathname;
+
+    sidebarItems.forEach(item => {
+      const link = item.querySelector('a');
+      if (link && link.getAttribute('href') === currentPath) {
+        // Remove active class from all items
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        // Add active class to current item
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
 </body>
 </html>
-

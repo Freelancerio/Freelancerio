@@ -3,17 +3,322 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Details</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Job Details - Freelancerio</title>
+
   <style>
-    /* Additional styles for disabled button */
-    .disabled-btn {
-      opacity: 0.7;
-      cursor: not-allowed;
-      pointer-events: none;
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* Modal background */
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Glass morphism effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* Enhanced Header */
+    header {
+      background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+      color: white;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    #job-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    #company-name {
+      font-size: 1.375rem;
+      font-weight: 400;
+      opacity: 0.9;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Enhanced Main Content */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Enhanced Sections */
+    section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Enhanced Job Details Grid */
+    .job-details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .detail-item {
+      background: rgba(249, 250, 251, 0.8);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      border-left: 4px solid #3b82f6;
+      transition: all 0.3s ease;
+    }
+
+    .detail-item:hover {
+      background: rgba(239, 246, 255, 0.9);
+      transform: translateX(5px);
+    }
+
+    .detail-item strong {
+      color: #374151;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-item .value {
+      color: #1f2937;
+      font-weight: 500;
+      font-size: 1.125rem;
+    }
+
+    /* Icons for detail items */
+    .detail-item[data-type="category"] strong::before { content: '📂'; }
+    .detail-item[data-type="rate"] strong::before { content: '💰'; }
+    .detail-item[data-type="status"] strong::before { content: '📊'; }
+    .detail-item[data-type="date"] strong::before { content: '📅'; }
+    .detail-item[data-type="location"] strong::before { content: '📍'; }
+    .detail-item[data-type="duration"] strong::before { content: '⏱️'; }
+
+    /* Enhanced Section Headers */
+    .section-header {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #3b82f6;
+    }
+
+    .section-header.description::before { content: '📝'; }
+    .section-header.skills::before { content: '🛠️'; }
+
+    /* Enhanced Job Description */
+    #job-description {
+      color: #374151;
+      font-size: 1.125rem;
+      line-height: 1.8;
+      background: rgba(249, 250, 251, 0.8);
+      padding: 2rem;
+      border-radius: 1rem;
+      border-left: 4px solid #3b82f6;
+    }
+
+    /* Enhanced Skills Section */
+    #skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .skill-tag {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      color: #1e40af;
+      padding: 0.75rem 1.25rem;
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid rgba(30, 64, 175, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(30, 64, 175, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .skill-tag:hover::before {
+      left: 100%;
+    }
+
+    .skill-tag:hover {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    /* Enhanced Action Buttons */
+    .action-section {
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .action-section:hover {
+      transform: none !important;
+    }
+
+    .back-button {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      color: #374151;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      color: #1f2937;
+    }
+
+    #apply-button {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      position: relative;
+      overflow: hidden;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    #apply-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    #apply-button:hover::before {
+      left: 100%;
+    }
+
+    #apply-button:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    #apply-button:active {
+      transform: translateY(0);
+    }
+
+    /* Disabled button state */
+    .disabled-btn {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+      background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%) !important;
+    }
+
+    /* Enhanced Modal */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -21,80 +326,439 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 100;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: fadeIn 0.3s ease;
     }
 
-    /* Modal content */
     .modal-content {
-      background-color: #fcf7e6;
-      border-radius: 8px;
-      padding: 2rem;
-      max-width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 3rem;
+      max-width: 500px;
+      width: 90%;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideIn 0.3s ease;
+      position: relative;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content::before {
+      content: '🎉';
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content p {
+      color: #374151;
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    #modal-ok-button {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      padding: 1rem 3rem;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    #modal-ok-button:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Loading state */
+    .loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Status badges */
+    .status-available {
+      color: #059669;
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .status-taken {
+      color: #dc2626;
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        padding: 2rem 1rem;
+      }
+
+      #job-title {
+        font-size: 2rem;
+      }
+
+      #company-name {
+        font-size: 1.125rem;
+      }
+
+      main {
+        padding: 2rem 1rem;
+        gap: 1.5rem;
+      }
+
+      section {
+        padding: 2rem 1.5rem;
+        border-radius: 1.25rem;
+      }
+
+      .job-details-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .action-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .back-button,
+      #apply-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .modal-content h2 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #job-title {
+        font-size: 1.75rem;
+      }
+
+      .section-header {
+        font-size: 1.5rem;
+      }
+
+      section {
+        padding: 1.5rem 1rem;
+      }
+
+      .detail-item {
+        padding: 1rem;
+      }
+
+      #job-description {
+        padding: 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.3);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.5);
     }
   </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body>
 
-<header class="bg-blue-800 text-white p-6">
-  <div class="max-w-4xl mx-auto">
-    <h1 id="job-title" class="text-3xl font-semibold">Loading...</h1>
-    <p id="company-name" class="text-xl mt-2">Loading...</p>
-  </div>
+<header>
+  <section class="header-content">
+    <h1 id="job-title">Loading...</h1>
+    <p id="company-name">Loading...</p>
+  </section>
 </header>
 
-<main class="max-w-4xl mx-auto p-6 space-y-8">
+<main>
   <!-- Job Details Section -->
-  <section class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <p class="text-gray-700"><strong>Category:</strong> <span id="job-category" class="font-medium"></span></p>
-      <p class="text-gray-700"><strong>Rate:</strong> R<span id="total-pay" class="font-medium"></span></p>
-      <p class="text-gray-700"><strong>Status:</strong> <span id="taken-status" class="font-medium"></span></p>
-      <p class="text-gray-700"><strong>Posted On:</strong> <span id="created-at" class="font-medium"></span></p>
-      <p class="text-gray-700"><strong>Location:</strong> <span id="location-category" class="font-medium"></span> </p>
-      <p class="text-gray-700"><strong>Duration:</strong>  <span id="duration-months" class="font-medium"></span></p>
-    </div>
+  <section>
+    <h2 class="section-header">Job Information</h2>
+    <section class="job-details-grid">
+      <section class="detail-item" data-type="category">
+        <strong>Category:</strong>
+        <section class="value" id="job-category"></section>
+      </section>
+      <section class="detail-item" data-type="rate">
+        <strong>Rate:</strong>
+        <section class="value">R<span id="total-pay"></span></section>
+      </section>
+      <section class="detail-item" data-type="status">
+        <strong>Status:</strong>
+        <section class="value" id="taken-status"></section>
+      </section>
+      <section class="detail-item" data-type="date">
+        <strong>Posted On:</strong>
+        <section class="value" id="created-at"></section>
+      </section>
+      <section class="detail-item" data-type="location">
+        <strong>Location:</strong>
+        <section class="value" id="location-category"></section>
+      </section>
+      <section class="detail-item" data-type="duration">
+        <strong>Duration:</strong>
+        <section class="value" id="duration-months"></section>
+      </section>
+    </section>
   </section>
 
   <!-- Job Description Section -->
-  <section class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Job Description</h2>
-    <p id="job-description" class="text-gray-700"></p>
+  <section>
+    <h2 class="section-header description">Job Description</h2>
+    <section id="job-description"></section>
   </section>
 
   <!-- Required Skills Section -->
-  <section class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Required Skills</h2>
-    <div id="skills" class="flex flex-wrap gap-2"></div>
+  <section>
+    <h2 class="section-header skills">Required Skills</h2>
+    <section id="skills"></section>
   </section>
 
-
   <!-- Apply Button -->
-  <section>
-    <a href="/freelancer-home" class="inline-block bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">← Back to Job Listings</a>
-    <button
-            id="apply-button"
-            class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 w-full sm:w-auto"
-    >
+  <section class="action-section">
+    <a href="/freelancer-home" class="back-button">
+      ← Back to Job Listings
+    </a>
+    <button id="apply-button">
       Apply Now
     </button>
   </section>
 </main>
 
 <!-- Success Modal -->
-<div id="success-modal" class="modal-overlay" style="display: none;">
-  <div class="modal-content">
-    <h2 class="text-3xl font-bold mb-3">SUCCESS!</h2>
-    <p class="mb-6">You have successfully applied for this job.</p>
-    <button id="modal-ok-button" class="bg-blue-800 text-white px-8 py-2 rounded-lg hover:bg-blue-700 transition duration-300">OK</button>
-  </div>
-</div>
+<section id="success-modal" class="modal-overlay" style="display: none;">
+  <section class="modal-content">
+    <h2>SUCCESS!</h2>
+    <p>You have successfully applied for this job. The client will review your application and get back to you soon.</p>
+    <button id="modal-ok-button">OK</button>
+  </section>
+</section>
 
 <script type="module" src="../scripts/job-details.js"></script>
+
+<script>
+  // Enhanced interactions and animations
+  document.addEventListener('DOMContentLoaded', function() {
+    const applyButton = document.getElementById('apply-button');
+    const modal = document.getElementById('success-modal');
+    const modalOkButton = document.getElementById('modal-ok-button');
+
+    // Enhanced apply button functionality
+    applyButton.addEventListener('click', function() {
+      if (this.classList.contains('disabled-btn')) return;
+
+      // Add loading state
+      this.classList.add('loading');
+      this.textContent = '';
+
+      // Simulate API call
+      setTimeout(() => {
+        this.classList.remove('loading');
+        this.textContent = 'Apply Now';
+
+        // Show success modal
+        modal.style.display = 'flex';
+
+        // Disable button after successful application
+        this.classList.add('disabled-btn');
+        this.textContent = 'Applied';
+      }, 2000);
+    });
+
+    // Modal close functionality
+    modalOkButton.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Enhanced status display
+    const statusElement = document.getElementById('taken-status');
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+          const status = statusElement.textContent.toLowerCase();
+          statusElement.className = status.includes('available') ? 'status-available' : 'status-taken';
+        }
+      });
+    });
+
+    if (statusElement) {
+      observer.observe(statusElement, { childList: true, characterData: true, subtree: true });
+    }
+
+    // Animate sections on scroll
+    const sections = document.querySelectorAll('section');
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section, index) => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(30px)';
+      section.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+      sectionObserver.observe(section);
+    });
+
+    // Enhanced skill tags creation
+    const skillsContainer = document.getElementById('skills');
+    const skillsObserver = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1 && !node.classList.contains('skill-tag')) {
+              node.classList.add('skill-tag');
+            }
+          });
+        }
+      });
+    });
+
+    if (skillsContainer) {
+      skillsObserver.observe(skillsContainer, { childList: true });
+    }
+
+    // Add ripple effect to buttons
+    function addRippleEffect(element) {
+      element.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          transform: scale(0);
+          animation: ripple 0.6s ease-out;
+          pointer-events: none;
+        `;
+
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    }
+
+    // Add ripple effects to buttons
+    addRippleEffect(applyButton);
+    addRippleEffect(modalOkButton);
+
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  });
+</script>
 </body>
 </html>

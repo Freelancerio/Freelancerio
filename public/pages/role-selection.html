@@ -1,52 +1,643 @@
-﻿﻿<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="stylesheet" href="../styles/userInfo.css">
-        <!-- Font Awesome for brand icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <title>Sign Up Infomation</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome for brand icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Complete Your Profile - Freelancerio</title>
 
-    <body>
-        <article class="card">
-          <article class="avatar-container">
-            <article class="avatar"></article>
-          </article>
-          
-          <h1>Complete Your Profile</h1>
-          <p class="subtitle">Please provide your information below</p>
-          
-          <form>
-            <h2 class="section-title">Personal Information</h2>
-            
-            <main class="card-container">
-                <h4>User Type</h4>
-                <section class="card-container_1">
-                    <article class="card" id="Freelancer_box">
-                        freelancer
-                    </article>
-                    <article class="card" id="Hiring_Comp_box">
-                        hiring Company
-                    </article>
-                    <article class="card" id="admin_box">
-                        Admin
-                    </article>
-                </section>
-                 <article class="form-group">
-                  <label for="username">Admin Password</label>
-                  <input type="text" id="password" placeholder="Enter the admin password if you are an admin">
-                </article> 
-                <button class="button" id="submit">Complete Profile</button>
-            </main>
-          </form>
-        </article>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
 
-        <script type = "module" src="../scripts/role-selection.js"></script>
-      </body>
+        /* Background decoration */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Enhanced Main Card */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 520px;
+            padding: 3rem 2.5rem;
+            position: relative;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Avatar Container */
+        .avatar-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .avatar:hover::before {
+            left: 100%;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .avatar::after {
+            content: '👤';
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        /* Enhanced Typography */
+        h1 {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            font-size: 1.125rem;
+            font-weight: 400;
+        }
+
+        .section-title {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '⚡';
+            font-size: 1.25rem;
+        }
+
+        /* Enhanced Form Styling */
+        form {
+            position: relative;
+        }
+
+        .card-container h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-container h4::before {
+            content: '🎯';
+            font-size: 1rem;
+        }
+
+        /* Enhanced Role Selection Cards */
+        .card-container_1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-container_1 .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1rem;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #374151;
+            text-transform: capitalize;
+            position: relative;
+            overflow: hidden;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-container_1 .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card-container_1 .card:hover::before {
+            left: 100%;
+        }
+
+        #Freelancer_box {
+            position: relative;
+        }
+
+        #Freelancer_box::after {
+            content: '💼';
+            position: absolute;
+            top: 0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+        }
+
+        #Hiring_Comp_box::after {
+            content: '🏢';
+            position: absolute;
+            top: 0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+        }
+
+        #admin_box::after {
+            content: '⚙️';
+            position: absolute;
+            top: 0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+        }
+
+        .card-container_1 .card {
+            padding-top: 2.5rem;
+        }
+
+        #Freelancer_box:hover,
+        #Hiring_Comp_box:hover,
+        #admin_box:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+            color: #1e40af;
+        }
+
+        .card-container_1 .card.selected {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* Enhanced Form Group */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid rgba(226, 232, 240, 0.8);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            color: #374151;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Enhanced Submit Button */
+        .button {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #2563eb 0%, ghostwhite 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        /* Loading state for button */
+        .button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .button.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 2rem 1.5rem;
+                border-radius: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.875rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .card-container_1 {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .card-container_1 .card {
+                min-height: 70px;
+                padding: 1rem 0.75rem;
+                padding-top: 2.25rem;
+            }
+
+            .avatar {
+                width: 70px;
+                height: 70px;
+            }
+
+            .avatar::after {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.625rem;
+            }
+
+            .card-container_1 .card {
+                font-size: 0.8rem;
+                min-height: 65px;
+            }
+        }
+
+        /* Accessibility improvements */
+        .card-container_1 .card:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Custom scrollbar for mobile */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+<article class="card">
+    <article class="avatar-container">
+        <article class="avatar"></article>
+    </article>
+
+    <h1>Complete Your Profile</h1>
+    <p class="subtitle">Please select your role and provide your information below</p>
+
+    <form>
+        <h2 class="section-title">Personal Information</h2>
+
+        <main class="card-container">
+            <h4>User Type</h4>
+            <section class="card-container_1">
+                <article class="card" id="Freelancer_box" tabindex="0" role="button" aria-label="Select Freelancer role">
+                    Freelancer
+                </article>
+                <article class="card" id="Hiring_Comp_box" tabindex="0" role="button" aria-label="Select Hiring Company role">
+                    Hiring Company
+                </article>
+                <article class="card" id="admin_box" tabindex="0" role="button" aria-label="Select Admin role">
+                    Admin
+                </article>
+            </section>
+
+            <article class="form-group">
+                <label for="password">Admin Password</label>
+                <input type="password" id="password" placeholder="Enter the admin password if you are an admin">
+            </article>
+
+            <button class="button" id="submit" type="submit">Complete Profile</button>
+        </main>
+    </form>
+</article>
+
+<script type="module" src="../scripts/role-selection.js"></script>
+
+<script>
+    // Enhanced interaction for role selection
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleCards = document.querySelectorAll('.card-container_1 .card');
+        const submitButton = document.getElementById('submit');
+        const passwordField = document.getElementById('password');
+        const adminBox = document.getElementById('admin_box');
+
+        let selectedRole = null;
+
+        // Role selection functionality
+        roleCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards
+                roleCards.forEach(c => c.classList.remove('selected'));
+
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                selectedRole = this.id;
+
+                // Show/hide admin password field
+                if (this.id === 'admin_box') {
+                    passwordField.parentElement.style.display = 'block';
+                    passwordField.required = true;
+                } else {
+                    passwordField.parentElement.style.display = 'none';
+                    passwordField.required = false;
+                    passwordField.value = '';
+                }
+
+                // Add ripple effect
+                createRipple(this, event);
+            });
+
+            // Keyboard accessibility
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Initially hide admin password field
+        passwordField.parentElement.style.display = 'none';
+
+        // Enhanced form submission
+        submitButton.addEventListener('click', function(e) {
+            if (!selectedRole) {
+                e.preventDefault();
+                showNotification('Please select a user type', 'error');
+                return;
+            }
+
+            if (selectedRole === 'admin_box' && !passwordField.value.trim()) {
+                e.preventDefault();
+                showNotification('Please enter the admin password', 'error');
+                passwordField.focus();
+                return;
+            }
+
+            // Add loading state
+            this.classList.add('loading');
+            this.textContent = '';
+
+            // Simulate processing time
+            setTimeout(() => {
+                this.classList.remove('loading');
+                this.textContent = 'Complete Profile';
+                showNotification('Profile completed successfully!', 'success');
+            }, 2000);
+        });
+
+        // Ripple effect function
+        function createRipple(element, event) {
+            const ripple = document.createElement('span');
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+
+            ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+
+            element.style.position = 'relative';
+            element.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                    position: fixed;
+                    top: 2rem;
+                    right: 2rem;
+                    background: ${type === 'error' ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)'};
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 0.75rem;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                    z-index: 10000;
+                    font-weight: 600;
+                    animation: slideInRight 0.3s ease;
+                `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+
+                @keyframes slideInRight {
+                    from {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+        document.head.appendChild(style);
+    });
+</script>
+</body>
 </html>

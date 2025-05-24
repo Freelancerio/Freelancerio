@@ -4,388 +4,1278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/clienthomepage.css">
     <title>Freelancerio - Client Dashboard</title>
 
+    <!-- TailwindCSS for additional utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Custom gradient backgrounds */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem 0 5rem;
+            height: 70px;
+            z-index: 99;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .LogoutButton {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+        }
+
+        .LogoutButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(239, 68, 68, 0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Enhanced sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: -280px;
+            top: 0;
+            background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+            color: #fff;
+            padding: 2rem;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        body.sidebar-open {
+            margin-left: 280px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            space-y: 0.5rem;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-nav li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .sidebar-nav li a:hover::before {
+            left: 100%;
+        }
+
+        .sidebar-nav li a:hover {
+            color: white;
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sidebar-nav li.active a {
+            color: white;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .sidebar-divider {
+            margin: 2rem 0;
+            border-top: 1px solid #374151;
+        }
+
+        .sidebar-logout a {
+            color: #fca5a5;
+            text-decoration: none;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+        }
+
+        .sidebar-logout a:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Toggle button */
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        body.sidebar-open .sidebar-toggle {
+            left: 295px;
+        }
+
+        /* Container */
+        .container {
+            transition: margin-left 0.3s ease;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        body.sidebar-open .container {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
+
+        /* Welcome header */
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-message p {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+
+        .post-job-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-job-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Stats cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 2px;
+        }
+
+        /* Applications list */
+        .applications-list {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .application-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
+        }
+
+        .application-item:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .applicant-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .applicant-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        .applicant-details h3 {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .applicant-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .view-btn,
+        .review-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .view-btn {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .view-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .review-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        .review-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Freelancers and jobs sections */
+        .freelancers-section,
+        .current-jobs-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .freelancer-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(249, 250, 251, 0.8);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .freelancer-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .freelancer-card:hover {
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .freelancer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+
+        .freelancer-info {
+            flex-grow: 1;
+        }
+
+        .freelancer-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .freelancer-title {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .job-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .job-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .budget {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Enhanced Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            margin: 5% auto;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .close {
+            color: #9ca3af;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #374151;
+        }
+
+        .modal-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1f2937 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea.form-control {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Enhanced Footer */
+        footer {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        footer h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        footer a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #3b82f6;
+        }
+
+        .company-description {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .contact-email,
+        .contact-address {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            color: #9ca3af;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body.sidebar-open {
+                margin-left: 0;
+            }
+
+            .sidebar.open {
+                width: 100%;
+            }
+
+            body.sidebar-open .container {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            body.sidebar-open .sidebar-toggle {
+                left: calc(100% - 4rem);
+            }
+
+            .navbar {
+                padding: 0 1rem 0 4rem;
+            }
+
+            .welcome-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .application-item {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .freelancer-card {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
 
-    <aside class="sidebar" id="sidebar">
-        <header class="sidebar-header">
-            <h1>FreelancerIO</h1>
-        </header>
-        <nav class="sidebar-nav">
-            <ul>
-                <li>
-                    <a href="/client-home">📝 Post a Job</a>
-                </li>
-                <li>
-                    <a href="/client-jobs">📋 My Job List</a>
-                </li>
-                <li class="active">
-                    <a href="/view-freelancer">👥 View Freelancers</a>
-                </li>
-            </ul>
-            <div class="sidebar-divider"></div>
-            <div class="sidebar-logout">
-                <a href="/">🚪 Logout</a>
-            </div>
-        </nav>
-    </aside>
-
-    <section class="navbar">
-        <button class="LogoutButton">
-            Logout
-        </button>
-
-        <ul class="nav-links">
-            <li><a href="#" class="active">Dashboard</a></li>
-            <li><a href="#">Hire Talent</a></li>
-            <li><a href="#">Transactions</a></li>
+<aside class="sidebar" id="sidebar">
+    <header class="sidebar-header">
+        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
+            <span class="text-2xl font-bold">F</span>
+        </div>
+        <h1>Freelancerio</h1>
+        <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Client Portal</p>
+    </header>
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/client-home">
+                    <span style="width: 2rem; height: 2rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">📝</span>
+                    Post a Job
+                </a>
+            </li>
+            <li>
+                <a href="/client-jobs">
+                    <span style="width: 2rem; height: 2rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">📋</span>
+                    My Job List
+                </a>
+            </li>
+            <li class="active">
+                <a href="/view-freelancer">
+                    <span style="width: 2rem; height: 2rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">👥</span>
+                    View Freelancers
+                </a>
+            </li>
         </ul>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-logout">
+            <a href="/">
+                <span style="width: 2rem; height: 2rem; background: rgba(239, 68, 68, 0.2); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">🚪</span>
+                Logout
+            </a>
+        </div>
+    </nav>
+</aside>
 
-        <article class="user-profile">
-            <article class="avatar">JD</article>
-            <kbd>John Doe - Microsoft Admin</kbd>
+<section class="navbar">
+    <button class="LogoutButton">
+        Logout
+    </button>
+
+    <ul class="nav-links">
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">Hire Talent</a></li>
+        <li><a href="#">Transactions</a></li>
+    </ul>
+
+    <article class="user-profile">
+        <article class="avatar">JD</article>
+        <div>
+            <div style="font-weight: 600; color: #1f2937;">John Doe</div>
+            <div style="font-size: 0.75rem; color: #6b7280;">Microsoft Admin</div>
+        </div>
+    </article>
+</section>
+
+<section class="container">
+    <section class="welcome-header fade-in">
+        <article class="welcome-message">
+            <h1>Welcome back, John!</h1>
+            <p>Here's what's happening with your projects today.</p>
         </article>
-
+        <button class="post-job-btn" onclick="openModal()">
+            <span style="font-size: 1.25rem; font-weight: bold;">+</span>
+            Post a New Job
+        </button>
     </section>
 
-    <section class="container">
-
-        <section class="welcome-header">
-            <article class="welcome-message">
-                <h1>Welcome back, John!</h1>
-                <p>Here's what's happening with your projects today.</p>
-            </article>
-            <button class="post-job-btn" onclick="openModal()">
-                <kbd>+</kbd> Post a New Job
-            </button>
+    <section class="stats-cards fade-in">
+        <section class="stat-card">
+            <p class="stat-title">Active Jobs</p>
+            <p class="stat-value">4</p>
+            <p class="stat-change positive">+ 1 from last week</p>
         </section>
-
-
-        <section class="stats-cards">
-            <section class="stat-card">
-                <p class="stat-title">Active Jobs</p>
-                <p class="stat-value">4</p>
-                <p class="stat-change positive">+ 1 from last week</p>
-            </section>
-            <section class="stat-card">
-                <p class="stat-title">Pending Applications</p>
-                <p class="stat-value">12</p>
-                <p class="stat-change positive">+ 5 new applications</p>
-            </section>
-            <section class="stat-card">
-                <p class="stat-title">Working Freelancers</p>
-                <p class="stat-value">7</p>
-                <p class="stat-change positive">+ 2 this month</p>
-            </section>
-            <section class="stat-card">
-                <p class="stat-title">Budget Spent</p>
-                <p class="stat-value">$4,280</p>
-                <p class="stat-change positive">42% of monthly budget</p>
-            </section>
+        <section class="stat-card">
+            <p class="stat-title">Pending Applications</p>
+            <p class="stat-value">12</p>
+            <p class="stat-change positive">+ 5 new applications</p>
         </section>
+        <section class="stat-card">
+            <p class="stat-title">Working Freelancers</p>
+            <p class="stat-value">7</p>
+            <p class="stat-change positive">+ 2 this month</p>
+        </section>
+        <section class="stat-card">
+            <p class="stat-title">Budget Spent</p>
+            <p class="stat-value">$4,280</p>
+            <p class="stat-change positive">42% of monthly budget</p>
+        </section>
+    </section>
 
-
-        <h2 class="section-title">Recent Job Applications</h2>
-        <section class="applications-list">
-            <section class="application-item">
-                <section class="applicant-info">
-                    <p class="applicant-avatar">AR</p>
-                    <section class="applicant-details">
-                        <h3>Frontend Developer for E-commerce Redesign</h3>
-                        <section class="applicant-meta">
-                            <article class="meta-item">
-                                <kbd>Amanda Rodriguez</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>Applied 2 days ago</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>$45/hr</kbd>
-                            </article>
-                        </section>
+    <h2 class="section-title">Recent Job Applications</h2>
+    <section class="applications-list fade-in">
+        <section class="application-item">
+            <section class="applicant-info">
+                <p class="applicant-avatar">AR</p>
+                <section class="applicant-details">
+                    <h3>Frontend Developer for E-commerce Redesign</h3>
+                    <section class="applicant-meta">
+                        <article class="meta-item">
+                            <strong>Amanda Rodriguez</strong>
+                        </article>
+                        <article class="meta-item">
+                            Applied 2 days ago
+                        </article>
+                        <article class="meta-item">
+                            <span style="color: #10b981; font-weight: 600;">$45/hr</span>
+                        </article>
                     </section>
                 </section>
-                <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
-                </section>
             </section>
-            <section class="application-item">
-                <section class="applicant-info">
-                    <p class="applicant-avatar">MS</p>
-                    <section class="applicant-details">
-                        <h3>UI/UX Designer for Mobile App</h3>
-                        <section class="applicant-meta">
-                            <article class="meta-item">
-                                <kbd>Michael Smith</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>Applied today</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>$60/hr</kbd>
-                            </article>
-                        </section>
-                    </section>
-                </section>
-                <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
-                </section>
-            </section>
-            <section class="application-item">
-                <section class="applicant-info">
-                    <p class="applicant-avatar">JL</p>
-                    <section class="applicant-details">
-                        <h3>Backend Developer for API Integration</h3>
-                        <section class="applicant-meta">
-                            <article class="meta-item">
-                                <kbd>James Lee</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>Applied 3 days ago</kbd>
-                            </article>
-                            <article class="meta-item">
-                                <kbd>$55/hr</kbd>
-                            </article>
-                        </section>
-                    </section>
-                </section>
-                <section class="action-buttons">
-                    <button class="view-btn">View Profile</button>
-                    <button class="review-btn">Review Application</button>
-                </section>
+            <section class="action-buttons">
+                <button class="view-btn">View Profile</button>
+                <button class="review-btn">Review Application</button>
             </section>
         </section>
+        <section class="application-item">
+            <section class="applicant-info">
+                <p class="applicant-avatar">MS</p>
+                <section class="applicant-details">
+                    <h3>UI/UX Designer for Mobile App</h3>
+                    <section class="applicant-meta">
+                        <article class="meta-item">
+                            <strong>Michael Smith</strong>
+                        </article>
+                        <article class="meta-item">
+                            Applied today
+                        </article>
+                        <article class="meta-item">
+                            <span style="color: #10b981; font-weight: 600;">$60/hr</span>
+                        </article>
+                    </section>
+                </section>
+            </section>
+            <section class="action-buttons">
+                <button class="view-btn">View Profile</button>
+                <button class="review-btn">Review Application</button>
+            </section>
+        </section>
+        <section class="application-item">
+            <section class="applicant-info">
+                <p class="applicant-avatar">JL</p>
+                <section class="applicant-details">
+                    <h3>Backend Developer for API Integration</h3>
+                    <section class="applicant-meta">
+                        <article class="meta-item">
+                            <strong>James Lee</strong>
+                        </article>
+                        <article class="meta-item">
+                            Applied 3 days ago
+                        </article>
+                        <article class="meta-item">
+                            <span style="color: #10b981; font-weight: 600;">$55/hr</span>
+                        </article>
+                    </section>
+                </section>
+            </section>
+            <section class="action-buttons">
+                <button class="view-btn">View Profile</button>
+                <button class="review-btn">Review Application</button>
+            </section>
+        </section>
+    </section>
 
-
-        <h2 class="section-title">Current Freelancers</h2>
-        <section class="freelancers-section">
-            <section class="freelancer-card">
+    <h2 class="section-title">Current Freelancers</h2>
+    <section class="freelancers-section fade-in">
+        <section class="freelancer-card">
+            <div style="display: flex; align-items: center; gap: 1rem;">
                 <p class="freelancer-avatar">ES</p>
                 <section class="freelancer-info">
                     <article class="freelancer-name">Emily Santiago</article>
                     <article class="freelancer-title">Lead UI Designer</article>
                 </section>
-                <button class="view-btn">Message</button>
-            </section>
-            <section class="freelancer-card">
+            </div>
+            <button class="view-btn">Message</button>
+        </section>
+        <section class="freelancer-card">
+            <div style="display: flex; align-items: center; gap: 1rem;">
                 <p class="freelancer-avatar">TW</p>
                 <section class="freelancer-info">
                     <article class="freelancer-name">Tom Wilson</article>
                     <article class="freelancer-title">Full Stack Developer</article>
                 </section>
-                <button class="view-btn">Message</button>
-            </section>
-            <section class="freelancer-card">
+            </div>
+            <button class="view-btn">Message</button>
+        </section>
+        <section class="freelancer-card">
+            <div style="display: flex; align-items: center; gap: 1rem;">
                 <p class="freelancer-avatar">AK</p>
                 <section class="freelancer-info">
                     <article class="freelancer-name">Alex Kumar</article>
                     <article class="freelancer-title">Mobile Developer</article>
                 </section>
-                <button class="view-btn">Message</button>
-            </section>
-        </section>
-
-
-        <h2 class="section-title">Active Jobs</h2>
-        <section class="current-jobs-section">
-            <section class="job-card">
-                <p class="job-title">Website Redesign Project</p>
-                <section class="job-meta">
-                    <article class="meta-item">
-                        <kbd>2 freelancers working</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd>Due in 14 days</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd class="budget">$2,500 budget</kbd>
-                    </article>
-                </section>
-            </section>
-            <section class="job-card">
-                <p class="job-title">Mobile App Development</p>
-                <section class="job-meta">
-                    <article class="meta-item">
-                        <kbd>3 freelancers working</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd>Due in 30 days</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd class="budget">$5,000 budget</kbd>
-                    </article>
-                </section>
-            </section>
-            <section class="job-card">
-                <p class="job-title">Content Writing for Blog</p>
-                <section class="job-meta">
-                    <article class="meta-item">
-                        <kbd>1 freelancer working</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd>Due in 7 days</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd class="budget">$800 budget</kbd>
-                    </article>
-                </section>
-            </section>
-            <section class="job-card">
-                <p class="job-title">SEO Optimization Campaign</p>
-                <section class="job-meta">
-                    <article class="meta-item">
-                        <kbd>2 freelancers working</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd>Due in 21 days</kbd>
-                    </article>
-                    <article class="meta-item">
-                        <kbd class="budget">$1,200 budget</kbd>
-                    </article>
-                </section>
-            </section>
+            </div>
+            <button class="view-btn">Message</button>
         </section>
     </section>
 
-
-    <section id="postJobModal" class="modal">
-        <section class="modal-content">
-            <article class="close" onclick="closeModal()">&times;</article>
-            <h2 class="modal-title">Post a New Job</h2>
-            <form id="jobForm">
-                <article class="form-group">
-                    <label for="jobTitle">Job Title</label>
-                    <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+    <h2 class="section-title">Active Jobs</h2>
+    <section class="current-jobs-section fade-in">
+        <section class="job-card">
+            <p class="job-title">Website Redesign Project</p>
+            <section class="job-meta">
+                <article class="meta-item">
+                    2 freelancers working
                 </article>
-                <article class="form-group">
-                    <label for="jobDescription">Job Description</label>
-                    <textarea class="form-control" id="jobDescription" placeholder="Enter detailed job description"
-                        required></textarea>
+                <article class="meta-item">
+                    Due in 14 days
                 </article>
-                <article class="form-group">
-                    <label for="skills">Required Skills</label>
-                    <input type="text" class="form-control" id="skills" placeholder="e.g. JavaScript, React, UI Design">
+                <article class="meta-item">
+                    <span class="budget">$2,500 budget</span>
                 </article>
-                <article class="form-group">
-                    <label for="budget">Budget</label>
-                    <input type="text" class="form-control" id="budget" placeholder="Enter your budget">
+            </section>
+        </section>
+        <section class="job-card">
+            <p class="job-title">Mobile App Development</p>
+            <section class="job-meta">
+                <article class="meta-item">
+                    3 freelancers working
                 </article>
-                <button type="submit" class="submit-btn">Post Job</button>
-            </form>
+                <article class="meta-item">
+                    Due in 30 days
+                </article>
+                <article class="meta-item">
+                    <span class="budget">$5,000 budget</span>
+                </article>
+            </section>
+        </section>
+        <section class="job-card">
+            <p class="job-title">Content Writing for Blog</p>
+            <section class="job-meta">
+                <article class="meta-item">
+                    1 freelancer working
+                </article>
+                <article class="meta-item">
+                    Due in 7 days
+                </article>
+                <article class="meta-item">
+                    <span class="budget">$800 budget</span>
+                </article>
+            </section>
+        </section>
+        <section class="job-card">
+            <p class="job-title">SEO Optimization Campaign</p>
+            <section class="job-meta">
+                <article class="meta-item">
+                    2 freelancers working
+                </article>
+                <article class="meta-item">
+                    Due in 21 days
+                </article>
+                <article class="meta-item">
+                    <span class="budget">$1,200 budget</span>
+                </article>
+            </section>
         </section>
     </section>
+</section>
 
-    <footer>
-        <section class="footer-content">
-            <!-- Company Info -->
-            <article class="company-info">
-                <h2>Freelancerio</h2>
-                <p class="company-description">
-                    The complete platform for managing freelance work, from job postings to payments and everything in
-                    between.
-                </p>
+<section id="postJobModal" class="modal">
+    <section class="modal-content">
+        <article class="close" onclick="closeModal()">&times;</article>
+        <h2 class="modal-title">Post a New Job</h2>
+        <form id="jobForm">
+            <article class="form-group">
+                <label for="jobTitle">Job Title</label>
+                <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
             </article>
+            <article class="form-group">
+                <label for="jobDescription">Job Description</label>
+                <textarea class="form-control" id="jobDescription" placeholder="Enter detailed job description" required></textarea>
+            </article>
+            <article class="form-group">
+                <label for="skills">Required Skills</label>
+                <input type="text" class="form-control" id="skills" placeholder="e.g. JavaScript, React, UI Design">
+            </article>
+            <article class="form-group">
+                <label for="budget">Budget</label>
+                <input type="text" class="form-control" id="budget" placeholder="Enter your budget">
+            </article>
+            <button type="submit" class="submit-btn">Post Job</button>
+        </form>
+    </section>
+</section>
 
-            <!-- Quick Links -->
-            <nav aria-label="Quick Links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="#">Find Jobs</a></li>
-                    <li><a href="#">Find Talent</a></li>
-                    <li><a href="#">How It Works</a></li>
-                    <li><a href="#">Success Stories</a></li>
-                    <li><a href="#">Pricing</a></li>
-                </ul>
-            </nav>
+<footer>
+    <section class="footer-content">
+        <article class="company-info">
+            <h2>Freelancerio</h2>
+            <p class="company-description">
+                The complete platform for managing freelance work, from job postings to payments and everything in between.
+            </p>
+        </article>
 
-            <!-- Resources -->
-            <nav aria-label="Resources">
-                <h2>Resources</h2>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </nav>
+        <nav aria-label="Quick Links">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="#">Find Jobs</a></li>
+                <li><a href="#">Find Talent</a></li>
+                <li><a href="#">How It Works</a></li>
+                <li><a href="#">Success Stories</a></li>
+                <li><a href="#">Pricing</a></li>
+            </ul>
+        </nav>
 
-            <!-- Contact Us -->
-            <address class="not-italic">
-                <h2>Contact Us</h2>
-                <p class="contact-email">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>support@freelancerio.com
-                </p>
-                <p class="contact-address">
-                    123 Business Street<br>
-                    Johannesburg, Braamfontein 2100
-                </p>
-                <a href="#" class="contact-btn">
-                    Get in Touch
-                </a>
-            </address>
-        </section>
+        <nav aria-label="Resources">
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </nav>
 
-        <!-- Copyright -->
-        <section class="footer-bottom">
-            <p>© 2025 Freelancerio. All rights reserved.</p>
-        </section>
-    </footer>
+        <address class="not-italic">
+            <h2>Contact Us</h2>
+            <p class="contact-email">
+                support@freelancerio.com
+            </p>
+            <p class="contact-address">
+                123 Business Street<br>
+                Johannesburg, Braamfontein 2100
+            </p>
+            <a href="#" class="contact-btn">
+                Get in Touch
+            </a>
+        </address>
+    </section>
 
-    <script>
+    <section class="footer-bottom">
+        <p>© 2025 Freelancerio. All rights reserved.</p>
+    </section>
+</footer>
 
-        // Sidebar toggle functionality
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const body = document.body;
+<script>
+    // Sidebar toggle functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const body = document.body;
 
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-            body.classList.toggle('sidebar-open');
-        });
+    sidebarToggle.addEventListener('click', function () {
+        sidebar.classList.toggle('open');
+        body.classList.toggle('sidebar-open');
+    });
 
-        // Close sidebar when clicking outside (on mobile)
-        document.addEventListener('click', function (event) {
-            const isClickInsideSidebar = sidebar.contains(event.target);
-            const isClickOnToggle = sidebarToggle.contains(event.target);
+    // Close sidebar when clicking outside (on mobile)
+    document.addEventListener('click', function (event) {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickOnToggle = sidebarToggle.contains(event.target);
 
-            if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('open') && window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
-                body.classList.remove('sidebar-open');
-            }
-        });
-
-        // Modal functionality
-        const modal = document.getElementById("postJobModal");
-
-        function openModal() {
-            modal.style.display = "block";
+        if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('open') && window.innerWidth <= 768) {
+            sidebar.classList.remove('open');
+            body.classList.remove('sidebar-open');
         }
+    });
 
-        function closeModal() {
-            modal.style.display = "none";
-        }
+    // Modal functionality
+    const modal = document.getElementById("postJobModal");
 
-        // Close modal when clicking outside
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
+    function openModal() {
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
 
-        // Form submission
-        document.getElementById("jobForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            // Add form submission logic here
-            alert("Job posted successfully!");
+    function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+        if (event.target == modal) {
             closeModal();
+        }
+    }
+
+    // Form submission
+    document.getElementById("jobForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        // Add form submission logic here
+        alert("Job posted successfully!");
+        closeModal();
+    });
+
+    // Add fade-in animation to elements as they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
-    </script>
+    });
+</script>
 </body>
+
+</html>
