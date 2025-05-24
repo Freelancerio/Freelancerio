@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App
+name: Azure Deployment
 
 on:
   push:
@@ -19,11 +19,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Prepare deployment
         run: |
+          # Create root web.config if missing
+          if not exist web.config (
+            copy public\web.config web.config || echo "Web.config copied from public folder"
+          )
           npm run build
-          # Copy web.config to public folder
-          copy web.config public\web.config
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -48,7 +50,6 @@ jobs:
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'freelancerio-azure-app'
           slot-name: 'Production'

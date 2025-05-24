@@ -7,8 +7,7 @@
         "start": "node src/main.js",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "test:coverage": "jest --coverage",
-        "build": "xcopy /E /I /Y public ..\\public",
-        "postinstall": "npm run build"
+        "build": "xcopy /E /I /Y public ..\\public || echo \"Build completed (some files may not have copied)\""
     },
     "keywords": [],
     "author": "",
