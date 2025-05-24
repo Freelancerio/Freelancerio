@@ -6,6 +6,8 @@ const app = express();
 require('dotenv').config(); // ✅ Required to access .env (for Stripe keys)
 
 const port = process.env.PORT || 3000; 
+console.log("The server starts up");
+console.log(`${port}`, " running");
 
 // Middleware to parse JSON data in request body
 app.use(express.json());
@@ -39,9 +41,11 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/apply', applicationRoutes);
 
 // Render the index.html => this is where the user logs in
+console.log("html file to be rendered");
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+console.log("html file should be rendered");
 
 app.use('/', paymentRoutes); 
 
@@ -114,3 +118,7 @@ mongoose.connect(db_url)
   .catch((err) => console.log(err));
 
     module.exports = app;
+    
+app.get('/health', (req, res) => {
+  res.send('✅ Health check OK!');
+});
