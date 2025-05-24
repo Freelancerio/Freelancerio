@@ -1,139 +1,205 @@
 import getBaseUrl from './base-url.mjs';
-
-
 const baseURL = getBaseUrl();
 
-document.addEventListener('DOMContentLoaded',()=> {
-  fetchJobs();  
+document.addEventListener('DOMContentLoaded', async function() {
+    const jobs = await fetchJobs();
+    console.log(jobs);
+    
+    // 1. Process data for pie chart (job durations)
+    const durationArr = [0,0,0,0,0,0];
+    let numMonths = 0;
+    for (let i = 0; i < jobs.length;i++){
+        numMonths = jobs[i].duration_months; 
+        if (numMonths >= 1 && numMonths <= 3){
+            durationArr[0] += 1;
+        }
+        else if (numMonths >= 4 && numMonths <= 6){
+            durationArr[1] +=1;
+        }
+        else if (numMonths >= 7 && numMonths <= 9){
+            durationArr[2] += 1;
+        }
+        else if (numMonths >= 10 && numMonths <= 12){
+            durationArr[3] += 1;
+        }
+        else if (numMonths >= 13 && numMonths <= 15){
+            durationArr[4] += 1;
+        }
+        else{
+            durationArr[5] += 1;
+        }
+    }
+
+    // 2. Create the pie chart
+    createPieChart(durationArr);
+    
+    // 3. Create the bar chart (jobs per month)
+    createBarChart(jobs);
+    
+    // 4. Update active jobs count
+    const activeJobsCount = jobs.filter(job => !job.taken_status).length;
+    document.getElementById("actJobs").innerHTML = 
+        `<p class="text-lg font-semibold mb-2">🟢 Active Jobs: ${activeJobsCount}</p>`;
 });
 
+// Function to create the pie chart
+function createPieChart(durationArr) {
+    const jobDurationData = {
+        labels: ['1-3 months', '4-6 months', '7-9 months', '10-12 months', '13-15 months', '15+ months'],
+        datasets: [{
+            data: durationArr,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-function createJobItem(job){
-    const jobList = document.getElementById("jobs-container");
-    const article = document.createElement('article');
-    article.classList.add('job');
+    const ctx = document.getElementById('job-duration-pie').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: jobDurationData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 
-    //Add click event to redirect to job details page
-    article.addEventListener('click', async() => {
-        await showJobDetails(job._id);
+// Function to create the bar chart (jobs per month)
+function createBarChart(jobs) {
+    // Group jobs by month-year
+    const monthlyCounts = {};
+    
+    jobs.forEach(job => {
+        if (!job.createdAt) return;
+        
+        const date = new Date(job.createdAt);
+        const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        
+        monthlyCounts[monthYear] = (monthlyCounts[monthYear] || 0) + 1;
     });
 
-    //Header
-    const header = document.createElement('header');
-    header.classList.add('job-header');
-
-    const hgroup = document.createElement('hgroup');
-    hgroup.classList.add('job-title-group');
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('job-title');
-    h2.textContent = job.job_title;
-
-    const companyLink = document.createElement('a');
-    companyLink.href = '#';
-    companyLink.classList.add('company');
-    companyLink.textContent = job.company;
-
-    hgroup.appendChild(h2);
-    hgroup.appendChild(companyLink);
-
-    header.appendChild(hgroup);
-    //Job Details
-
-    const dl = document.createElement('dl');
-    dl.classList.add('job-details');
-
-    const details = [
-        {label: 'Location', value: job.location_category, iconClass: 'icon-location'},
-        {label: 'Rate', value: job.total_pay, iconClass : 'icon-rate'},
-        {label: 'Duration',value: `${job.duration_months} Months`, iconClass: 'icon-duration'}
-    ];
-
-    details.forEach(detail => {
-        const dt = document.createElement('dt');
-        dt.textContent = detail.label;
-    
-        const dd = document.createElement('dd');
-        const icon = document.createElement('span');
-        icon.classList.add(detail.iconClass);
-        icon.setAttribute('aria-hidden', 'true');
-        dd.appendChild(icon);
-        dd.append(' ' + detail.value);
-    
-        dl.appendChild(dt);
-        dl.appendChild(dd)});
-
-        const desc = document.createElement('p');
-    desc.classList.add('job-description');
-    desc.textContent = job.job_description;
-  
-    // Footer (Skills)
-    const footer = document.createElement('footer');
-  
-    const hiddenHeading = document.createElement('h3');
-    hiddenHeading.classList.add('visually-hidden');
-    hiddenHeading.textContent = 'Required Skills';
-    footer.appendChild(hiddenHeading);
-  
-    const ul = document.createElement('ul');
-    ul.classList.add('skill-tags');
-    let skills = getSkills(job.job_requirements);   
-    skills.forEach(skill => {
-      const li = document.createElement('li');
-      li.classList.add('skill-tag');
-      li.textContent = skill;
-      ul.appendChild(li);
+    // Sort months chronologically
+    const sortedMonths = Object.keys(monthlyCounts).sort();
+    const labels = sortedMonths.map(month => {
+        const [year, monthNum] = month.split('-');
+        return `${new Date(year, monthNum - 1).toLocaleString('default', { month: 'short' })} ${year}`;
     });
-  
-    footer.appendChild(ul);
-  
-    // Assemble Article
-    article.appendChild(header);
-    article.appendChild(dl);
-    article.appendChild(desc);
-    article.appendChild(footer);
-  
-    jobList.appendChild(article);
+    const data = sortedMonths.map(month => monthlyCounts[month]);
 
-};
+    // Create the bar chart
+    const ctx = document.getElementById('job-rate-bar').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Jobs Posted',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                borderRadius: 4, // Rounded corners for bars
+                hoverBackgroundColor: 'rgba(54, 162, 235, 0.9)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Jobs',
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.parsed.y} job${context.parsed.y !== 1 ? 's' : ''}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 
-const getSkills = (skillsString) => {
-    if (!skillsString || typeof skillsString !== 'string') return [];
-  
-    return skillsString
-      .split(',')               // Split by comma
-      .map(skill => skill.trim()) // Trim spaces around each skill
-      .filter(skill => skill.length > 0); // Remove any empty entries
-  };
-  
-  
-
-  async function fetchJobs() {
-    document.getElementById('client-page-heading').textContent = "Job Post History";
+async function fetchJobs() {
     try {
-    const userid = sessionStorage.getItem('firebaseId');
-      const response = await fetch(`${baseURL}/job/all-jobs/${userid}`); // Replace with your actual endpoint
-      if (!response.ok) throw new Error('Failed to fetch jobs');
-      const jobs = await response.json();
-      
-      document.getElementById("display-section").innerHTML = '';
-      jobs.forEach(createJobItem);
+        const userid = sessionStorage.getItem('firebaseId');
+        const response = await fetch(`${baseURL}/job/all-jobs/${userid}`);
+        if (!response.ok) throw new Error('Failed to fetch jobs');
+        const jobs = await response.json();
+        return jobs;
     } catch (error) {
-      console.error('Error loading jobs:', error);
+        console.error('Error loading jobs:', error);
+        return [];
     }
-  };
+}
 
-  function setActiveLink(activeId) {
-    // Remove active classes from all links
+function setActiveLink(activeId) {
     const navLinks = document.querySelectorAll('nav li');
     navLinks.forEach(link => {
-      link.classList.remove('bg-blue-800', 'rounded', 'px-2', 'py-1');
+        link.classList.remove('bg-blue-800', 'rounded', 'px-2', 'py-1');
     });
-  
-    // Add active classes to the clicked link
     const activeLink = document.getElementById(activeId);
     activeLink.classList.add('bg-blue-800', 'rounded', 'px-2', 'py-1');
-  }
+}
 
 document.getElementById('view_jobs').addEventListener('click', (event) => {
     event.preventDefault();

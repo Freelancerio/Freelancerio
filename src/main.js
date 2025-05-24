@@ -6,6 +6,8 @@ const app = express();
 require('dotenv').config(); // ✅ Required to access .env (for Stripe keys)
 
 const port = process.env.PORT || 3000; 
+console.log("The server starts up");
+console.log(`${port}`, " running");
 
 // Middleware to parse JSON data in request body
 app.use(express.json());
@@ -30,19 +32,22 @@ const userRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const applicationRoutes = require('./routes/applicationsRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
-const paymentRoutes = require('./routes/paymentRoutes'); // ✅ NEW LINE
+const paymentRoutes = require('./routes/paymentRoutes'); 
 
 // Use routes
 app.use('/auth', userRoutes);
 app.use('/job', jobRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/apply', applicationRoutes);
-app.use('/', paymentRoutes); // ✅ NEW LINE
 
 // Render the index.html => this is where the user logs in
+console.log("html file to be rendered");
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+console.log("html file should be rendered");
+
+app.use('/', paymentRoutes); 
 
 // Render the role-selection.html => this is where the user selects their role on the system
 app.get('/role-selection', (req, res) => {
@@ -116,3 +121,9 @@ mongoose.connect(db_url)
     });
   })
   .catch((err) => console.log(err));
+
+    module.exports = app;
+    
+app.get('/health', (req, res) => {
+  res.send('✅ Health check OK!');
+});
